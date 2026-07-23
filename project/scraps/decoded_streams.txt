@@ -1,0 +1,20 @@
+
+---ERR:Junk found after end of compressed data.---
+
+---ERR:Junk found after end of compressed data.---
+
+---ERR:Junk found after end of compressed data.---
+
+---ERR:Junk found after end of compressed data.---
+
+---ERR:Junk found after end of compressed data.---
+
+---ERR:Junk found after end of compressed data.---
+
+---ERR:Junk found after end of compressed data.---
+
+---ERR:Junk found after end of compressed data.---
+
+---ERR:The compressed data was not valid: incorrect header check.---
+
+---ERR:Junk found after end of compressed data.---

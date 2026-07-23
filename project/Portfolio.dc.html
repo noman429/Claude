@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<script src="./image-slot.js"></script>
+<style>
+  @keyframes ringSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  .photo-ring{position:absolute;inset:-10px;border-radius:50%;background:conic-gradient(from 0deg,#5b7cfa,#9b6bfa,#f45fb0,#ffb020,#5b7cfa);animation:ringSpin 8s linear infinite;}
+  .photo-ring2{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(255,255,255,0.5);}
+  .photo-glow{position:absolute;inset:-22px;border-radius:50%;background:radial-gradient(circle,rgba(91,124,250,0.35),transparent 72%);}
+  .kpi-card{transition:transform .25s ease, box-shadow .25s ease;}
+  .kpi-card:hover{transform:translateY(-4px) scale(1.02);box-shadow:0 16px 32px -12px rgba(91,124,250,0.55);}
+  .phone-mockup{transition:transform .4s ease, box-shadow .4s ease;}
+  .phone-mockup:hover{transform:perspective(1000px) rotateY(-7deg) rotateX(4deg) scale(1.02);box-shadow:0 50px 110px -20px rgba(91,124,250,0.7);}
+  .dash-panel{transition:transform .4s ease, box-shadow .4s ease;}
+  .dash-panel:hover{transform:perspective(1000px) rotateY(-4deg) rotateX(2deg) scale(1.015);box-shadow:0 50px 110px -24px rgba(91,124,250,0.6);}
+  @keyframes floatBob1{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  @keyframes floatBob2{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+  @keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .hex-frame{transition:transform .3s ease-out;}
+  .hex-float{animation:floatPhone 6s ease-in-out infinite;}
+  #hero{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;}
+  #hero-left{flex:1 1 54%;min-width:0;}
+  #hero-right{flex:0 0 44%;min-width:200px;display:flex;justify-content:center;}
+  @media (max-width:767px){
+    #hero{flex-direction:column;}
+    #hero-left{flex-basis:auto;width:100%;}
+    #hero-right{flex-basis:auto;width:100%;margin-top:48px;}
+  }
+  .hero-badge{transition:filter .3s ease;font-size:clamp(7px,0.6vw,12.5px);font-weight:600;padding:clamp(3px,0.4vw,8px) clamp(6px,0.7vw,15px);border-radius:999px;white-space:nowrap;}
+  .hero-badge:hover{filter:brightness(1.15);}
+  .tool-card{transition:transform .2s ease;}
+  .tool-card:hover{transform:translateX(3px);}
+  .tool-card:hover .tool-icon-wrap{filter:drop-shadow(0 4px 10px rgba(91,124,250,0.35));}
+  .tool-cat-card{transition:box-shadow .3s ease, border-color .3s ease;}
+  .tool-cat-card:hover{box-shadow:0 20px 46px -20px rgba(91,124,250,0.4);border-color:#5b7cfa66 !important;}
+  @keyframes meshDrift{0%,100%{background-position:0% 0%, 100% 100%, 50% 50%}50%{background-position:20% 10%, 80% 90%, 40% 60%}}
+  .btn{position:relative;overflow:hidden;}
+  .btn::after{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,0.25),transparent 60%);opacity:0;transition:opacity .3s ease;pointer-events:none;}
+  .btn:hover::after{opacity:1;}
+  .btn:active{transform:translateY(0) scale(0.97) !important;}
+  @keyframes driftDot{0%,100%{transform:translate(0,0)}33%{transform:translate(14px,-18px)}66%{transform:translate(-12px,10px)}}
+  .amb-particle{position:absolute;border-radius:50%;background:rgba(160,180,255,0.35);pointer-events:none;animation:driftDot 18s ease-in-out infinite;}
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;}
+  }
+  html{scroll-behavior:smooth;}
+  body{margin:0;}
+  ::selection{background:#9b6bfa66;}
+  a{color:#5b7cfa;text-decoration:none;}
+  a:hover{color:#7b93ff;}
+  input::placeholder{color:#8b8fa8;}
+  @keyframes floatPhone{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .reveal{animation:fadeUp .6s ease both;}
+  .card{transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease;cursor:default;position:relative;}
+  .card::before{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(280px circle at var(--mx,50%) var(--my,50%),rgba(91,124,250,0.14),transparent 65%);opacity:0;transition:opacity .35s ease;pointer-events:none;z-index:0;}
+  .card:hover::before{opacity:1;}
+  .card:hover{transform:translateY(-6px) scale(1.015);box-shadow:0 22px 48px -18px rgba(91,124,250,0.55),0 6px 16px -8px rgba(20,20,40,0.15);border-color:#7b93ff !important;}
+  .btn{transition:transform .2s ease, box-shadow .2s ease, filter .2s ease;}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px -6px rgba(91,124,250,0.6);filter:brightness(1.08) saturate(1.1);}
+  .chip{transition:transform .2s ease, border-color .2s ease;}
+  .chip:hover{transform:translateY(-2px);border-color:#5b7cfa88 !important;}
+  .gradname{color:#7b93ff;}
+  .social-icon:hover{transform:translateY(-2px);opacity:1 !important;}
+  .sec-heading{font-weight:900;font-size:clamp(36px,5.5vw,62px);letter-spacing:-0.025em;line-height:1.06;margin:0 0 18px;}
+  .sec-underline{height:5px;width:64px;border-radius:99px;margin:0 0 26px;}
+  .head-blue-purple{background:linear-gradient(90deg,#5b7cfa,#9b6bfa);}
+  .head-purple-pink{background:linear-gradient(90deg,#9b6bfa,#f45fb0);}
+  .head-cyan-blue{background:linear-gradient(90deg,#22d3ee,#5b7cfa);}
+  .head-orange-pink{background:linear-gradient(90deg,#ffb020,#f45fb0);}
+  .head-green-cyan{background:linear-gradient(90deg,#22c55e,#22d3ee);}
+  .sec-eyebrow{display:inline-flex;align-items:center;gap:10px;}
+  .sec-eyebrow .num{font-size:13px;font-weight:800;opacity:0.45;letter-spacing:0.04em;}
+  .info-card{transition:box-shadow .25s ease, border-color .25s ease;cursor:default;}
+  .info-card:hover{box-shadow:0 10px 26px -16px rgba(20,20,40,0.28);border-color:#5b7cfa55 !important;}
+  .nav-link{position:relative;transition:color .2s ease, background .2s ease, box-shadow .2s ease;}
+  .nav-link:hover{color:#5b7cfa !important;background:rgba(91,124,250,0.12) !important;}
+  .nav-link.active{box-shadow:0 6px 18px -6px rgba(91,124,250,0.55);}
+  .icon-pop{transition:transform .25s ease, color .25s ease;display:inline-block;}
+  .card:hover .icon-pop, .kpi-card:hover .icon-pop{transform:scale(1.18);}
+  .acc-header{transition:box-shadow .3s ease, border-color .3s ease, transform .2s ease;}
+  .acc-header:hover{box-shadow:0 14px 34px -18px rgba(91,124,250,0.4);border-color:#5b7cfa66 !important;transform:translateY(-2px);}
+  .acc-chevron{transition:transform .35s cubic-bezier(.4,0,.2,1);display:inline-block;}
+  .acc-chevron.open{transform:rotate(180deg);}
+  .doc-card2{transition:box-shadow .25s ease, border-color .25s ease, transform .2s ease;cursor:pointer;}
+  .doc-card2:hover{box-shadow:0 12px 28px -16px rgba(91,124,250,0.35);border-color:#5b7cfa66 !important;transform:translateY(-3px);}
+  @keyframes modalPop{from{opacity:0;transform:scale(0.96) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+  .modal-pop{animation:modalPop .25s cubic-bezier(.4,0,.2,1) both;}
+  mark{background:rgba(255,176,32,0.32);color:inherit;border-radius:3px;padding:0 2px;}
+  .comp-row{transition:background .2s ease;}
+  .comp-row:hover{background:rgba(127,127,127,0.08);}
+  .proj-track{display:flex;align-items:stretch;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px;}
+  .proj-track::-webkit-scrollbar{display:none;}
+  .proj-card{flex:0 0 calc(100% - 0px);scroll-snap-align:start;}
+  @media (min-width:640px){.proj-card{flex:0 0 calc(50% - 10px);}}
+  @media (min-width:1024px){.proj-card{flex:0 0 calc(33.333% - 14px);}}
+  @media (min-width:1440px){.proj-card{flex:0 0 calc(25% - 15px);}}
+  .carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:20px;line-height:1;z-index:5;opacity:0;transition:opacity .25s ease, transform .2s ease;backdrop-filter:blur(8px);}
+  #proj-carousel-wrap:hover .carousel-arrow{opacity:1;}
+  .carousel-arrow:hover{transform:translateY(-50%) scale(1.08);}
+  .carousel-arrow-left{left:0;}
+  .carousel-arrow-right{right:0;}
+</style>
+</helmet>
+
+<div style="position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(circle at 15% 20%,rgba(91,124,250,0.16),transparent 45%),radial-gradient(circle at 85% 15%,rgba(244,95,176,0.13),transparent 42%),radial-gradient(circle at 50% 90%,rgba(155,107,250,0.13),transparent 45%);background-size:200% 200%,200% 200%,200% 200%;animation:meshDrift 22s ease-in-out infinite;">
+  <span class="amb-particle" style="width:4px;height:4px;top:12%;left:8%;animation-duration:16s;"></span>
+  <span class="amb-particle" style="width:3px;height:3px;top:28%;left:78%;animation-duration:20s;animation-delay:-4s;"></span>
+  <span class="amb-particle" style="width:5px;height:5px;top:55%;left:22%;animation-duration:19s;animation-delay:-9s;"></span>
+  <span class="amb-particle" style="width:3px;height:3px;top:70%;left:85%;animation-duration:17s;animation-delay:-2s;"></span>
+  <span class="amb-particle" style="width:4px;height:4px;top:85%;left:45%;animation-duration:21s;animation-delay:-13s;"></span>
+  <span class="amb-particle" style="width:3px;height:3px;top:40%;left:60%;animation-duration:18s;animation-delay:-6s;"></span>
+</div>
+<div style="font-family:-apple-system,'Segoe UI',system-ui,sans-serif;background:{{ theme.bg }};color:{{ theme.text }};min-height:100vh;overflow-x:hidden;position:relative;z-index:1;transition:background .4s ease, color .4s ease;">
+
+  <nav style="position:fixed;top:{{ navTop }};left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:6px;padding:8px 10px;background:{{ theme.navBg }};border:1px solid {{ theme.cardBorder }};border-radius:999px;box-shadow:0 12px 30px -10px rgba(0,0,0,0.35);transition:top .35s ease;max-width:94vw;overflow-x:auto;">
+    <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="7">
+      <a href="{{ n.href }}" class="nav-link {{ n.activeClass }}" style="font-size:13px;font-weight:700;padding:8px 14px;border-radius:999px;white-space:nowrap;color:{{ n.color }};background:{{ n.bg }};">{{ n.label }}</a>
+    </sc-for>
+    <button onClick="{{ toggleTheme }}" style="width:30px;height:30px;flex-shrink:0;border-radius:50%;border:1px solid {{ theme.cardBorder }};background:{{ theme.card }};color:{{ theme.text }};cursor:pointer;font-size:13px;">{{ themeIcon }}</button>
+  </nav>
+
+  <section id="hero" style="min-height:100vh;padding:130px 40px 60px;max-width:1600px;margin:0 auto;gap:clamp(24px,5vw,60px);box-sizing:border-box;">
+    <div id="hero-left" class="reveal">
+      <div style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:#5b7cfa;margin-bottom:14px;font-weight:600;">Project Manager · Scrum Master · Business Analyst</div>
+      <h1 class="gradname" style="font-weight:800;font-size:clamp(40px,5.4vw,66px);line-height:1.03;letter-spacing:-0.03em;margin:0;">Muhammad Numan</h1>
+      <p style="font-size:17px;line-height:1.65;color:{{ theme.muted }};max-width:460px;margin:18px 0 0;">6+ years turning cross-functional chaos into shipped, on-time software. Based in Lahore, open to remote roles worldwide.</p>
+      <div style="display:flex;gap:14px;margin-top:24px;flex-wrap:wrap;">
+        <a href="./assets/Muhammad_Numan_CV.pdf" download="" class="btn" style="display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:700;padding:13px 26px;border-radius:10px;background:linear-gradient(90deg,#5b7cfa,#9b6bfa,#f45fb0);background-size:200% 100%;animation:gradShift 5s ease infinite;color:white;box-shadow:0 14px 30px -12px rgba(91,124,250,0.55);">⬇ Download Resume</a>
+        <a href="#contact" class="btn" style="display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:600;padding:13px 26px;border-radius:10px;border:1px solid {{ theme.cardBorder }};color:{{ theme.text }};background:{{ theme.dashBg }};backdrop-filter:blur(10px);">Contact Me →</a>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+        <a href="mailto:numanriaz475@gmail.com" class="chip" style="font-size:12.5px;padding:8px 14px;border-radius:999px;border:1px solid {{ theme.cardBorder }};background:{{ theme.dashBg }};backdrop-filter:blur(8px);color:{{ theme.text }};">📧 Email</a>
+        <a href="tel:+923104274388" class="chip" style="font-size:12.5px;padding:8px 14px;border-radius:999px;border:1px solid {{ theme.cardBorder }};background:{{ theme.dashBg }};backdrop-filter:blur(8px);color:{{ theme.text }};">📱 Phone</a>
+        <span class="chip" style="font-size:12.5px;padding:8px 14px;border-radius:999px;border:1px solid {{ theme.cardBorder }};background:{{ theme.dashBg }};backdrop-filter:blur(8px);color:{{ theme.muted }};">📍 Lahore, Pakistan</span>
+        <span class="chip" style="font-size:12.5px;padding:8px 14px;border-radius:999px;border:1px solid {{ theme.cardBorder }};background:{{ theme.dashBg }};backdrop-filter:blur(8px);color:{{ theme.muted }};">🌍 Remote</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);align-items:stretch;gap:10px;margin-top:26px;max-width:560px;">
+        <sc-for list="{{ heroStats }}" as="hs" hint-placeholder-count="4">
+          <div class="kpi-card card" style="position:relative;background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:14px;padding:12px 12px 10px;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;box-sizing:border-box;box-shadow:0 1px 0 rgba(255,255,255,0.06) inset, 0 10px 22px -14px rgba(0,0,0,0.5);overflow:hidden;">
+            <div style="position:absolute;top:0;left:0;right:0;height:3px;background:{{ hs.accent }};"></div>
+            <div style="color:{{ hs.accent }};font-weight:800;font-size:15px;max-width:100%;overflow-wrap:break-word;">{{ hs.value }}</div>
+            <div style="font-size:9.5px;color:{{ theme.muted }};margin-top:4px;text-transform:uppercase;letter-spacing:0.04em;font-weight:700;">{{ hs.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div id="hero-right" class="reveal" style="position:relative;min-height:clamp(420px,44vw,740px);align-items:center;transform:translateX(-12%);">
+      <div style="position:absolute;width:120px;height:120px;top:2%;left:6%;border-radius:50%;background:radial-gradient(circle,rgba(91,124,250,0.26),transparent 70%);filter:blur(8px);animation:floatPhone 7s ease-in-out infinite;pointer-events:none;"></div>
+      <div style="position:absolute;width:150px;height:150px;bottom:4%;right:4%;border-radius:50%;background:radial-gradient(circle,rgba(244,95,176,0.2),transparent 70%);filter:blur(10px);animation:floatPhone 8s ease-in-out infinite reverse;pointer-events:none;"></div>
+      <div style="position:absolute;width:clamp(300px,48vw,460px);height:clamp(300px,48vw,460px);top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(91,124,250,0.24),rgba(155,107,250,0.12) 45%,transparent 72%);filter:blur(18px);pointer-events:none;z-index:0;"></div>
+      <div style="position:absolute;width:clamp(280px,46vw,460px);height:clamp(280px,46vw,460px);top:50%;left:50%;transform:translate(-50%,-50%);border:1px dashed rgba(91,124,250,0.28);border-radius:50%;animation:ringSpin 40s linear infinite;pointer-events:none;"></div>
+
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:clamp(200px,22vw,460px);height:clamp(200px,22vw,460px);z-index:1;">
+      <sc-for list="{{ heroBadges }}" as="hb" hint-placeholder-count="9">
+        <div style="position:absolute;{{ hb.pos }}z-index:4;">
+          <div class="hero-badge" style="background:{{ theme.dashBg }};border:1px solid {{ theme.dashBorder }};backdrop-filter:blur(10px);color:{{ theme.text }};box-shadow:0 10px 24px -12px rgba(91,124,250,0.4);animation:{{ hb.anim }};">{{ hb.label }}</div>
+        </div>
+      </sc-for>
+
+      <div class="hex-frame" style="position:absolute;inset:0;z-index:1;">
+      <div class="hex-float" style="position:absolute;inset:0;">
+        <div style="position:absolute;inset:-8px;clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0% 50%);overflow:hidden;">
+          <div class="hex-shimmer" style="position:absolute;top:50%;left:50%;width:220%;height:220%;margin:-110% 0 0 -110%;background:conic-gradient(from 0deg,#5b7cfa,#9b6bfa,#f45fb0,#22d3ee,#5b7cfa);animation:ringSpin 6s linear infinite;"></div>
+        </div>
+        <div style="position:absolute;inset:-2px;clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0% 50%);background:{{ theme.dashBg }};backdrop-filter:blur(4px);"></div>
+        <div style="position:absolute;inset:6px;clip-path:polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0% 50%);background:{{ theme.dashBg }};backdrop-filter:blur(6px);overflow:hidden;box-shadow:0 1px 0 rgba(255,255,255,0.25) inset;">
+          <image-slot id="hero-portrait" shape="rect" style="position:absolute;inset:0;width:100%;height:100%;" placeholder="Drop your professional portrait"></image-slot>
+          <div style="position:absolute;inset:0;background:linear-gradient(125deg,rgba(255,255,255,0.18) 0%,transparent 35%,transparent 65%,rgba(255,255,255,0.08) 100%);pointer-events:none;"></div>
+          <div style="position:absolute;inset:0;background:linear-gradient(160deg,rgba(91,124,250,0.16),transparent 45%);mix-blend-mode:overlay;pointer-events:none;"></div>
+        </div>
+      </div>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" style="padding:96px 40px;max-width:1200px;margin:0 auto;">
+    <div class="reveal sec-eyebrow" style="margin-bottom:14px;color:#9b6bfa;"><span style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;">About Me</span></div>
+    <h2 class="reveal sec-heading" style="color:{{ theme.text }};">The bridge between technical execution and business intent.</h2>
+    <div class="sec-underline head-blue-purple"></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));align-items:stretch;gap:18px;">
+      <div class="card" style="background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:16px;padding:26px;">
+        <p style="font-size:15.5px;line-height:1.7;color:{{ theme.muted }};margin:0;">I keep cross-functional teams (development, QA, design, and stakeholders) aligned on the same milestones, owners, and priorities. Hands-on with Jira and Confluence for sprint planning, backlog management, status reporting, and process documentation, translating business requirements into user stories and actionable workflows.</p>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;height:100%;">
+        <sc-for list="{{ aboutFacts }}" as="f" hint-placeholder-count="4">
+          <div class="card" style="background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:14px;padding:14px 18px;height:100%;display:flex;flex-direction:column;justify-content:center;box-sizing:border-box;">
+            <div style="font-size:11.5px;color:{{ theme.muted }};text-transform:uppercase;letter-spacing:0.04em;font-weight:600;">{{ f.label }}</div>
+            <div style="font-size:14.5px;font-weight:700;margin-top:5px;">{{ f.value }}</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" style="padding:96px 40px;max-width:1200px;margin:0 auto;">
+    <div class="reveal sec-eyebrow" style="margin-bottom:14px;color:#f45fb0;"><span style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;">Career Journey</span></div>
+    <h2 class="reveal sec-heading" style="color:{{ theme.text }};">Track record across delivery, QA, and solution design.</h2>
+    <div class="sec-underline head-purple-pink" style="margin-bottom:36px;"></div>
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <sc-for list="{{ roles }}" as="role" hint-placeholder-count="4">
+        <div class="card" style="background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:16px;padding:24px 26px;display:grid;grid-template-columns:160px 1fr;gap:24px;">
+          <div style="font-size:13px;color:{{ theme.muted }};font-weight:600;">{{ role.dates }}</div>
+          <div>
+            <h3 style="font-weight:700;font-size:18px;margin:0 0 4px;">{{ role.title }}</h3>
+            <div style="font-size:13.5px;color:#5b7cfa;margin-bottom:12px;font-weight:600;">{{ role.company }}</div>
+            <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;">
+              <sc-for list="{{ role.bullets }}" as="b" hint-placeholder-count="3">
+                <li style="font-size:14px;line-height:1.55;color:{{ theme.muted }};">{{ b }}</li>
+              </sc-for>
+            </ul>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="projects" style="padding:96px 40px;max-width:1200px;margin:0 auto;">
+    <div class="reveal sec-eyebrow" style="margin-bottom:14px;color:#ffb020;"><span style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;">Project Showcase</span></div>
+    <h2 class="reveal sec-heading" style="margin-bottom:8px;color:{{ theme.text }};">Project showcase.</h2>
+    <div class="sec-underline head-orange-pink"></div>
+    <p style="font-size:14.5px;color:{{ theme.muted }};margin:0 0 10px;max-width:640px;">Fifteen delivered products across real estate, fleet, media, healthcare, manufacturing, industrial, procurement, engineering, social platforms, marketplaces, nonprofit, ERP, and sports management.</p>
+    <p style="font-size:12.5px;color:{{ theme.muted }};margin:0 0 24px;max-width:640px;font-style:italic;">Client names and branding have been anonymized to respect confidentiality while showcasing the scope of work and project experience.</p>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px;">
+      <input value="{{ projectSearch }}" onInput="{{ onProjectSearch }}" placeholder="Search projects..." style="flex:1;min-width:220px;padding:11px 16px;border-radius:10px;border:1px solid {{ theme.cardBorder }};background:{{ theme.card }};color:{{ theme.text }};font-size:14px;outline:none;" />
+      <select onChange="{{ onProjectSort }}" style="padding:11px 16px;border-radius:10px;border:1px solid {{ theme.cardBorder }};background:{{ theme.card }};color:{{ theme.text }};font-size:14px;">
+        <option value="recent">Sort: Most recent</option>
+        <option value="az">Sort: A–Z</option>
+      </select>
+      <sc-for list="{{ projectCategories }}" as="c" hint-placeholder-count="4">
+        <button onClick="{{ c.onClick }}" style="padding:10px 16px;border-radius:999px;border:1px solid {{ theme.cardBorder }};background:{{ c.active }};color:{{ theme.text }};font-size:13px;cursor:pointer;">{{ c.name }}</button>
+      </sc-for>
+    </div>
+
+    <div id="proj-carousel-wrap" style="position:relative;margin-top:28px;padding:6px 44px 0;overflow:visible;">
+      <button onClick="{{ scrollCarouselPrev }}" class="carousel-arrow carousel-arrow-left" aria-label="Previous projects" style="background:{{ theme.dashBg }};border:1px solid {{ theme.cardBorder }};color:{{ theme.text }};">‹</button>
+      <button onClick="{{ scrollCarouselNext }}" class="carousel-arrow carousel-arrow-right" aria-label="Next projects" style="background:{{ theme.dashBg }};border:1px solid {{ theme.cardBorder }};color:{{ theme.text }};">›</button>
+
+      <div id="proj-track" class="proj-track" onMouseEnter="{{ onCarouselEnter }}" onMouseLeave="{{ onCarouselLeave }}" onTouchStart="{{ onCarouselTouchStart }}" onTouchEnd="{{ onCarouselTouchEnd }}" onScroll="{{ onCarouselScroll }}">
+        <sc-for list="{{ filteredProjects }}" as="p" hint-placeholder-count="4">
+          <div class="card proj-card" data-project="{{ p.name }}" style="background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:18px;overflow:hidden;display:flex;flex-direction:column;height:auto;">
+            <div style="padding:26px;display:flex;flex-direction:column;flex:1;">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
+                  <h3 style="font-weight:700;font-size:21px;margin:0;">{{ p.name }}</h3>
+                  <span style="font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;background:{{ p.statusColor }}22;color:{{ p.statusColor }};">{{ p.status }}</span>
+                </div>
+                <div style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 14px;">
+                  <span style="font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:999px;background:{{ p.accent }}22;color:{{ p.accent }};">{{ p.industry }}</span>
+                  <sc-for list="{{ p.roles }}" as="r" hint-placeholder-count="2">
+                    <span class="chip" style="font-size:11.5px;padding:5px 12px;border-radius:999px;background:{{ theme.bg2 }};border:1px solid {{ theme.cardBorder }};color:{{ theme.text }};">{{ r }}</span>
+                  </sc-for>
+                  <span class="chip" style="font-size:11.5px;padding:5px 12px;border-radius:999px;background:{{ theme.bg2 }};border:1px solid {{ theme.cardBorder }};color:{{ theme.muted }};">{{ p.methodology }}</span>
+                </div>
+                <p style="font-size:14px;line-height:1.55;color:{{ theme.muted }};margin:0 0 16px;">{{ p.summary }}</p>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-top:auto;">
+                  <button onClick="{{ p.onToggle }}" class="btn" style="font-size:14px;font-weight:700;padding:11px 22px;border-radius:9px;border:none;cursor:pointer;background:linear-gradient(90deg,#5b7cfa,#9b6bfa);color:white;">{{ p.toggleLabel }}</button>
+                </div>
+              </div>
+            <div style="display:grid;grid-template-rows:{{ p.rows }};transition:grid-template-rows .3s ease, opacity .3s ease;opacity:{{ p.bodyOpacity }};">
+              <div style="overflow:hidden;">
+                <div style="padding:0 26px 30px;border-top:1px solid {{ theme.cardBorder }};margin-top:6px;padding-top:20px;">
+                  <div style="font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:{{ p.accent }};margin-bottom:12px;">Key Features & Modules</div>
+                  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;">
+                    <sc-for list="{{ p.modules }}" as="mod" hint-placeholder-count="8">
+                      <div style="font-size:13px;color:{{ theme.text }};background:{{ theme.bg2 }};border-radius:8px;padding:9px 12px;">{{ mod }}</div>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex;justify-content:center;gap:7px;margin-top:20px;">
+        <sc-for list="{{ carouselDots }}" as="dot" hint-placeholder-count="5">
+          <span style="width:{{ dot.width }};height:6px;border-radius:99px;background:{{ dot.bg }};transition:all .25s ease;"></span>
+        </sc-for>
+      </div>
+    </div>
+    <sc-if value="{{ noProjects }}">
+      <div style="padding:40px;text-align:center;color:{{ theme.muted }};font-size:14px;">No projects match "{{ projectSearch }}".</div>
+    </sc-if>
+  </section>
+
+  <section id="practices" style="padding:96px 40px;max-width:1200px;margin:0 auto;">
+    <div class="reveal sec-eyebrow" style="margin-bottom:14px;color:#22c55e;"><span style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;">Knowledge Hub</span></div>
+    <h2 class="reveal sec-heading" style="margin-bottom:8px;color:{{ theme.text }};">Delivery frameworks, explained.</h2>
+    <div class="sec-underline head-green-cyan"></div>
+    <p style="font-size:14.5px;color:{{ theme.muted }};margin:0 0 28px;max-width:640px;">Click any framework card to expand: roles, artifacts, workflow, and trade-offs.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;">
+      <sc-for list="{{ methodologies }}" as="m" hint-placeholder-count="10">
+        <div class="card" style="background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:14px;overflow:hidden;">
+          <button onClick="{{ m.onToggle }}" style="width:100%;text-align:left;padding:17px 22px;background:none;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:{{ theme.text }};">
+            <div><span style="font-weight:700;font-size:16.5px;">{{ m.name }}</span><span style="font-size:13px;color:{{ theme.muted }};margin-left:12px;">{{ m.tagline }}</span></div>
+            <span style="font-size:18px;color:#5b7cfa;">{{ m.icon }}</span>
+          </button>
+          <sc-if value="{{ m.open }}">
+            <div style="padding:0 22px 22px;display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+              <div>
+                <p style="font-size:13.5px;line-height:1.55;color:{{ theme.muted }};margin:0 0 12px;">{{ m.intro }}</p>
+                <div style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9b6bfa;margin-bottom:6px;">Roles</div>
+                <div style="font-size:13px;color:{{ theme.muted }};margin-bottom:12px;">{{ m.rolesStr }}</div>
+                <div style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9b6bfa;margin-bottom:6px;">Artifacts</div>
+                <div style="font-size:13px;color:{{ theme.muted }};">{{ m.artifactsStr }}</div>
+              </div>
+              <div>
+                <div style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9b6bfa;margin-bottom:6px;">Workflow</div>
+                <div style="font-size:13px;color:{{ theme.muted }};margin-bottom:12px;">{{ m.workflow }}</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                  <div><div style="font-size:11.5px;font-weight:700;color:#22c55e;margin-bottom:4px;">Pros</div><div style="font-size:12.5px;color:{{ theme.muted }};">{{ m.prosStr }}</div></div>
+                  <div><div style="font-size:11.5px;font-weight:700;color:#f45fb0;margin-bottom:4px;">Cons</div><div style="font-size:12.5px;color:{{ theme.muted }};">{{ m.consStr }}</div></div>
+                </div>
+                <div style="font-size:12px;color:{{ theme.muted }};margin-top:12px;">Best for: <strong style="color:{{ theme.text }};">{{ m.bestFor }}</strong></div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+
+  </section>
+
+  <section id="comparisons-anchor" style="padding:0 40px;max-width:1200px;margin:0 auto;">
+    <h3 style="font-weight:800;font-size:24px;letter-spacing:-0.01em;margin:52px 0 22px;">Head-to-head comparisons</h3>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px;">
+      <sc-for list="{{ comparisons }}" as="comp" hint-placeholder-count="3">
+        <div class="card" style="background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:14px;padding:26px 0 4px;overflow:hidden;">
+          <div style="display:flex;align-items:center;justify-content:center;gap:18px;padding:0 22px 22px;">
+            <span style="font-size:15px;font-weight:700;padding:9px 18px;border-radius:999px;background:rgba(91,124,250,0.16);color:#5b7cfa;">{{ comp.a }}</span>
+            <span style="font-size:11.5px;font-weight:800;color:{{ theme.muted }};letter-spacing:0.08em;">VS</span>
+            <span style="font-size:15px;font-weight:700;padding:9px 18px;border-radius:999px;background:rgba(244,95,176,0.16);color:#f45fb0;">{{ comp.b }}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:0.85fr 1fr 1fr;position:sticky;top:0;background:{{ theme.card }};border-top:1px solid rgba(127,127,127,0.16);border-bottom:1px solid rgba(127,127,127,0.16);">
+            <div style="padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:{{ theme.muted }};">Criteria</div>
+            <div style="padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#5b7cfa;background:rgba(91,124,250,0.07);">{{ comp.a }}</div>
+            <div style="padding:12px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#f45fb0;background:rgba(244,95,176,0.07);">{{ comp.b }}</div>
+          </div>
+          <sc-for list="{{ comp.rows }}" as="r" hint-placeholder-count="4">
+            <div class="comp-row" style="display:grid;grid-template-columns:0.85fr 1fr 1fr;border-bottom:1px solid rgba(127,127,127,0.12);">
+              <div style="padding:16px;font-size:15px;font-weight:500;color:{{ theme.muted }};display:flex;align-items:center;line-height:1.5;">{{ r.aspect }}</div>
+              <div style="padding:16px;font-size:15px;font-weight:700;background:rgba(91,124,250,0.05);display:flex;align-items:center;line-height:1.5;">{{ r.left }}</div>
+              <div style="padding:16px;font-size:15px;font-weight:700;background:rgba(244,95,176,0.05);display:flex;align-items:center;line-height:1.5;">{{ r.right }}</div>
+            </div>
+          </sc-for>
+          <div style="height:8px;"></div>
+        </div>
+      </sc-for>
+    </div>
+    <sc-if value="{{ showComparisonsToggle }}">
+      <button onClick="{{ toggleComparisonsExpanded }}" style="margin-top:16px;font-size:13px;font-weight:600;padding:9px 18px;border-radius:9px;border:1px solid {{ theme.cardBorder }};background:{{ theme.card }};color:{{ theme.text }};cursor:pointer;">{{ comparisonsToggleLabel }}</button>
+    </sc-if>
+  </section>
+
+  <section id="docs" style="padding:96px 40px;max-width:1200px;margin:0 auto;">
+    <div class="reveal sec-eyebrow" style="margin-bottom:14px;color:#5b7cfa;"><span style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;">Documentation Library</span></div>
+    <h2 class="reveal sec-heading" style="color:{{ theme.text }};">A structured knowledge base, not a pile of files.</h2>
+    <div class="sec-underline head-cyan-blue" style="margin-bottom:16px;"></div>
+    <p style="font-size:14.5px;color:{{ theme.muted }};margin:0 0 26px;max-width:640px;">A structured collection of project management, business analysis, agile, architecture, QA, and delivery templates used throughout the software development lifecycle.</p>
+
+    <input value="{{ docSearch }}" onInput="{{ onDocSearch }}" placeholder="Search documents (e.g. risk, story, diagram)..." style="width:100%;max-width:440px;padding:12px 16px;border-radius:10px;border:1px solid {{ theme.cardBorder }};background:{{ theme.card }};color:{{ theme.text }};font-size:14px;outline:none;margin-bottom:16px;" />
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;">
+      <sc-for list="{{ catFilterChips }}" as="fc" hint-placeholder-count="6">
+        <button class="chip" onClick="{{ fc.onClick }}" style="font-size:12.5px;font-weight:600;padding:8px 15px;border-radius:999px;border:1px solid {{ fc.border }};background:{{ fc.bg }};color:{{ fc.color }};cursor:pointer;">{{ fc.label }}</button>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ isSearching }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;">
+        <sc-for list="{{ searchResults }}" as="d" hint-placeholder-count="8">
+          <div class="doc-card2" onClick="{{ d.onOpen }}" style="background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:12px;padding:16px 18px;">
+            <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#9b6bfa;margin-bottom:6px;">{{ d.category }}</div>
+            <div style="font-size:14.5px;font-weight:700;margin-bottom:4px;">{{ d.nameHl }}</div>
+            <div style="font-size:12px;color:{{ theme.muted }};line-height:1.5;">{{ d.oneLinerHl }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ noSearchResults }}">
+        <div style="padding:40px;text-align:center;color:{{ theme.muted }};font-size:14px;">No documents match "{{ docSearch }}".</div>
+      </sc-if>
+    </sc-if>
+
+    <sc-if value="{{ isBrowsing }}">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <sc-for list="{{ categoryList }}" as="cat" hint-placeholder-count="9">
+          <div>
+            <div class="acc-header" onClick="{{ cat.onToggle }}" style="cursor:pointer;padding:22px 26px;border-radius:16px;background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-left:3px solid {{ cat.accent }};display:flex;align-items:center;gap:18px;">
+              <div style="flex:1;min-width:0;">
+                <div style="font-weight:800;font-size:19px;letter-spacing:-0.01em;color:{{ theme.text }};">{{ cat.id }}</div>
+                <div style="font-size:13.5px;color:{{ theme.muted }};margin-top:6px;line-height:1.55;">{{ cat.desc }}</div>
+              </div>
+              <div style="font-size:13px;font-weight:600;color:{{ theme.muted }};white-space:nowrap;">{{ cat.count }} Documents</div>
+              <div class="acc-chevron {{ cat.chevronClass }}" style="font-size:16px;color:{{ theme.muted }};">⌄</div>
+            </div>
+            <div style="display:grid;grid-template-rows:{{ cat.rows }};transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1),opacity .35s ease;opacity:{{ cat.bodyOpacity }};">
+              <div style="overflow:hidden;">
+                <div style="padding:18px 4px 6px;">
+                  <sc-for list="{{ cat.groups }}" as="grp" hint-placeholder-count="1">
+                    <div style="margin-bottom:22px;">
+                      <sc-if value="{{ grp.label }}">
+                        <div style="font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:{{ cat.accent }};margin:0 0 12px;">{{ grp.label }}</div>
+                      </sc-if>
+                      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;">
+                        <sc-for list="{{ grp.docs }}" as="d" hint-placeholder-count="4">
+                          <div class="doc-card2 reveal" style="animation-delay:{{ d.animDelay }};background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:12px;padding:16px 18px;" onClick="{{ d.onOpen }}">
+                            <div style="font-size:14.5px;font-weight:700;margin-bottom:5px;">{{ d.name }}</div>
+                            <div style="font-size:12px;color:{{ theme.muted }};line-height:1.5;">{{ d.oneLiner }}</div>
+                          </div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ hasDetailDoc }}">
+      <div style="position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;">
+        <div onClick="{{ closeDocDetail }}" style="position:absolute;inset:0;background:rgba(5,6,14,0.6);backdrop-filter:blur(4px);"></div>
+        <div class="modal-pop" style="position:relative;max-width:560px;width:100%;max-height:82vh;overflow-y:auto;background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:20px;padding:32px;box-shadow:0 30px 80px -20px rgba(0,0,0,0.5);backdrop-filter:blur(20px);">
+          <button onClick="{{ closeDocDetail }}" style="position:absolute;top:18px;right:18px;width:32px;height:32px;border-radius:50%;border:1px solid {{ theme.cardBorder }};background:{{ theme.bg2 }};color:{{ theme.text }};cursor:pointer;font-size:16px;line-height:1;">×</button>
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#9b6bfa;margin-bottom:8px;">{{ detailDoc.category }}</div>
+          <h3 style="font-size:23px;font-weight:800;margin:0 0 18px;">{{ detailDoc.name }}</h3>
+          <sc-if value="{{ detailDoc.isAgile }}">
+            <div style="display:flex;flex-direction:column;gap:16px;">
+              <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:4px;">Definition</div>
+                <p style="font-size:14px;line-height:1.6;color:{{ theme.text }};margin:0;">{{ detailDoc.definition }}</p>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:4px;">Why it matters</div>
+                <p style="font-size:14px;line-height:1.6;color:{{ theme.muted }};margin:0;">{{ detailDoc.why }}</p>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div>
+                  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:4px;">Owner</div>
+                  <p style="font-size:13.5px;line-height:1.5;color:{{ theme.text }};margin:0;">{{ detailDoc.owner }}</p>
+                </div>
+                <div>
+                  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:4px;">Example</div>
+                  <p style="font-size:13.5px;line-height:1.5;color:{{ theme.muted }};margin:0;">{{ detailDoc.example }}</p>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+                <div>
+                  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:4px;">Inputs</div>
+                  <p style="font-size:13.5px;line-height:1.5;color:{{ theme.muted }};margin:0;">{{ detailDoc.inputs }}</p>
+                </div>
+                <div>
+                  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:4px;">Outputs</div>
+                  <p style="font-size:13.5px;line-height:1.5;color:{{ theme.muted }};margin:0;">{{ detailDoc.outputs }}</p>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#22c55e;margin-bottom:4px;">Best practice</div>
+                <p style="font-size:14px;line-height:1.6;color:{{ theme.muted }};margin:0;">{{ detailDoc.bestPractice }}</p>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:#f45fb0;margin-bottom:4px;">Common mistake</div>
+                <p style="font-size:14px;line-height:1.6;color:{{ theme.muted }};margin:0;">{{ detailDoc.commonMistake }}</p>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:6px;">Related concepts</div>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                  <sc-for list="{{ detailDoc.related }}" as="rel" hint-placeholder-count="2">
+                    <span style="font-size:12px;padding:5px 12px;border-radius:999px;background:{{ theme.bg2 }};border:1px solid {{ theme.cardBorder }};color:{{ theme.text }};">{{ rel }}</span>
+                  </sc-for>
+                </div>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:6px;">Interview questions</div>
+                <ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;">
+                  <sc-for list="{{ detailDoc.interview }}" as="q" hint-placeholder-count="2">
+                    <li style="font-size:13.5px;line-height:1.5;color:{{ theme.muted }};">{{ q }}</li>
+                  </sc-for>
+                </ul>
+              </div>
+            </div>
+          </sc-if>
+          <sc-if value="{{ detailDoc.notAgile }}">
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div>
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:4px;">Purpose</div>
+              <p style="font-size:14px;line-height:1.6;color:{{ theme.text }};margin:0;">{{ detailDoc.purpose }}</p>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:4px;">Description</div>
+              <p style="font-size:14px;line-height:1.6;color:{{ theme.muted }};margin:0;">{{ detailDoc.description }}</p>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:4px;">When to use it</div>
+              <p style="font-size:14px;line-height:1.6;color:{{ theme.muted }};margin:0;">{{ detailDoc.when }}</p>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:4px;">Created by</div>
+                <p style="font-size:13.5px;line-height:1.5;color:{{ theme.text }};margin:0;">{{ detailDoc.creates }}</p>
+              </div>
+              <div>
+                <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:4px;">Approved by</div>
+                <p style="font-size:13.5px;line-height:1.5;color:{{ theme.text }};margin:0;">{{ detailDoc.approves }}</p>
+              </div>
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:{{ theme.muted }};margin-bottom:4px;">Related documents</div>
+              <p style="font-size:14px;line-height:1.6;color:{{ theme.muted }};margin:0;">{{ detailDoc.relationship }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+  </section>
+
+  <section id="tools" style="padding:96px 40px;max-width:1200px;margin:0 auto;">
+    <div class="reveal sec-eyebrow" style="margin-bottom:14px;color:#ffb020;"><span style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;">Skills &amp; Tools</span></div>
+    <h2 class="reveal sec-heading" style="color:{{ theme.text }};">Daily toolkit.</h2>
+    <div class="sec-underline head-orange-pink" style="margin-bottom:36px;"></div>
+    <sc-for list="{{ toolGroups }}" as="tg" hint-placeholder-count="4">
+      <div class="tool-cat-card card" style="background:{{ theme.dashBg }};border:1px solid {{ theme.cardBorder }};border-radius:20px;padding:30px 28px;backdrop-filter:blur(14px);margin-bottom:20px;">
+        <div style="font-size:19px;font-weight:800;color:{{ theme.text }};">{{ tg.category }}</div>
+        <div style="font-size:13.5px;color:{{ theme.muted }};margin-top:6px;line-height:1.55;max-width:640px;">{{ tg.desc }}</div>
+        <div style="height:1px;background:{{ theme.cardBorder }};margin:20px 0 22px;"></div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;">
+          <sc-for list="{{ tg.items }}" as="t" hint-placeholder-count="4">
+            <div class="tool-card" style="display:flex;align-items:center;gap:14px;cursor:pointer;">
+              <div class="tool-icon-wrap" style="width:44px;height:44px;flex-shrink:0;display:flex;align-items:center;justify-content:center;">{{ t.iconEl }}</div>
+              <div style="min-width:0;">
+                <div style="font-weight:700;font-size:14px;color:{{ theme.text }};">{{ t.name }}</div>
+                <div style="font-size:11.5px;color:{{ theme.muted }};margin-top:2px;line-height:1.35;">{{ t.tagline }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </section>
+
+  <section style="padding:60px 40px;max-width:1200px;margin:0 auto;">
+    <div style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#9b6bfa;margin-bottom:12px;font-weight:600;">Education &amp; Certifications</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;">
+      <div class="card" style="background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:14px;padding:20px;">
+        <div style="font-size:15px;font-weight:700;">BS, Computer Science</div>
+        <div style="font-size:13px;color:{{ theme.muted }};margin-top:4px;">UET Lahore · 2016–2020</div>
+      </div>
+      <div class="card" style="background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:14px;padding:20px;">
+        <div style="font-size:15px;font-weight:700;">Intermediate, Computer Science</div>
+        <div style="font-size:13px;color:{{ theme.muted }};margin-top:4px;">Garrison College, Muridke · 2014–2016</div>
+      </div>
+      <div class="card" style="background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:14px;padding:20px;">
+        <div style="font-size:15px;font-weight:700;">The Basics of Scrum</div>
+        <div style="font-size:13px;color:{{ theme.muted }};margin-top:4px;">Project Management Institute (PMI)</div>
+      </div>
+      <div class="card" style="background:{{ theme.card }};border:1px solid {{ theme.cardBorder }};border-radius:14px;padding:20px;">
+        <div style="font-size:15px;font-weight:700;">JIRA by Atlassian</div>
+        <div style="font-size:13px;color:{{ theme.muted }};margin-top:4px;">Coursera</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="padding:96px 40px 90px;max-width:1200px;margin:0 auto;">
+    <div class="reveal sec-eyebrow" style="margin-bottom:14px;color:#9b6bfa;"><span style="font-size:13px;letter-spacing:0.14em;text-transform:uppercase;font-weight:700;">Get In Touch</span></div>
+    <div class="card" style="background:linear-gradient(135deg,rgba(91,124,250,0.18),rgba(155,107,250,0.18));border:1px solid {{ theme.cardBorder }};border-radius:20px;padding:48px;">
+      <h2 class="sec-heading" style="font-size:clamp(30px,4vw,44px);margin:0;color:{{ theme.text }};">Let's talk about your next delivery.</h2>
+      <p style="font-size:15.5px;color:{{ theme.muted }};margin:14px 0 22px;max-width:560px;">Open to Project Manager, Scrum Master, Delivery Manager, and Business Analyst roles, remote or on-site in Lahore.</p>
+      <div style="display:flex;gap:26px;flex-wrap:wrap;">
+        <a href="mailto:numanriaz475@gmail.com" style="font-size:15px;">numanriaz475@gmail.com</a>
+        <a href="tel:+923104274388" style="font-size:15px;color:{{ theme.text }};">+92 310 4274388</a>
+        <span style="font-size:15px;color:{{ theme.muted }};">Johar Town, Lahore</span>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:13px;color:{{ theme.muted }};margin-top:36px;">© {{ year }} Muhammad Numan</div>
+  </section>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const METHOD_DATA = [
+  {name:'Agile', tagline:'Iterative, adaptive delivery', intro:'A mindset of delivering in short iterative cycles with continuous stakeholder feedback, embracing changing requirements throughout.', roles:['Product Owner','Scrum Master / Coach','Cross-functional team'], artifacts:['Product Backlog','Increment','Working software'], workflow:'Plan → Build → Review → Adapt, repeated in short cycles.', pros:['Embraces change','Fast feedback','High stakeholder engagement'], cons:['Needs team discipline','Harder to fix-price','Scope-creep risk'], bestFor:'Evolving product requirements'},
+  {name:'Scrum', tagline:'Sprint-based framework', intro:'A structured Agile framework with fixed-length sprints, defined roles, and a regular cadence of ceremonies.', roles:['Product Owner','Scrum Master','Developers'], artifacts:['Product Backlog','Sprint Backlog','Increment'], workflow:'Sprint Planning → Daily Scrum → Sprint Review → Retrospective.', pros:['Predictable cadence','Clear roles','Continuous improvement'], cons:['Overhead for small teams','Rigid if misapplied'], bestFor:'Dedicated cross-functional teams'},
+  {name:'Kanban', tagline:'Continuous flow', intro:'A pull-based visual system that limits work-in-progress and optimizes continuous flow rather than fixed iterations.', roles:['Team (no fixed roles)','Service Delivery Manager'], artifacts:['Kanban board','WIP limits','Cumulative flow diagram'], workflow:'Visualize → Limit WIP → Measure flow → Continuously improve.', pros:['Continuous delivery','Flexible priorities','Easy to adopt'], cons:['Less predictable velocity','Needs WIP discipline'], bestFor:'Support and maintenance streams'},
+  {name:'Scrumban', tagline:'Scrum + Kanban hybrid', intro:'Combines Scrum\u2019s sprint cadence and planning with Kanban\u2019s continuous pull-based board.', roles:['Hybrid Scrum roles'], artifacts:['Kanban board with sprint cadence'], workflow:'Sprint-style planning applied over a pull-based Kanban board.', pros:['Flexible yet predictable','Eases Scrum-to-Kanban transition'], cons:['Can blur accountability if undefined'], bestFor:'Teams transitioning between models'},
+  {name:'Waterfall', tagline:'Sequential, phase-gated', intro:'A linear approach where each phase completes fully before the next begins, with requirements locked upfront.', roles:['Project Manager','Business Analyst','Dev','QA'], artifacts:['Requirements Document','Design Document','Test Plan'], workflow:'Requirements → Design → Build → Test → Deploy → Maintain.', pros:['Clear milestones','Easy to budget/schedule','Good for fixed scope'], cons:['Costly late changes','Late feedback','Risk discovered late'], bestFor:'Fixed-scope, regulated delivery'},
+  {name:'Lean', tagline:'Eliminate waste, maximize value', intro:'Focuses on maximizing customer value while minimizing waste across the delivery process.', roles:['Cross-functional value-stream team'], artifacts:['Value Stream Map','Kanban board'], workflow:'Identify value → Map stream → Create flow → Pull → Perfect.', pros:['Eliminates waste','Focuses on customer value'], cons:['Requires cultural shift','Waste hard to quantify upfront'], bestFor:'Process-heavy orgs optimizing throughput'},
+  {name:'XP', tagline:'Extreme Programming', intro:'An engineering-heavy Agile method emphasizing code quality through pairing, testing, and continuous integration.', roles:['Developers (pair programming)','Customer'], artifacts:['User Stories','Test Suite','CI Pipeline'], workflow:'Small releases → TDD → Pair programming → Continuous integration.', pros:['High code quality','Fast defect detection'], cons:['Demands engineering discipline','Pairing overhead'], bestFor:'Engineering-heavy teams prioritizing quality'},
+  {name:'Hybrid', tagline:'Waterfall governance + Agile execution', intro:'Blends Waterfall-style governance and budgeting with Agile execution for delivery teams.', roles:['Mixed PM / Scrum roles per phase'], artifacts:['Gantt chart + Backlog'], workflow:'Waterfall planning/budget gates, Agile sprints for execution.', pros:['Satisfies compliance and agility','Executive-friendly reporting'], cons:['Can inherit complexity of both models'], bestFor:'Enterprises with fixed contracts, iterative delivery'},
+  {name:'SDLC', tagline:'Software Development Lifecycle', intro:'The universal phase structure any methodology maps onto, from planning through maintenance.', roles:['PM','BA','Architect','Dev','QA','Ops'], artifacts:['Requirements','Design','Build','Test','Release','Maintain artifacts'], workflow:'Plan → Analyze → Design → Build → Test → Deploy → Maintain.', pros:['Universal structure', 'Framework-agnostic'], cons:['Abstract without a methodology on top'], bestFor:'Framing any project regardless of methodology'},
+  {name:'Business Analysis', tagline:'Strategy to requirements', intro:'The discipline of translating business goals into validated, buildable requirements.', roles:['Business Analyst','Product Owner / Manager'], artifacts:['BRD / PRD','User Stories','Roadmap'], workflow:'Discover → Define → Prioritize → Validate → Deliver → Measure.', pros:['Bridges business goals to delivery','Reduces rework'], cons:['Needs strong stakeholder access'], bestFor:'Translating strategy into buildable requirements'}
+];
+
+const DOC_DATA = [
+  {name:'Project Charter', category:'Planning & Strategy', oneLiner:'Authorizes the project and names the sponsor/PM.'},
+  {name:'Business Case', category:'Planning & Strategy', oneLiner:'Justifies investment with cost/benefit.'},
+  {name:'Vision Document', category:'Planning & Strategy', oneLiner:'The product\u2019s long-term direction.'},
+  {name:'Roadmap', category:'Planning & Strategy', oneLiner:'Timeline of themes and releases.'},
+  {name:'Scope Statement', category:'Planning & Strategy', oneLiner:'Defines project boundaries and exclusions.', isNew:true},
+  {name:'Work Breakdown Structure', category:'Planning & Strategy', oneLiner:'Hierarchical breakdown of deliverables into tasks.', isNew:true},
+  {name:'BRD', category:'Requirements', oneLiner:'Business requirements at goal level.'},
+  {name:'FRD', category:'Requirements', oneLiner:'Functional requirements in detail.'},
+  {name:'PRD', category:'Requirements', oneLiner:'Product requirements for build.'},
+  {name:'MRD', category:'Requirements', oneLiner:'Market requirements driving the product.'},
+  {name:'SRS', category:'Requirements', oneLiner:'Formal software requirements specification.'},
+  {name:'FSD', category:'Requirements', oneLiner:'Functional spec of system behavior.'},
+  {name:'Technical Specification', category:'Requirements', oneLiner:'Engineering implementation detail.'},
+  {name:'Requirements Traceability Matrix', category:'Requirements', oneLiner:'Maps requirements to delivery and test.'},
+  {name:'Non-Functional Requirements', category:'Requirements', oneLiner:'Performance, security, and scalability constraints.', isNew:true},
+  {name:'Scrum Master', category:'Agile Artifacts', subgroup:'roles', oneLiner:'Servant-leader who facilitates Scrum events and removes impediments for the team.', example:'Coaches a team stuck on a blocked dependency to resolve it without dictating the technical solution.'},
+  {name:'Product Owner', category:'Agile Artifacts', subgroup:'roles', oneLiner:'Owns the Product Backlog and maximizes the value delivered by the team.', example:'Reorders the backlog after a customer interview reveals a higher-value feature.'},
+  {name:'Developers', category:'Agile Artifacts', subgroup:'roles', oneLiner:'Cross-functional team members who build the Increment each sprint.', example:'Pair up to unblock a complex integration mid-sprint.'},
+  {name:'Stakeholders', category:'Agile Artifacts', subgroup:'roles', oneLiner:'People outside the Scrum Team with an interest in the product\u2019s outcome.', example:'Attend Sprint Review to give feedback on the newly demoed Increment.'},
+  {name:'Sprint', category:'Agile Artifacts', subgroup:'events', oneLiner:'A fixed timebox, usually 1 to 4 weeks, in which a done Increment is created.', example:'A two-week Sprint ending with a working, demoable release candidate.'},
+  {name:'Sprint Planning', category:'Agile Artifacts', subgroup:'events', oneLiner:'Kickoff event where the team selects backlog items and defines the Sprint Goal.', example:'Team pulls 32 points of backlog items and commits to a clear Sprint Goal.'},
+  {name:'Daily Scrum', category:'Agile Artifacts', subgroup:'events', oneLiner:'A 15-minute daily sync where developers inspect progress toward the Sprint Goal.', example:'Team flags a blocked API integration so it gets addressed same day.'},
+  {name:'Sprint Review', category:'Agile Artifacts', subgroup:'events', oneLiner:'End-of-sprint event where the Increment is demonstrated and feedback is gathered.', example:'Stakeholders see the working feature live and request a small refinement.'},
+  {name:'Sprint Retrospective', category:'Agile Artifacts', subgroup:'events', oneLiner:'Team reflects on process and people to identify improvements for the next Sprint.', example:'Team agrees to shrink story size after spotting mid-sprint scope creep.'},
+  {name:'Backlog Refinement', category:'Agile Artifacts', subgroup:'events', oneLiner:'Ongoing activity where backlog items are clarified, sized, and made ready.', example:'Team breaks a vague Epic into three ready, estimated User Stories.'},
+  {name:'Product Backlog', category:'Agile Artifacts', subgroup:'artifacts', oneLiner:'Single, ordered source of everything that might be needed in the product.', example:'Contains 120 items ranked by business value and dependency.'},
+  {name:'Sprint Backlog', category:'Agile Artifacts', subgroup:'artifacts', oneLiner:'The Sprint Goal plus the backlog items and plan selected for the Sprint.', example:'Lists the 8 stories the team committed to this Sprint.'},
+  {name:'Product Increment', category:'Agile Artifacts', subgroup:'artifacts', oneLiner:'The sum of all completed backlog items, integrated and potentially shippable.', example:'A release-candidate build that passes all Definition of Done checks.'},
+  {name:'User Story', category:'Agile Artifacts', subgroup:'artifacts', oneLiner:'A short, user-centered description of a requirement, written as a value statement.', example:'As a shopper, I want to save items for later so I can buy them next visit.'},
+  {name:'Epic', category:'Agile Artifacts', subgroup:'artifacts', oneLiner:'A large body of work that spans multiple sprints and splits into smaller stories.', example:'"Redesign checkout flow" spanning six sprints and a dozen stories.'},
+  {name:'Feature', category:'Agile Artifacts', subgroup:'artifacts', oneLiner:'A deliverable capability, larger than a story, smaller than an epic.', example:'"Guest checkout" as a feature inside the larger checkout epic.'},
+  {name:'Task', category:'Agile Artifacts', subgroup:'artifacts', oneLiner:'A technical unit of work, usually estimated in hours, that contributes to a story.', example:'"Wire up payment API" as one of four tasks under a checkout story.'},
+  {name:'Acceptance Criteria', category:'Agile Artifacts', subgroup:'artifacts', oneLiner:'Specific, testable conditions a story must meet to be considered done.', example:'Guest can complete checkout without creating an account.'},
+  {name:'Definition of Ready (DoR)', category:'Agile Artifacts', subgroup:'artifacts', oneLiner:'Shared checklist confirming a backlog item has enough clarity to be planned.', example:'A story is only pulled into Sprint Planning once acceptance criteria are agreed.'},
+  {name:'Definition of Done (DoD)', category:'Agile Artifacts', subgroup:'artifacts', oneLiner:'Shared checklist confirming work meets the team\u2019s quality bar to call it complete.', example:'Code reviewed, tested, and deployed to staging before a story is marked done.'},
+  {name:'Sprint Goal', category:'Agile Artifacts', subgroup:'artifacts', oneLiner:'A single, coherent objective that gives the Sprint\u2019s work a shared purpose.', example:'"Enable guest checkout end to end" as this Sprint\u2019s unifying goal.'},
+  {name:'Release Goal', category:'Agile Artifacts', subgroup:'artifacts', oneLiner:'The objective a release is working toward across multiple sprints.', example:'"Ship a fully self-serve onboarding flow by end of quarter."'},
+  {name:'Velocity', category:'Agile Artifacts', subgroup:'metrics', oneLiner:'Average story points a team completes per sprint, used for forecasting.', example:'A team averaging 32 points per sprint over the last 5 sprints.'},
+  {name:'Burndown Chart', category:'Agile Artifacts', subgroup:'metrics', oneLiner:'Tracks remaining work against time left in the Sprint.', example:'Shows scope is on pace to finish by day 9 of 10.'},
+  {name:'Burnup Chart', category:'Agile Artifacts', subgroup:'metrics', oneLiner:'Tracks completed work and total scope over time, showing scope changes.', example:'Reveals scope grew mid-sprint, explaining a missed Sprint Goal.'},
+  {name:'Cycle Time', category:'Agile Artifacts', subgroup:'metrics', oneLiner:'Time from when work starts to when it is delivered.', example:'A story moving from In Progress to Done in 2.5 days.'},
+  {name:'Lead Time', category:'Agile Artifacts', subgroup:'metrics', oneLiner:'Time from when work is requested to when it is delivered.', example:'A feature requested in backlog refinement and shipped 3 weeks later.'},
+  {name:'Throughput', category:'Agile Artifacts', subgroup:'metrics', oneLiner:'Number of items a team completes per unit of time.', example:'Team closing 14 stories per two-week Sprint.'},
+  {name:'Sprint Predictability', category:'Agile Artifacts', subgroup:'metrics', oneLiner:'How consistently a team delivers what it forecasts each sprint.', example:'Team hitting its Sprint Goal in 9 of the last 10 sprints.'},
+  {name:'Team Capacity', category:'Agile Artifacts', subgroup:'metrics', oneLiner:'Available working hours or story points a team can commit to in a period.', example:'Capacity reduced by 20% during a sprint with two members on leave.'},
+  {name:'Story Points', category:'Agile Artifacts', subgroup:'planning', oneLiner:'A relative unit of effort, complexity, and risk used to size backlog items.', example:'A simple bug fix estimated at 1 point, a complex integration at 8.'},
+  {name:'Planning Poker', category:'Agile Artifacts', subgroup:'planning', oneLiner:'A consensus-based estimation game where the team sizes stories together.', example:'Team reveals cards simultaneously and discusses outliers before converging on 5 points.'},
+  {name:'Relative Estimation', category:'Agile Artifacts', subgroup:'planning', oneLiner:'Sizing work by comparing it to other known items rather than absolute time.', example:'This story is about twice the size of that 3-point story.'},
+  {name:'Capacity Planning', category:'Agile Artifacts', subgroup:'planning', oneLiner:'Matching planned work to the team\u2019s actual available capacity for the period.', example:'Reducing sprint commitment to account for a public holiday.'},
+  {name:'Release Planning', category:'Agile Artifacts', subgroup:'planning', oneLiner:'Mapping backlog items to sprints across a release to hit a target date.', example:'Sequencing 6 sprints of work to hit a Q3 launch date.'},
+  {name:'Roadmap Planning', category:'Agile Artifacts', subgroup:'planning', oneLiner:'Sequencing themes and initiatives over a longer horizon to communicate direction.', example:'A quarterly roadmap showing three major themes and their target releases.'},
+  {name:'Sprint Forecasting', category:'Agile Artifacts', subgroup:'planning', oneLiner:'Using velocity and capacity to predict how much backlog a sprint can absorb.', example:'Forecasting 30 points of capacity based on the last three sprints\u2019 average.'},
+  {name:'Continuous Improvement', category:'Agile Artifacts', subgroup:'practices', oneLiner:'Ongoing, incremental effort to improve process, quality, and team effectiveness.', example:'Adopting one small process change every retrospective rather than a big overhaul.'},
+  {name:'Inspect & Adapt', category:'Agile Artifacts', subgroup:'practices', oneLiner:'The core Scrum feedback loop of regularly checking progress and adjusting course.', example:'Changing the Sprint plan mid-way after the Daily Scrum reveals new information.'},
+  {name:'Incremental Delivery', category:'Agile Artifacts', subgroup:'practices', oneLiner:'Delivering a product in small, usable slices rather than all at once.', example:'Shipping guest checkout before adding saved payment methods.'},
+  {name:'Iterative Development', category:'Agile Artifacts', subgroup:'practices', oneLiner:'Repeating cycles of build, review, and refine to progressively improve the product.', example:'Three iterations of a checkout flow before it meets usability goals.'},
+  {name:'Pair Programming', category:'Agile Artifacts', subgroup:'practices', oneLiner:'Two developers working together at one workstation to build and review code in real time.', example:'A senior and junior developer pairing to unblock a tricky bug together.'},
+  {name:'Swarming', category:'Agile Artifacts', subgroup:'practices', oneLiner:'The whole team temporarily focusing on one item to unblock or finish it fast.', example:'Three developers swarm a blocked story to get it done before Sprint end.'},
+  {name:'Cross-functional Teams', category:'Agile Artifacts', subgroup:'practices', oneLiner:'Teams with all the skills needed to deliver an Increment without external handoffs.', example:'A team with design, frontend, backend, and QA all embedded together.'},
+  {name:'Self-organizing Teams', category:'Agile Artifacts', subgroup:'practices', oneLiner:'Teams that decide how to do their work rather than being directed externally.', example:'The team, not a manager, decides who picks up which story.'},
+  {name:'Product Vision', category:'Agile Artifacts', subgroup:'documentation', oneLiner:'A concise statement of the product\u2019s long-term purpose and direction.', example:'"Become the fastest way for small teams to launch an online store."'},
+  {name:'Product Roadmap', category:'Agile Artifacts', subgroup:'documentation', oneLiner:'A visual plan of themes and releases over time supporting the vision.', example:'A roadmap showing checkout, onboarding, and analytics themes across three quarters.'},
+  {name:'Release Plan', category:'Agile Artifacts', subgroup:'documentation', oneLiner:'A plan mapping backlog scope to sprints for an upcoming release.', example:'A release plan sequencing six sprints toward a Q3 launch.'},
+  {name:'Sprint Plan', category:'Agile Artifacts', subgroup:'documentation', oneLiner:'The output of Sprint Planning capturing the Sprint Goal and selected work.', example:'A one-page summary shared with stakeholders after Sprint Planning.'},
+  {name:'Kanban Board', category:'Agile Artifacts', subgroup:'board', oneLiner:'A visual board showing work as it flows through stages of a process.', example:'Columns for Backlog, In Progress, Review, and Done.'},
+  {name:'Scrum Board', category:'Agile Artifacts', subgroup:'board', oneLiner:'A Kanban-style board scoped to a single Sprint\u2019s backlog.', example:'Shows only this Sprint\u2019s 8 stories moving across To Do, Doing, Done.'},
+  {name:'WIP Limits', category:'Agile Artifacts', subgroup:'board', oneLiner:'Caps on how many items can be in a given stage at once.', example:'Limiting "In Progress" to 3 items so the team finishes before starting more.'},
+  {name:'Swimlanes', category:'Agile Artifacts', subgroup:'board', oneLiner:'Horizontal groupings on a board that separate work by type or priority.', example:'A dedicated swimlane for expedited production bugs.'},
+  {name:'Definition of Workflow', category:'Agile Artifacts', subgroup:'board', oneLiner:'The agreed set of stages work passes through from start to done.', example:'Backlog, then Doing, then Review, then Done, agreed and posted on the board.'},
+  {name:'Risk Register', category:'Governance & Risk', oneLiner:'Identified risks and mitigation.'},
+  {name:'RAID Log', category:'Governance & Risk', oneLiner:'Risks, Assumptions, Issues, Dependencies.'},
+  {name:'Issue Log', category:'Governance & Risk', oneLiner:'Active issues, owners, and resolution status.', isNew:true},
+  {name:'Stakeholder Register', category:'Governance & Risk', oneLiner:'Stakeholders, interest, and influence.'},
+  {name:'Communication Plan', category:'Governance & Risk', oneLiner:'Who gets what, when, and how.'},
+  {name:'Status Report', category:'Status & Reporting', oneLiner:'Delivery health for stakeholders.'},
+  {name:'Meeting Minutes', category:'Status & Reporting', oneLiner:'Decisions and actions from a meeting.'},
+  {name:'Steering Committee Deck', category:'Status & Reporting', oneLiner:'Executive-level progress summary.', isNew:true},
+  {name:'Release Notes', category:'Release & Deployment', oneLiner:'What shipped, and why.'},
+  {name:'Deployment Plan', category:'Release & Deployment', oneLiner:'Steps and sequencing for a release.'},
+  {name:'Rollback Plan', category:'Release & Deployment', oneLiner:'Fallback steps if a release fails.', isNew:true},
+  {name:'Go-Live Checklist', category:'Release & Deployment', oneLiner:'Final readiness gate before launch.', isNew:true},
+  {name:'QA Test Plan', category:'QA & Testing', oneLiner:'Test strategy and scope.'},
+  {name:'Test Cases', category:'QA & Testing', oneLiner:'Step-by-step verification scripts.'},
+  {name:'UAT Sign-off', category:'QA & Testing', oneLiner:'Business validation before release.'},
+  {name:'Defect Report', category:'QA & Testing', oneLiner:'Logged bugs with severity and repro steps.', isNew:true},
+  {name:'Wireframes', category:'Diagrams & Modeling', oneLiner:'Low-fidelity UI layout.'},
+  {name:'Use Case Diagram', category:'Diagrams & Modeling', oneLiner:'Actor-system interactions.'},
+  {name:'ER Diagram', category:'Diagrams & Modeling', oneLiner:'Data entities and relationships.'},
+  {name:'Activity Diagram', category:'Diagrams & Modeling', oneLiner:'Process flow steps.'},
+  {name:'Sequence Diagram', category:'Diagrams & Modeling', oneLiner:'Interaction over time.'},
+  {name:'Architecture Diagram', category:'Diagrams & Modeling', oneLiner:'System components and flow.'},
+  {name:'Data Flow Diagram', category:'Diagrams & Modeling', oneLiner:'How data moves between system components.', isNew:true},
+  {name:'Project Closure Report', category:'Closure & Retrospective', oneLiner:'Formal project sign-off.'},
+  {name:'Retrospective', category:'Closure & Retrospective', oneLiner:'Sprint/team reflection and actions.'},
+  {name:'Lessons Learned', category:'Closure & Retrospective', oneLiner:'Knowledge captured for future projects.'}
+];
+
+const CATEGORY_META = [
+  {id:'Planning & Strategy', mono:'PS', accent:'#5b7cfa', desc:'Charters, business cases, and roadmaps that define why and what.'},
+  {id:'Requirements', mono:'RQ', accent:'#9b6bfa', desc:'Business and functional specifications guiding what gets built.'},
+  {id:'Agile Artifacts', mono:'AG', accent:'#22d3ee', desc:'Backlog items and Scrum artifacts teams work from daily.'},
+  {id:'Governance & Risk', mono:'GR', accent:'#f45fb0', desc:'Risk, issue, and stakeholder tracking that keeps delivery accountable.'},
+  {id:'Status & Reporting', mono:'SR', accent:'#ffb020', desc:'Cadence artifacts that keep stakeholders and sponsors informed.'},
+  {id:'Release & Deployment', mono:'RD', accent:'#22c55e', desc:'Plans that get a build safely into production and back out if needed.'},
+  {id:'QA & Testing', mono:'QA', accent:'#f45fb0', desc:'Test strategy, cases, and sign-off that validate quality before release.'},
+  {id:'Diagrams & Modeling', mono:'DM', accent:'#22d3ee', desc:'Visual models of flows, data, and system architecture.'},
+  {id:'Closure & Retrospective', mono:'CR', accent:'#9b6bfa', desc:'Formal sign-off and reflection captured at the end of delivery.'}
+];
+
+const ROLE_MAP = {
+  'Planning & Strategy': {creates:'Project Manager / Business Analyst', approves:'Sponsor / Steering Committee', when:'Before delivery kicks off, to align scope, funding, and direction.'},
+  'Requirements': {creates:'Business Analyst', approves:'Product Owner / Client', when:'During discovery and elaboration, before design and build begin.'},
+  'Agile Artifacts': {creates:'Product Owner / Scrum Master', approves:'Development Team', when:'Throughout each sprint, as backlog items are refined and delivered.'},
+  'Governance & Risk': {creates:'Project Manager', approves:'Steering Committee / Sponsor', when:'Continuously, whenever a new risk, issue, or stakeholder is identified.'},
+  'Status & Reporting': {creates:'Project Manager', approves:'Stakeholders', when:'On a recurring cadence, weekly or per sprint, to report delivery health.'},
+  'Release & Deployment': {creates:'Release Manager / DevOps', approves:'Technical Lead / Product Owner', when:'Ahead of any production release, to sequence and de-risk the rollout.'},
+  'QA & Testing': {creates:'QA Lead', approves:'Product Owner', when:'During test planning and execution, before sign-off for release.'},
+  'Diagrams & Modeling': {creates:'Business/Systems Analyst or Architect', approves:'Technical Lead', when:'During design, to communicate flows and structure before build.'},
+  'Closure & Retrospective': {creates:'Project Manager', approves:'Sponsor / Delivery Team', when:'At the end of a project, sprint, or major milestone.'}
+};
+
+const AGILE_SUBGROUPS = [
+  {id:'roles', label:'Scrum Roles'},
+  {id:'events', label:'Scrum Events'},
+  {id:'artifacts', label:'Scrum Artifacts'},
+  {id:'metrics', label:'Agile Metrics'},
+  {id:'planning', label:'Agile Planning & Estimation'},
+  {id:'practices', label:'Agile Practices & Principles'},
+  {id:'documentation', label:'Agile Documentation'},
+  {id:'board', label:'Agile Boards'}
+];
+
+const AGILE_SUBGROUP_META = {
+  roles: {owner:'Scrum Team', why:'Clear roles remove ambiguity over who decides what, keeping the team accountable and self-organizing.', inputs:'Team context, product goals, and organizational constraints.', outputs:'Clear accountability for backlog, delivery, and process health.', bestPractice:'Protect the boundaries of each role, decisions stay with the accountable role, not made for them.', commonMistake:'Letting a Project Manager override the Product Owner\u2019s prioritization or the Scrum Master\u2019s facilitation.', interview:['What is the difference between a Scrum Master and a Project Manager?','Can a Product Owner and Scrum Master be the same person?']},
+  events: {owner:'Scrum Master (facilitator)', why:'Regular, timeboxed events create a predictable rhythm for planning, inspecting, and adapting.', inputs:'Product Backlog, prior Sprint outcomes, and team capacity.', outputs:'A Sprint Backlog, a shippable Increment, and actionable improvements.', bestPractice:'Keep every event timeboxed and outcome-driven, never a status meeting.', commonMistake:'Turning the Daily Scrum into a status report to the Scrum Master instead of a peer-to-peer sync.', interview:['Why is the Daily Scrum timeboxed to 15 minutes?','What happens if a Sprint Goal cannot be met?']},
+  artifacts: {owner:'Product Owner (content) / Development Team (execution)', why:'Artifacts make work, progress, and increments transparent so decisions are based on shared information.', inputs:'Stakeholder needs, discovery work, and prior sprint outcomes.', outputs:'A prioritized, estimated body of work ready for planning and delivery.', bestPractice:'Keep artifacts small, current, and visible to the whole team, not buried in a tool only one person maintains.', commonMistake:'Letting the Product Backlog grow unbounded without regular refinement or reprioritization.', interview:['What is the difference between an Epic, a Feature, and a User Story?','What makes a User Story "ready" for a sprint?']},
+  metrics: {owner:'Scrum Master / Delivery Lead', why:'Metrics turn delivery into something measurable, so trends and risks surface before they become problems.', inputs:'Historical sprint data: completed points, cycle times, and scope changes.', outputs:'Forecasts, trend lines, and early warning signals for delivery risk.', bestPractice:'Use metrics to spot trends over multiple sprints, never to compare or rank individuals.', commonMistake:'Treating velocity as a productivity score instead of a capacity-planning input.', interview:['What is the difference between cycle time and lead time?','Why shouldn\u2019t velocity be compared across different teams?']},
+  planning: {owner:'Product Owner / Development Team', why:'Structured planning and estimation align scope with realistic capacity before commitments are made.', inputs:'Backlog items, historical velocity, and team capacity for the period.', outputs:'A forecast, release plan, or sprint commitment the team can stand behind.', bestPractice:'Estimate relatively as a whole team, not in isolation, and revisit estimates as understanding improves.', commonMistake:'Treating story points as hours, or letting one voice dominate Planning Poker.', interview:['Why use story points instead of hours?','How does capacity planning differ from velocity-based forecasting?']},
+  practices: {owner:'Whole Scrum Team', why:'These principles are what make a team genuinely Agile, not just running ceremonies on a schedule.', inputs:'Team retrospectives, feedback loops, and a culture that tolerates experimentation.', outputs:'Continuously improving quality, flow, and team effectiveness.', bestPractice:'Treat every practice as a habit to protect deliberately, not a one-off initiative.', commonMistake:'Adopting the ceremonies of Agile without the underlying mindset of inspection and adaptation.', interview:['How do you drive continuous improvement inside a Scrum team?','What does "self-organizing" mean in practice, and where are its limits?']},
+  documentation: {owner:'Product Owner / Project Manager', why:'Lightweight, living documentation keeps the whole organization aligned on direction without slowing teams down.', inputs:'Strategic goals, stakeholder input, and delivery progress.', outputs:'A shared, current reference stakeholders and teams can plan against.', bestPractice:'Keep these documents living and versioned, not a one-time artifact frozen at kickoff.', commonMistake:'Writing a roadmap or vision once and never revisiting it as the product evolves.', interview:['How often should a product roadmap be revisited?','What belongs in a Sprint Plan versus a Release Plan?']},
+  board: {owner:'Scrum Team', why:'Visualizing work and limiting work in progress exposes bottlenecks and keeps flow honest.', inputs:'Backlog items pulled into the current sprint or flow.', outputs:'A shared, real-time view of what is in progress, done, and blocked.', bestPractice:'Enforce WIP limits strictly, and swarm on blocked items instead of starting new work.', commonMistake:'Letting WIP limits balloon "just this once," which quietly kills flow efficiency.', interview:['Why do WIP limits improve throughput even though they restrict work?','How do swimlanes help manage a board with mixed work types?']}
+};
+
+const AGILE_RELATED_OVERRIDE = {
+  'Sprint Planning': ['Sprint Backlog', 'Daily Scrum'],
+  'Daily Scrum': ['Sprint Backlog', 'Sprint Review'],
+  'Sprint Review': ['Product Increment', 'Sprint Retrospective'],
+  'Sprint Retrospective': ['Sprint Planning'],
+  'Sprint': ['Sprint Planning', 'Sprint Review'],
+  'Backlog Refinement': ['Product Backlog', 'Sprint Planning']
+};
+
+function toolIconEl(iconKey, color) {
+  const d = ICON_PATHS[iconKey];
+  return React.createElement('svg', { viewBox: '0 0 24 24', width: 40, height: 40, fill: 'none', stroke: color, strokeWidth: 1.6, strokeLinecap: 'round', strokeLinejoin: 'round' },
+    React.createElement('path', { d })
+  );
+}
+
+function buildDocDetail(d) {
+  if (d.category === 'Agile Artifacts') {
+    const meta = AGILE_SUBGROUP_META[d.subgroup] || {};
+    const related = AGILE_RELATED_OVERRIDE[d.name] || DOC_DATA.filter(x => x.subgroup === d.subgroup && x.name !== d.name).slice(0, 3).map(x => x.name);
+    return {
+      ...d,
+      isAgile: true,
+      definition: `${d.name}: ${d.oneLiner}`,
+      purpose: d.oneLiner,
+      why: meta.why,
+      owner: meta.owner,
+      inputs: meta.inputs,
+      outputs: meta.outputs,
+      example: d.example,
+      bestPractice: meta.bestPractice,
+      commonMistake: meta.commonMistake,
+      related,
+      interview: meta.interview || []
+    };
+  }
+  const role = ROLE_MAP[d.category] || {};
+  return {
+    ...d,
+    notAgile: true,
+    purpose: d.oneLiner,
+    description: `${d.name} is a ${d.category} artifact. ${d.oneLiner} It supports traceability across the delivery lifecycle.`,
+    when: role.when || 'As needed, based on project context.',
+    creates: role.creates || 'Project Manager',
+    approves: role.approves || 'Product Owner',
+    relationship: `Works alongside other ${d.category} artifacts to keep planning, delivery, and governance traceable end to end.`
+  };
+}
+
+function highlightMatch(text, q) {
+  if (!q) return text;
+  const idx = text.toLowerCase().indexOf(q.toLowerCase());
+  if (idx === -1) return text;
+  return React.createElement(React.Fragment, null,
+    text.slice(0, idx),
+    React.createElement('mark', null, text.slice(idx, idx + q.length)),
+    text.slice(idx + q.length)
+  );
+}
+
+const COMPARISON_DATA = [
+  {a:'Agile', b:'Waterfall', rows:[{aspect:'Approach',left:'Iterative & incremental',right:'Sequential, phase-gated'},{aspect:'Change',left:'Embraced anytime',right:'Costly after sign-off'},{aspect:'Feedback',left:'Continuous',right:'End of project'},{aspect:'Best for',left:'Evolving scope',right:'Fixed, known scope'}]},
+  {a:'Scrum', b:'Kanban', rows:[{aspect:'Cadence',left:'Fixed sprints',right:'Continuous flow'},{aspect:'Roles',left:'PO / SM / Dev defined',right:'No mandated roles'},{aspect:'Planning',left:'Sprint planning upfront',right:'Pull as capacity allows'},{aspect:'Mid-cycle change',left:'Discouraged',right:'Allowed anytime'}]},
+  {a:'Kanban', b:'Scrumban', rows:[{aspect:'Cadence',left:'Pure continuous flow',right:'Sprint cadence + pull board'},{aspect:'Planning',left:'On-demand',right:'Periodic, sprint-based'},{aspect:'Origin',left:'Lean manufacturing',right:'Scrum-to-Kanban transition'},{aspect:'Best for',left:'Steady-state ops',right:'Teams shifting delivery model'}]},
+  {a:'BRD', b:'FRD', rows:[{aspect:'Focus',left:'Business needs & goals',right:'System functional behavior'},{aspect:'Audience',left:'Sponsors, stakeholders',right:'Dev team, architects'},{aspect:'Detail',left:'High-level',right:'Detailed, testable'},{aspect:'Written by',left:'Business Analyst',right:'BA / Systems Analyst'}]},
+  {a:'FRD', b:'PRD', rows:[{aspect:'Scope',left:'System functions',right:'Product features & UX'},{aspect:'Owner',left:'Business/Systems Analyst',right:'Product Manager'},{aspect:'Drives',left:'Technical build',right:'Feature prioritization'},{aspect:'Lifespan',left:'Per release',right:'Product-lifetime, evolving'}]},
+  {a:'SRS', b:'FSD', rows:[{aspect:'Standard',left:'Formal (IEEE-style)',right:'Less formal, functional'},{aspect:'Scope',left:'Full system requirements',right:'Feature-level behavior'},{aspect:'Used in',left:'Regulated/Waterfall',right:'Agile & hybrid'},{aspect:'Detail',left:'Requirements + constraints',right:'Business rules + flows'}]},
+  {a:'User Story', b:'Use Case', rows:[{aspect:'Format',left:'As a... I want... so that',right:'Actor-system interaction steps'},{aspect:'Origin',left:'Agile/Scrum',right:'Traditional/UML'},{aspect:'Size',left:'Small, sprint-sized',right:'Can span scenarios'},{aspect:'Detail',left:'Lightweight',right:'Pre/post-conditions'}]},
+  {a:'Epic', b:'Feature', rows:[{aspect:'Size',left:'Large body of work',right:'Deliverable capability'},{aspect:'Contains',left:'Multiple features/stories',right:'Multiple user stories'},{aspect:'Timeframe',left:'Spans releases',right:'Fits 1-2 releases'},{aspect:'Owner',left:'Product Owner',right:'Product Owner / BA'}]},
+  {a:'Task', b:'Story', rows:[{aspect:'Represents',left:'Technical unit of work',right:'User-facing value'},{aspect:'Estimated in',left:'Hours',right:'Story points'},{aspect:'Visible to',left:'Team',right:'Team & stakeholders'},{aspect:'Completion',left:'Contributes to a story',right:'Delivers user value'}]},
+  {a:'Requirement', b:'Scope', rows:[{aspect:'Definition',left:'Specific need to satisfy',right:'Boundary of what\u2019s included'},{aspect:'Granularity',left:'Detailed, atomic',right:'Broad, project-level'},{aspect:'Managed via',left:'RTM, backlog',right:'Scope statement, charter'},{aspect:'Changes via',left:'Change request',right:'Formal scope change control'}]}
+];
+
+const THEMES = {
+  dark: {bg:'#0d0f1a', bg2:'#161a29', card:'rgba(30,34,54,0.55)', cardBorder:'rgba(110,120,160,0.3)', text:'#f5f6fa', muted:'#a9adc4', navBg:'rgba(13,15,26,0.85)', dashBg:'rgba(22,26,44,0.62)', dashBorder:'rgba(140,150,220,0.28)'},
+  light: {bg:'#f7f7fb', bg2:'#ececf4', card:'rgba(255,255,255,0.75)', cardBorder:'rgba(160,165,200,0.4)', text:'#23253a', muted:'#5b5f78', navBg:'rgba(247,247,251,0.85)', dashBg:'rgba(255,255,255,0.6)', dashBorder:'rgba(120,130,220,0.28)'}
+};
+
+const DASH_KPIS = [
+  {label:'Years Experience', value:'6+', accent:'#5b7cfa'},
+  {label:'Projects Delivered', value:'20+', accent:'#9b6bfa'},
+  {label:'Cross-func. Teams', value:'12', accent:'#22d3ee'},
+  {label:'Organizations', value:'4+', accent:'#f45fb0'},
+  {label:'Certifications', value:'2', accent:'#ffb020'}
+];
+const DASH_METHODS = ['Agile', 'Scrum', 'Kanban', 'Scrumban', 'Waterfall'];
+const DASH_TOOLS = ['Jira', 'Azure DevOps', 'Confluence', 'ClickUp', 'Figma', 'Miro'];
+const BURNDOWN_HEIGHTS = ['40%','65%','50%','80%','60%','90%','75%','100%'];
+
+const ICON_PATHS = {
+  layers: 'M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5',
+  infinity: 'M18.6 6.6a5.5 5.5 0 0 0-7.78 0L12 8.78l1.18-2.18a5.5 5.5 0 1 1 0 7.8L12 12.22l-1.18 2.18a5.5 5.5 0 1 1 0-7.8',
+  checkCircle: 'M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4 12 14.01l-3-3',
+  columns: 'M3 4h18v16H3z M9 4v16 M15 4v16',
+  book: 'M4 19.5A2.5 2.5 0 0 1 6.5 17H20 M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z',
+  fileText: 'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z M14 2v6h6 M8 13h8 M8 17h8 M8 9h2',
+  grid: 'M3 3h8v8H3z M13 3h8v8h-8z M3 13h8v8H3z M13 13h8v8h-8z',
+  message: 'M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z',
+  users: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z M23 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
+  video: 'M23 7l-7 5 7 5V7z M14 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z',
+  penTool: 'M12 19l7-7 3 3-7 7-3-3z M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z M2 2l7.586 7.586 M11 13a2 2 0 1 0 2.828-2.828 2 2 0 0 0-2.828 2.828z'
+};
+const TOOL_GROUPS = [
+  {category:'Project Management', desc:'Tools used for Agile planning, backlog management, sprint execution and delivery.', items:[
+    {name:'Jira', tagline:'Sprint Planning & Issue Tracking', icon:'layers', color:'#0052CC'},
+    {name:'Azure DevOps', tagline:'CI/CD & Work Item Tracking', icon:'infinity', color:'#0078D7'},
+    {name:'ClickUp', tagline:'Task & Workflow Management', icon:'checkCircle', color:'#7B68EE'},
+    {name:'Trello', tagline:'Lightweight Kanban Boards', icon:'columns', color:'#0052CC'}
+  ]},
+  {category:'Documentation & Knowledge Management', desc:'Tools used for requirements, documentation, collaboration and knowledge sharing.', items:[
+    {name:'Confluence', tagline:'Requirements & Team Wikis', icon:'book', color:'#172B4D'},
+    {name:'Notion', tagline:'Docs, Wikis & Planning', icon:'fileText', color:'#6b6b6b'},
+    {name:'Microsoft 365', tagline:'Docs, Sheets & Slides', icon:'grid', color:'#EA3E23'},
+    {name:'Google Workspace', tagline:'Docs, Sheets & Slides', icon:'grid', color:'#4285F4'}
+  ]},
+  {category:'Communication & Collaboration', desc:'Communication platforms for stakeholder management and distributed teams.', items:[
+    {name:'Slack', tagline:'Team Messaging & Alignment', icon:'message', color:'#4A154B'},
+    {name:'Microsoft Teams', tagline:'Meetings & Enterprise Chat', icon:'users', color:'#6264A7'},
+    {name:'Zoom', tagline:'Stakeholder Video Calls', icon:'video', color:'#2D8CFF'}
+  ]},
+  {category:'Planning, Workshops & Visual Collaboration', desc:'Brainstorming, workshops, journey mapping and wireframing.', items:[
+    {name:'Miro', tagline:'Workshops & Journey Mapping', icon:'columns', color:'#FFC800'},
+    {name:'Figma', tagline:'Wireframes & UX Review', icon:'penTool', color:'#F24E1E'}
+  ]}
+];
+
+const G = 'calc(100% + clamp(8px,1.2vw,32px))';
+const HERO_BADGES = [
+  {label:'Project Manager', pos:`top:calc(-1 * clamp(20px,3vw,50px));left:50%;transform:translateX(-50%);`, anim:'floatBob1 5s ease-in-out infinite'},
+  {label:'Jira · ClickUp', pos:`top:16%;right:${G};`, anim:'floatBob2 6.2s ease-in-out infinite'},
+  {label:'Scrum Master', pos:`top:16%;left:${G};`, anim:'floatBob1 6.5s ease-in-out infinite'},
+  {label:'Sprint Planning', pos:`top:50%;right:${G};transform:translateY(-50%);`, anim:'floatBob2 6s ease-in-out infinite'},
+  {label:'Business Analyst', pos:`top:50%;left:${G};transform:translateY(-50%);`, anim:'floatBob1 5.8s ease-in-out infinite'},
+  {label:'Waterfall', pos:`top:84%;right:${G};`, anim:'floatBob2 7s ease-in-out infinite'},
+  {label:'Stakeholder Management', pos:`top:84%;left:${G};`, anim:'floatBob1 6.8s ease-in-out infinite'},
+  {label:'Agile · Kanban', pos:`bottom:calc(-1 * clamp(20px,3vw,50px));left:50%;transform:translateX(-50%);`, anim:'floatBob2 5.5s ease-in-out infinite'}
+];
+
+const PROJECT_DATA = [
+  {name:'Real Estate Sales & CRM Platform', industry:'Real Estate', roles:['Project Manager','Scrum Master','Business Analyst'], methodology:'Agile Scrum', status:'Completed', accent:'#5b7cfa',
+    summary:'An end-to-end real estate sales and CRM platform that streamlines customer onboarding, property inventory, sales bookings, payment tracking, installment plans, commissions, and post-sale financial operations.',
+    modules:['Authentication','Company Setup','Customer Registration','Nominee Management','KYC Verification','Biometric Verification','Estate Management','Agent Management','Commission Management','Property & Unit Management','Area & Price Calculator','Inventory Management','Sales Booking','Installment Plans','Payment Management','Charges Generation']},
+  {name:'Fleet Management System', industry:'Fleet Management', roles:['Project Manager','Business Analyst'], methodology:'Agile Scrum', status:'Completed', accent:'#22c55e',
+    summary:'A fleet management platform for managing company vehicles, ownership records, insurance, loans, purchases, sales, and driver assignments.',
+    modules:['Vehicle Registration','Vehicle Specifications','Ownership Management','Insurance','Loan Tracking','Purchase Records','Sale Records','Driver Management']},
+  {name:'TV Advertising Booking Platform', industry:'Media & Advertising', roles:['Project Manager','Scrum Master'], methodology:'Agile Scrum', status:'Completed', accent:'#f45fb0',
+    summary:'A television advertising marketplace that allows businesses to search, compare, and book advertising slots across multiple TV channels.',
+    modules:['Authentication','TV Slot Marketplace','Search & Filters','Booking Flow','Slot Management','Payment Tracking','Approval Workflow']},
+  {name:'Digital Healthcare & Online Pharmacy Platform', industry:'Healthcare / Telemedicine', roles:['Project Manager','Scrum Master'], methodology:'Agile Scrum', status:'Completed', accent:'#22d3ee',
+    summary:'A healthcare mobile application providing online pharmacy, doctor consultation, laboratory services, prescription uploads, and medicine delivery.',
+    modules:['Authentication','Pharmacy','Medicine Search','Prescription Upload','Shopping Cart','Checkout','Order Tracking','Doctor Consultation','Lab Tests','Home Services']},
+  {name:'Footwear Manufacturing ERP', industry:'Manufacturing ERP', roles:['Project Manager','Business Analyst'], methodology:'Agile Scrum', status:'Completed', accent:'#ffb020',
+    summary:'A footwear manufacturing ERP that manages product definitions, costing, production planning, inventory, procurement, work-in-progress tracking, and dispatch operations.',
+    modules:['Product Catalog','Bill of Materials','Costing','Sales Orders','Procurement','Inventory','Production Planning','Department Tracking','Dispatch']},
+  {name:'Industrial Weighbridge Management System', industry:'Industrial Weighbridge Management', roles:['Project Manager'], methodology:'Agile Scrum', status:'Completed', accent:'#9b6bfa',
+    summary:'A desktop and mobile weighbridge management solution for industrial sites, logistics operations, and vehicle weight tracking.',
+    modules:['Weight Entry','Multi-weight Transactions','Ticket Generation','Vehicle Management','Product Management','Mobile Application','Reports']},
+  {name:'Procurement & Vendor Management Platform', industry:'Procurement & Supply Chain', roles:['Business Analyst'], methodology:'Agile Scrum', status:'Completed', accent:'#5b7cfa',
+    summary:'A procurement workflow platform that manages purchase orders, vendor evaluation, negotiations, sourcing, and procurement approvals.',
+    modules:['Purchase Orders','Vendor Evaluation','Vendor Selection','Price Negotiation','Local Procurement','International Procurement','Workflow Tracking']},
+  {name:'Engineering Workflow Management System', industry:'Engineering', roles:['Business Analyst'], methodology:'Agile Scrum', status:'Completed', accent:'#22c55e',
+    summary:'An engineering workflow and business process management solution focused on process mapping and operational documentation.',
+    modules:['Process Mapping','Workflow Design','Business Documentation']},
+  {name:'Matchmaking & Social Networking Platform', industry:'Social Networking / Matchmaking', roles:['Project Manager','Scrum Master','Business Analyst'], methodology:'Agile Scrum', status:'Completed', accent:'#f45fb0',
+    summary:'A faith and values-based matchmaking platform helping users build meaningful relationships through verified profiles, intelligent compatibility matching, and privacy-first communication.',
+    modules:['Verified User Profiles','Identity Verification','Privacy & End-to-End Encryption','Compatibility Matching','Community Groups','Discussion Forums','Activity Feed','Events & Meetups','Interest-based Matching','Voice & Video Calling','Vibe Matching','Interactive Games','Public & Private Chat Rooms','Premium Membership','Profile Boost','Compliments','Diamonds Wallet','Advanced Search Filters','Relationship Blogs']},
+  {name:'Home Services Marketplace', industry:'Home Services Marketplace', roles:['Project Manager'], methodology:'Agile Scrum', status:'Completed', accent:'#5b7cfa',
+    summary:'A marketplace connecting customers with trusted professionals for home maintenance, repairs, installation, cleaning, and other on-demand services.',
+    modules:['Customer Portal','Professional Registration','Service Booking','Service Categories','Search & Filters','Promotional Deals','Mobile Application','Support Chat','Booking Management','Profile Management']},
+  {name:'Charity & Donation Platform', industry:'Charity / E-Commerce', roles:['Project Manager','Scrum Master'], methodology:'Agile Scrum', status:'Completed', accent:'#22c55e',
+    summary:'A charity platform enabling users to remotely send meals and gifts to those in need, with verified proof of delivery.',
+    modules:['Product Catalog','Meal Distribution','Charity Gifts','Shopping Cart','Notifications','Proof of Delivery','Image & Video Verification','Board of Honors','Mobile Application','Secure Payments']},
+  {name:'Nonprofit Fundraising & Donor Management Platform', industry:'Fundraising SaaS', roles:['Project Manager'], methodology:'Agile Scrum', status:'Completed', accent:'#ffb020',
+    summary:'A fundraising and donor management platform used by nonprofits for online donations, memberships, crowdfunding, event management, and donor engagement.',
+    modules:['Donation Forms','Donor CRM','AI Insights','Event Ticketing','Crowdfunding','Memberships','Peer-to-Peer Fundraising','Text-to-Give','Donor Portal','Security & Fraud Protection','Reporting Dashboard']},
+  {name:'Enterprise Resource Planning (ERP) System', industry:'Enterprise Resource Planning (ERP)', roles:['Project Manager','Scrum Master'], methodology:'Agile Scrum', status:'Completed', accent:'#9b6bfa',
+    summary:'A cloud-based ERP solution supporting finance, HR, manufacturing, CRM, inventory, procurement, services, and business intelligence across multiple industries.',
+    modules:['Finance','Sales','Purchase','Inventory','POS','CRM','Manufacturing','HRM','Asset Management','Import Management','Business Intelligence','Dashboards','Reporting','Project Tracking']},
+  {name:'E-commerce Analytics & Seller Intelligence Platform', industry:'Amazon Seller Analytics', roles:['Project Manager'], methodology:'Agile Scrum', status:'Completed', accent:'#22d3ee',
+    summary:'An e-commerce analytics platform providing real-time profitability insights, advertising analytics, inventory monitoring, and multi-marketplace integrations.',
+    modules:['Profit Tracking','Sales Analytics','PPC Management','Inventory Monitoring','Profit & Loss Reports','Marketplace Integrations','Accounting Integrations','Sales Trends','Dashboard Analytics']},
+  {name:'Sports Academy Management Platform', industry:'Sports Management', roles:['Project Manager','Scrum Master'], methodology:'Agile Scrum', status:'Completed', accent:'#f45fb0',
+    summary:'A sports academy management platform that enables academies to manage students, coaching operations, and academy administration through a centralized digital system.',
+    modules:['Academy Management','Student Management','Academy Selection','Coaching Portal','Administration Dashboard','User Authentication','Mobile Responsive Platform']},
+  {name:'Early Childhood Learning Platform', industry:'EdTech / Mobile Learning', roles:['Product Manager','Project Manager','Business Analyst'], methodology:'Agile Scrum', status:'In Progress', accent:'#22d3ee',
+    summary:'An interactive educational mobile application designed for toddlers aged 1\u20133 to learn animal names through engaging animations, authentic sounds, and gamified quizzes while maintaining a positive learning experience.',
+    modules:['Interactive Learning Modules','Gamified Quiz System','Progress Tracking','Reward System','Parent Gate','Settings Management','Multi-language Ready','Achievement Badges','Child-safe Experience','Offline Learning Support']},
+  {name:'Creator Marketplace Platform', industry:'Creator Economy / Social Marketplace', roles:['Product Manager','Project Manager'], methodology:'Agile Scrum', status:'Product Design', accent:'#9b6bfa',
+    summary:'A two-sided marketplace connecting creators with fans through personalized video requests, secure payments, creator verification, and order management.',
+    modules:['Creator Profiles','Fan Profiles','Personalized Video Requests','Wallet Integration','Online Payments','Order Tracking','Ratings & Reviews','Live Chat','Notifications','Identity Verification','Refund & Dispute Management']},
+  {name:'Social Multiplayer Gaming Platform', industry:'Gaming', roles:['Product Manager'], methodology:'Agile Scrum', status:'Product Design', accent:'#f45fb0',
+    summary:'A multiplayer board game platform combining traditional gameplay with social engagement, player progression, rewards, and community features.',
+    modules:['Multiplayer Gameplay','Friends System','Game Rooms','Leaderboards','Chat','Stickers & Emojis','Achievements','Reward Chests','Player Profiles','Account Management']},
+  {name:'Fitness & Activity Tracking Platform', industry:'Health & Fitness', roles:['Product Manager'], methodology:'Agile Scrum', status:'Design Prototype', accent:'#22c55e',
+    summary:'A fitness application that transforms daily physical activity into meaningful health insights while encouraging engagement through achievements, leaderboards, and analytics.',
+    modules:['Step Tracking','Health Score','Apple Health Integration','Google Fit Integration','Activity History','Streak Tracking','Leaderboards','Achievement Badges','Analytics Dashboard','User Profiles']},
+  {name:'Adaptive Learning & Test Preparation Platform', industry:'EdTech', roles:['Project Manager','Business Analyst'], methodology:'Agile Scrum', status:'Completed', accent:'#5b7cfa',
+    summary:'A personalized online learning platform offering adaptive practice, AI-assisted tutoring, student performance analytics, and standardized test preparation.',
+    modules:['Adaptive Learning','AI-assisted Tutoring','Personalized Curriculum','Video Lessons','Practice Engine','Comparative Analytics','Performance Dashboard','Student Leaderboards','Progress Tracking','Online Tutoring']}
+].map(p => {
+  const statusColors = { 'Completed': '#22c55e', 'In Progress': '#ffb020', 'Product Design': '#9b6bfa', 'Design Prototype': '#22d3ee' };
+  return { ...p, tags: [...new Set([p.industry.split(/[\/&]| \(/)[0].trim(), ...p.roles])], statusColor: statusColors[p.status] || '#5b7cfa' };
+});
+
+class Component extends DCLogic {
+  state = {
+    theme: 'dark',
+    openMethod: null,
+    expandedProject: null,
+    carouselProgress: 0,
+    projectSearch: '',
+    projectSort: 'recent',
+    projectCategory: 'All',
+    docSearch: '',
+    comparisonsExpanded: false,
+    openCategory: null,
+    catFilter: 'All',
+    detailDocName: null,
+    navVisible: true,
+    activeSection: 'hero'
+  };
+
+  NAV_SECTIONS = ['about','experience','projects','practices','docs','tools','contact'];
+
+  componentDidMount() {
+    this._lastY = window.scrollY;
+    this._onScroll = () => {
+      const y = window.scrollY;
+      const visible = y < 80 || y < this._lastY;
+      this._lastY = y;
+      this.setState(s => s.navVisible === visible ? null : { navVisible: visible });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+
+    this._observer = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          this.setState(s => s.activeSection === entry.target.id ? null : { activeSection: entry.target.id });
+          break;
+        }
+      }
+    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
+    for (const id of this.NAV_SECTIONS) {
+      const el = document.getElementById(id);
+      if (el) this._observer.observe(el);
+    }
+
+    document.addEventListener('click', this.handleDocClick, true);
+    document.addEventListener('keydown', this.handleKeyDown);
+    this.startAutoplay();
+
+    this._reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!this._reducedMotion) {
+      this._onMouseMoveSpotlight = (e) => {
+        const el = e.target.closest && e.target.closest('.card, .btn');
+        if (el) {
+          const r = el.getBoundingClientRect();
+          el.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+          el.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+        }
+      };
+      document.addEventListener('mousemove', this._onMouseMoveSpotlight);
+
+      this._onHeroTilt = (e) => {
+        const hexFrame = document.querySelector('.hex-frame');
+        const heroRight = document.getElementById('hero-right');
+        if (!hexFrame || !heroRight) return;
+        const r = heroRight.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        hexFrame.style.transform = `perspective(900px) rotateY(${(-3 - px * 6).toFixed(2)}deg) rotateX(${(2 + py * 6).toFixed(2)}deg)`;
+      };
+      window.addEventListener('mousemove', this._onHeroTilt);
+    }
+  }
+
+  componentDidUpdate() {
+    if (this._prevExpandedProject !== this.state.expandedProject) {
+      this._prevExpandedProject = this.state.expandedProject;
+      this.observeExpandedProject();
+      if (this.state.expandedProject) this.stopAutoplay(); else this.startAutoplay();
+    }
+  }
+
+  componentWillUnmount() {
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+    if (this._observer) this._observer.disconnect();
+    if (this._projObserver) this._projObserver.disconnect();
+    this.stopAutoplay();
+    if (this._touchResumeTimer) clearTimeout(this._touchResumeTimer);
+    document.removeEventListener('click', this.handleDocClick, true);
+    document.removeEventListener('keydown', this.handleKeyDown);
+    if (this._onMouseMoveSpotlight) document.removeEventListener('mousemove', this._onMouseMoveSpotlight);
+    if (this._onHeroTilt) window.removeEventListener('mousemove', this._onHeroTilt);
+  }
+
+  toggleTheme = () => this.setState(s => ({ theme: s.theme === 'dark' ? 'light' : 'dark' }));
+  toggleProject = (name) => this.setState(s => ({ expandedProject: s.expandedProject === name ? null : name }));
+  collapseProject = () => this.setState({ expandedProject: null });
+
+  handleDocClick = (e) => {
+    if (!this.state.expandedProject) return;
+    const card = e.target.closest && e.target.closest('[data-project]');
+    if (!card || card.getAttribute('data-project') !== this.state.expandedProject) this.collapseProject();
+  };
+  handleKeyDown = (e) => {
+    if (e.key === 'Escape' && this.state.expandedProject) this.collapseProject();
+  };
+  getProjTrack() { return document.getElementById('proj-track'); }
+  cardStep() {
+    const track = this.getProjTrack();
+    if (!track || !track.firstElementChild) return 320;
+    const style = getComputedStyle(track);
+    const gap = parseFloat(style.columnGap || style.gap || '20') || 20;
+    return track.firstElementChild.getBoundingClientRect().width + gap;
+  }
+  stepCarousel(dir = 1) {
+    const track = this.getProjTrack();
+    if (!track) return;
+    const atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+    if (dir > 0 && atEnd) { track.scrollTo({ left: 0, behavior: 'smooth' }); return; }
+    if (dir < 0 && track.scrollLeft <= 4) { track.scrollTo({ left: track.scrollWidth, behavior: 'smooth' }); return; }
+    track.scrollBy({ left: dir * this.cardStep(), behavior: 'smooth' });
+  }
+  shouldAutoplay() { return !this._carouselHover && !this.state.expandedProject; }
+  startAutoplay() {
+    this.stopAutoplay();
+    if (!this.shouldAutoplay()) return;
+    this._carouselInterval = setInterval(() => this.stepCarousel(1), 3500);
+  }
+  stopAutoplay() { if (this._carouselInterval) { clearInterval(this._carouselInterval); this._carouselInterval = null; } }
+  onCarouselEnter = () => { this._carouselHover = true; this.stopAutoplay(); };
+  onCarouselLeave = () => { this._carouselHover = false; this.startAutoplay(); };
+  onCarouselTouchStart = () => { this.stopAutoplay(); if (this._touchResumeTimer) clearTimeout(this._touchResumeTimer); };
+  onCarouselTouchEnd = () => { this._touchResumeTimer = setTimeout(() => { this._carouselHover = false; this.startAutoplay(); }, 3000); };
+  onCarouselScroll = () => {
+    const track = this.getProjTrack();
+    if (!track) return;
+    const max = track.scrollWidth - track.clientWidth;
+    const progress = max > 0 ? track.scrollLeft / max : 0;
+    this.setState({ carouselProgress: progress });
+  };
+  scrollCarouselPrev = () => { this.stepCarousel(-1); this.stopAutoplay(); this.startAutoplay(); };
+  scrollCarouselNext = () => { this.stepCarousel(1); this.stopAutoplay(); this.startAutoplay(); };
+
+  observeExpandedProject() {
+    if (this._projObserver) { this._projObserver.disconnect(); this._projObserver = null; }
+    if (!this.state.expandedProject) return;
+    const el = document.querySelector(`[data-project="${this.state.expandedProject}"]`);
+    if (!el) return;
+    this._projObserver = new IntersectionObserver((entries) => {
+      if (entries[0] && entries[0].intersectionRatio < 0.15) this.collapseProject();
+    }, { threshold: [0, 0.15] });
+    this._projObserver.observe(el);
+  }
+  onProjectSearch = (e) => this.setState({ projectSearch: e.target.value });
+  onProjectSort = (e) => this.setState({ projectSort: e.target.value });
+  setProjectCategory = (cat) => this.setState({ projectCategory: cat });
+  onDocSearch = (e) => this.setState({ docSearch: e.target.value });
+  toggleMethod = (i) => this.setState(s => ({ openMethod: s.openMethod === i ? null : i }));
+  toggleComparisonsExpanded = () => this.setState(s => ({ comparisonsExpanded: !s.comparisonsExpanded }));
+  toggleCategory = (id) => this.setState(s => ({ openCategory: s.openCategory === id ? null : id }));
+  setCatFilter = (id) => this.setState(s => ({ catFilter: id, openCategory: id === 'All' ? s.openCategory : id }));
+  openDocDetail = (name) => this.setState({ detailDocName: name });
+  closeDocDetail = () => this.setState({ detailDocName: null });
+
+  renderVals() {
+    const theme = THEMES[this.state.theme] || THEMES.dark;
+    const themeIcon = this.state.theme === 'dark' ? '\u2600' : '\u263D';
+    const dashKpis = DASH_KPIS;
+    const dashMethods = DASH_METHODS;
+    const dashTools = DASH_TOOLS;
+    const burndownBars = BURNDOWN_HEIGHTS.map(h => ({ h }));
+    const heroBadges = HERO_BADGES;
+
+    const q = (this.state.projectSearch || '').toLowerCase();
+    let filteredProjects = PROJECT_DATA.filter(p => !q || p.name.toLowerCase().includes(q) || p.tags.join(' ').toLowerCase().includes(q) || p.industry.toLowerCase().includes(q));
+    if (this.state.projectCategory !== 'All') {
+      filteredProjects = filteredProjects.filter(p => p.tags.includes(this.state.projectCategory));
+    }
+    if (this.state.projectSort === 'az') filteredProjects = [...filteredProjects].sort((a,b) => a.name.localeCompare(b.name));
+    filteredProjects = filteredProjects.map(p => {
+      const open = this.state.expandedProject === p.name;
+      return { ...p, initial: p.name.charAt(0), open, onToggle: () => this.toggleProject(p.name), toggleLabel: open ? 'Hide details' : 'View Details', rows: open ? '1fr' : '0fr', bodyOpacity: open ? 1 : 0 };
+    });
+
+    const categories = ['All', ...new Set(PROJECT_DATA.map(p => p.industry.split(/[\/&]| \(/)[0].trim()))];
+    const projectCategories = categories.map(c => ({
+      name: c,
+      active: this.state.projectCategory === c ? 'linear-gradient(90deg,#5b7cfa,#9b6bfa)' : theme.card,
+      onClick: () => this.setProjectCategory(c)
+    }));
+
+    const methodologies = METHOD_DATA.map((m, i) => ({
+      ...m,
+      open: this.state.openMethod === i,
+      icon: this.state.openMethod === i ? '\u2212' : '+',
+      rolesStr: m.roles.join(', '),
+      artifactsStr: m.artifacts.join(', '),
+      prosStr: m.pros.join(', '),
+      consStr: m.cons.join(', '),
+      onToggle: () => this.toggleMethod(i)
+    }));
+
+    const dq = (this.state.docSearch || '').trim().toLowerCase();
+    const isSearching = !!dq;
+    const catScoped = this.state.catFilter === 'All' ? DOC_DATA : DOC_DATA.filter(d => d.category === this.state.catFilter);
+
+    const searchResults = isSearching ? catScoped
+      .filter(d => d.name.toLowerCase().includes(dq) || d.category.toLowerCase().includes(dq) || d.oneLiner.toLowerCase().includes(dq))
+      .map(d => ({ ...d, nameHl: highlightMatch(d.name, dq), oneLinerHl: highlightMatch(d.oneLiner, dq), onOpen: () => this.openDocDetail(d.name) }))
+      : [];
+
+    const catFilterChips = ['All', ...CATEGORY_META.map(c => c.id)].map(id => {
+      const active = this.state.catFilter === id;
+      return {
+        id,
+        label: id === 'All' ? 'All' : (CATEGORY_META.find(c => c.id === id) || {}).id.split(' & ')[0],
+        onClick: () => this.setCatFilter(id),
+        bg: active ? 'linear-gradient(90deg,#5b7cfa,#9b6bfa)' : theme.card,
+        color: active ? '#ffffff' : theme.text,
+        border: active ? 'transparent' : theme.cardBorder
+      };
+    });
+
+    const categoryList = CATEGORY_META.filter(c => this.state.catFilter === 'All' || this.state.catFilter === c.id).map(c => {
+      const docs = catScoped.filter(d => d.category === c.id).map((d, i) => ({ ...d, animDelay: `${i * 0.04}s`, onOpen: () => this.openDocDetail(d.name) }));
+      const open = this.state.openCategory === c.id;
+      const hasSubgroups = docs.some(d => d.subgroup);
+      const groups = hasSubgroups
+        ? AGILE_SUBGROUPS.filter(sg => docs.some(d => d.subgroup === sg.id)).map(sg => ({ label: sg.label, docs: docs.filter(d => d.subgroup === sg.id) }))
+        : [{ label: null, docs }];
+      return {
+        ...c,
+        count: docs.length,
+        groups,
+        onToggle: () => this.toggleCategory(c.id),
+        chevronClass: open ? 'open' : '',
+        rows: open ? '1fr' : '0fr',
+        bodyOpacity: open ? 1 : 0
+      };
+    });
+
+    const detailDocRaw = this.state.detailDocName ? DOC_DATA.find(d => d.name === this.state.detailDocName) : null;
+    const detailDoc = detailDocRaw ? buildDocDetail(detailDocRaw) : null;
+
+
+    const comparisonsCap = 3;
+    const comparisons = this.state.comparisonsExpanded ? COMPARISON_DATA : COMPARISON_DATA.slice(0, comparisonsCap);
+
+    const navLabels = { about: 'About', experience: 'Experience', projects: 'Projects', practices: 'Knowledge', docs: 'Documentation', tools: 'Skills', contact: 'Contact' };
+    const navItems = this.NAV_SECTIONS.map(id => {
+      const active = this.state.activeSection === id;
+      return {
+        href: `#${id}`,
+        label: navLabels[id],
+        bg: active ? 'linear-gradient(90deg,#5b7cfa,#9b6bfa)' : 'transparent',
+        color: active ? '#ffffff' : theme.muted,
+        activeClass: active ? 'active' : ''
+      };
+    });
+
+    return {
+      theme, themeIcon,
+      dashKpis, dashMethods, dashTools, burndownBars, heroBadges,
+      toggleTheme: this.toggleTheme,
+      navTop: this.state.navVisible ? '18px' : '-70px',
+      navItems,
+      year: new Date().getFullYear(),
+      heroStats: [
+        { label: 'Experience', value: '6+ Yrs', accent: '#5b7cfa' },
+        { label: 'Teams Managed', value: 'Cross-team', accent: '#9b6bfa' },
+        { label: 'Organizations', value: '4+', accent: '#f45fb0' },
+        { label: 'Certifications', value: '2', accent: '#ffb020' }
+      ],
+      aboutFacts: [
+        { label: 'Location', value: 'Johar Town, Lahore' },
+        { label: 'Availability', value: 'On-site / Remote' },
+        { label: 'Languages', value: 'English, Urdu, Punjabi' },
+        { label: 'Education', value: 'BS CS, UET Lahore' }
+      ],
+      roles: [
+        { dates: 'Dec 2025 to Present', title: 'Project Manager / Scrum Master', company: 'WaxonIT Solutions, Lahore', bullets: [
+          'Coordinate workflows and deliverables across development, QA, and design teams, keeping milestones, owners, and priorities on schedule.',
+          'Act as communication bridge between technical teams and clients, translating requirements into user stories, workflows, and actionable tasks.',
+          'Use AI-assisted tools to accelerate requirement analysis, backlog refinement, and user story creation, improving turnaround without sacrificing quality.',
+          'Prepare status reports, meeting minutes, and release notes, using AI-assisted summarization to keep documentation current with less manual effort.',
+          'Track project progress and risks using Jira dashboards, flagging blockers before they affect delivery.'
+        ]},
+        { dates: 'Jun 2023 to Dec 2025', title: 'Project Manager / Scrum Master / SQA Lead', company: 'Visnext Software Solutions, Lahore', bullets: [
+          'Coordinated cross-functional onsite and remote teams (UI/UX, frontend, backend, mobile, QA) across multiple concurrent projects.',
+          'Managed end-to-end delivery from requirement gathering through release, keeping timelines, budgets, and quality standards on track.',
+          'Collaborated with international clients and Product Owners to define scope, prioritize features, and build delivery roadmaps.',
+          'Adopted AI-assisted workflows to speed up sprint preparation and improve the quality and consistency of project documentation.',
+          'Enhanced stakeholder reporting with AI-generated summaries, reducing manual effort while keeping updates clear and timely.'
+        ]},
+        { dates: 'Aug 2021 to Jun 2023', title: 'Associate Project Manager / Project Manager', company: '3S Solutions (Pvt.) Ltd., Lahore', bullets: [
+          'Led cross-functional Agile teams delivering Web, iOS, and Android applications within scope, timeline, and budget.',
+          'Worked closely with UI/UX, development, and QA teams on wireframes, user flows, and actionable development tasks.',
+          'Managed Jira boards, Confluence documentation, sprint reports, and release notes to keep teams and stakeholders aligned.'
+        ]},
+        { dates: 'Jan 2021 to Aug 2021', title: 'Project Coordinator & Solution Designer', company: 'Eyrox, Lahore', bullets: [
+          'Evaluated business requirements and workflows to support solution development and coordination across teams.',
+          'Supported sprint planning, documentation, and coordination between users, designers, and engineering teams.'
+        ]}
+      ],
+      projectSearch: this.state.projectSearch,
+      onProjectSearch: this.onProjectSearch,
+      onProjectSort: this.onProjectSort,
+      projectCategories,
+      noProjects: filteredProjects.length === 0,
+      filteredProjects,
+      onCarouselEnter: this.onCarouselEnter,
+      onCarouselLeave: this.onCarouselLeave,
+      onCarouselTouchStart: this.onCarouselTouchStart,
+      onCarouselTouchEnd: this.onCarouselTouchEnd,
+      onCarouselScroll: this.onCarouselScroll,
+      scrollCarouselPrev: this.scrollCarouselPrev,
+      scrollCarouselNext: this.scrollCarouselNext,
+      carouselDots: (() => {
+        const dotCount = Math.max(1, Math.ceil(filteredProjects.length / 3));
+        return Array.from({ length: dotCount }, (_, i) => {
+          const active = i === Math.round(this.state.carouselProgress * (dotCount - 1));
+          return { width: active ? '22px' : '6px', bg: active ? '#5b7cfa' : theme.cardBorder };
+        });
+      })(),
+      methodologies,
+      comparisons,
+      comparisonsExpanded: this.state.comparisonsExpanded,
+      toggleComparisonsExpanded: this.toggleComparisonsExpanded,
+      showComparisonsToggle: COMPARISON_DATA.length > comparisonsCap,
+      comparisonsToggleLabel: this.state.comparisonsExpanded ? 'Show fewer' : `Show all ${COMPARISON_DATA.length}`,
+      docSearch: this.state.docSearch,
+      onDocSearch: this.onDocSearch,
+      isSearching,
+      isBrowsing: !isSearching,
+      searchResults,
+      noSearchResults: isSearching && searchResults.length === 0,
+      catFilterChips,
+      categoryList,
+      hasDetailDoc: !!detailDoc,
+      detailDoc,
+      closeDocDetail: this.closeDocDetail,
+      toolGroups: TOOL_GROUPS.map(g => ({ ...g, items: g.items.map(t => ({ ...t, iconEl: toolIconEl(t.icon, t.color) })) }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>
