@@ -179,17 +179,20 @@ export default function Projects({ theme }: { theme: Theme }) {
           {filtered.map((p) => {
             const open = expandedProject === p.name;
             return (
-              <div key={p.name} className="card proj-card" data-project={p.name} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 18, overflow: 'hidden', display: 'flex', flexDirection: 'column', height: 'auto' }}>
+              <div key={p.name} className="card proj-card" data-project={p.name} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 18, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ padding: 26, display: 'flex', flexDirection: 'column', flex: 1 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' }}>
-                    <h3 style={{ fontWeight: 700, fontSize: 21, margin: 0 }}>{p.name}</h3>
+                    <h3 className="proj-title" title={p.name} style={{ fontWeight: 700, fontSize: 21, margin: 0 }}>{p.name}</h3>
                     <span style={{ fontSize: 12, fontWeight: 600, padding: '5px 12px', borderRadius: 999, background: `${p.statusColor}22`, color: p.statusColor }}>{p.status}</span>
                   </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, margin: '12px 0 14px' }}>
+                  <div className="proj-chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, margin: '12px 0 14px', overflow: 'hidden' }}>
                     <span style={{ fontSize: 11.5, fontWeight: 700, padding: '5px 12px', borderRadius: 999, background: `${p.accent}22`, color: p.accent }}>{p.industry}</span>
-                    {p.roles.map((r) => (
+                    {p.roles.slice(0, 2).map((r) => (
                       <span key={r} className="chip" style={{ fontSize: 11.5, padding: '5px 12px', borderRadius: 999, background: theme.bg2, border: `1px solid ${theme.cardBorder}`, color: theme.text }}>{r}</span>
                     ))}
+                    {p.roles.length > 2 && (
+                      <span className="chip" style={{ fontSize: 11.5, padding: '5px 12px', borderRadius: 999, background: theme.bg2, border: `1px solid ${theme.cardBorder}`, color: theme.muted }}>+{p.roles.length - 2}</span>
+                    )}
                     <span className="chip" style={{ fontSize: 11.5, padding: '5px 12px', borderRadius: 999, background: theme.bg2, border: `1px solid ${theme.cardBorder}`, color: theme.muted }}>{p.methodology}</span>
                   </div>
                   <p className="proj-summary" style={{ fontSize: 14, lineHeight: 1.55, color: theme.muted, margin: '0 0 16px' }}>{p.summary}</p>

@@ -172,20 +172,20 @@ mark { background: rgba(255, 176, 32, 0.32); color: inherit; border-radius: 3px;
 .comp-row { transition: background 0.2s ease; }
 .comp-row:hover { background: rgba(127, 127, 127, 0.08); }
 
-.proj-track { display: flex; align-items: stretch; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 16px 0 4px; margin-top: -16px; }
+/* Every card gets the same fixed min-height instead of `align-items:
+   stretch` (which compares against every card in the whole 20-project
+   scrollable list, not just the visible ones — on a single-card mobile
+   view that meant one oversized, mostly-empty card matching whatever the
+   tallest project anywhere happened to be). Title and summary are both
+   line-clamped so natural content length can't blow past this floor. */
+.proj-track { display: flex; align-items: flex-start; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 16px 0 4px; margin-top: -16px; }
 .proj-track::-webkit-scrollbar { display: none; }
-.proj-card { flex: 0 0 calc(85% - 10px); scroll-snap-align: start; }
+.proj-card { flex: 0 0 calc(85% - 10px); scroll-snap-align: start; height: 424px; }
 @media (min-width: 1024px) { .proj-card { flex: 0 0 calc(50% - 10px); } }
 @media (min-width: 1440px) { .proj-card { flex: 0 0 calc(33.333% - 14px); } }
+.proj-title { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.proj-chips { max-height: 64px; }
 .proj-summary { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-/* Below 1024px (phones and portrait tablets) only one card is visible at a
-   time (peeking the next card's edge to hint it's swipeable), so there's no
-   visual row to keep aligned — `stretch` was instead matching every card's
-   height to the tallest one in the whole 20-project list, producing a
-   mostly-empty, oversized card. */
-@media (max-width: 1023px) {
-  .proj-track { align-items: flex-start; }
-}
 
 .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 20px; line-height: 1; z-index: 5; opacity: 0; transition: opacity 0.25s ease, transform 0.2s ease; backdrop-filter: blur(8px); }
 #proj-carousel-wrap:hover .carousel-arrow { opacity: 1; }
