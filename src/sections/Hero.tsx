@@ -31,7 +31,7 @@ export default function Hero({ theme }: { theme: Theme }) {
   const hexClip = 'polygon(25% 3%,75% 3%,100% 50%,75% 97%,25% 97%,0% 50%)';
 
   return (
-    <section id="hero" style={{ minHeight: '100vh', padding: '130px 40px 60px', maxWidth: 1600, margin: '0 auto', gap: 'clamp(24px,5vw,60px)', boxSizing: 'border-box' }}>
+    <section id="hero" style={{ minHeight: 'min(100vh, 860px)', padding: '130px 40px 60px', maxWidth: 1600, margin: '0 auto', gap: 'clamp(24px,5vw,60px)', boxSizing: 'border-box' }}>
       <div id="hero-left" className="reveal">
         <div style={{ fontSize: 13, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#5b7cfa', marginBottom: 14, fontWeight: 600 }}>
           Project Manager · Scrum Master · Business Analyst
