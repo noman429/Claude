@@ -44,7 +44,7 @@ export default function Hero({ theme }: { theme: Theme }) {
         </p>
         <div style={{ display: 'flex', gap: 14, marginTop: 24, flexWrap: 'wrap' }}>
           <a
-            href="/assets/Muhammad_Numan_CV.pdf"
+            href={`${import.meta.env.BASE_URL}assets/Muhammad_Numan_CV.pdf`}
             download
             className="btn"
             style={{
@@ -123,7 +123,7 @@ export default function Hero({ theme }: { theme: Theme }) {
               </div>
               <div style={{ position: 'absolute', inset: -2, clipPath: hexClip, background: theme.dashBg, backdropFilter: 'blur(4px)' }} />
               <div style={{ position: 'absolute', inset: 6, clipPath: hexClip, background: theme.dashBg, backdropFilter: 'blur(6px)', overflow: 'hidden', boxShadow: '0 1px 0 rgba(255,255,255,0.25) inset' }}>
-                <img src="/assets/hero-photo.webp" alt="Muhammad Numan" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
+                <img src={`${import.meta.env.BASE_URL}assets/hero-photo.webp`} alt="Muhammad Numan" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(125deg,rgba(255,255,255,0.18) 0%,transparent 35%,transparent 65%,rgba(255,255,255,0.08) 100%)', pointerEvents: 'none' }} />
                 <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg,rgba(91,124,250,0.16),transparent 45%)', mixBlendMode: 'overlay', pointerEvents: 'none' }} />
               </div>
