@@ -1,6 +1,7 @@
 import type { Theme } from '../data/theme';
 import { TOOL_GROUPS } from '../data/tools';
-import { ToolIcon } from '../icons';
+import { BRAND_ICONS } from '../data/brandIcons';
+import { BrandLogo, ToolIcon } from '../icons';
 
 export default function Tools({ theme }: { theme: Theme }) {
   return (
@@ -19,7 +20,7 @@ export default function Tools({ theme }: { theme: Theme }) {
             {tg.items.map((t) => (
               <div key={t.name} className="tool-card" style={{ display: 'flex', alignItems: 'center', gap: 14, cursor: 'pointer' }}>
                 <div className="tool-icon-wrap" style={{ width: 44, height: 44, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <ToolIcon icon={t.icon} color={t.color} />
+                  {t.brand && BRAND_ICONS[t.brand] ? <BrandLogo brand={t.brand} /> : <ToolIcon icon={t.icon} color={t.color} />}
                 </div>
                 <div style={{ minWidth: 0 }}>
                   <div style={{ fontWeight: 700, fontSize: 14, color: theme.text }}>{t.name}</div>

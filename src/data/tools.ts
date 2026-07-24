@@ -1,3 +1,5 @@
+import type { BRAND_ICONS } from './brandIcons';
+
 export const ICON_PATHS: Record<string, string> = {
   layers: 'M12 2 2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5',
   infinity: 'M18.6 6.6a5.5 5.5 0 0 0-7.78 0L12 8.78l1.18-2.18a5.5 5.5 0 1 1 0 7.8L12 12.22l-1.18 2.18a5.5 5.5 0 1 1 0-7.8',
@@ -17,6 +19,9 @@ export interface ToolItem {
   tagline: string;
   icon: keyof typeof ICON_PATHS;
   color: string;
+  /** When set, renders the real official brand mark (from data/brandIcons.ts)
+   *  instead of the hand-drawn `icon`/`color` fallback above. */
+  brand?: keyof typeof BRAND_ICONS;
 }
 
 export interface ToolGroup {
@@ -27,24 +32,24 @@ export interface ToolGroup {
 
 export const TOOL_GROUPS: ToolGroup[] = [
   { category: 'Project Management', desc: 'Tools used for Agile planning, backlog management, sprint execution and delivery.', items: [
-    { name: 'Jira', tagline: 'Sprint Planning & Issue Tracking', icon: 'layers', color: '#0052CC' },
+    { name: 'Jira', tagline: 'Sprint Planning & Issue Tracking', icon: 'layers', color: '#0052CC', brand: 'jira' },
     { name: 'Azure DevOps', tagline: 'CI/CD & Work Item Tracking', icon: 'infinity', color: '#0078D7' },
-    { name: 'ClickUp', tagline: 'Task & Workflow Management', icon: 'checkCircle', color: '#7B68EE' },
-    { name: 'Trello', tagline: 'Lightweight Kanban Boards', icon: 'columns', color: '#0052CC' },
+    { name: 'ClickUp', tagline: 'Task & Workflow Management', icon: 'checkCircle', color: '#7B68EE', brand: 'clickup' },
+    { name: 'Trello', tagline: 'Lightweight Kanban Boards', icon: 'columns', color: '#0052CC', brand: 'trello' },
   ] },
   { category: 'Documentation & Knowledge Management', desc: 'Tools used for requirements, documentation, collaboration and knowledge sharing.', items: [
-    { name: 'Confluence', tagline: 'Requirements & Team Wikis', icon: 'book', color: '#172B4D' },
-    { name: 'Notion', tagline: 'Docs, Wikis & Planning', icon: 'fileText', color: '#6b6b6b' },
+    { name: 'Confluence', tagline: 'Requirements & Team Wikis', icon: 'book', color: '#172B4D', brand: 'confluence' },
+    { name: 'Notion', tagline: 'Docs, Wikis & Planning', icon: 'fileText', color: '#6b6b6b', brand: 'notion' },
     { name: 'Microsoft 365', tagline: 'Docs, Sheets & Slides', icon: 'grid', color: '#EA3E23' },
-    { name: 'Google Workspace', tagline: 'Docs, Sheets & Slides', icon: 'grid', color: '#4285F4' },
+    { name: 'Google Workspace', tagline: 'Docs, Sheets & Slides', icon: 'grid', color: '#4285F4', brand: 'google' },
   ] },
   { category: 'Communication & Collaboration', desc: 'Communication platforms for stakeholder management and distributed teams.', items: [
     { name: 'Slack', tagline: 'Team Messaging & Alignment', icon: 'message', color: '#4A154B' },
     { name: 'Microsoft Teams', tagline: 'Meetings & Enterprise Chat', icon: 'users', color: '#6264A7' },
-    { name: 'Zoom', tagline: 'Stakeholder Video Calls', icon: 'video', color: '#2D8CFF' },
+    { name: 'Zoom', tagline: 'Stakeholder Video Calls', icon: 'video', color: '#2D8CFF', brand: 'zoom' },
   ] },
   { category: 'Planning, Workshops & Visual Collaboration', desc: 'Brainstorming, workshops, journey mapping and wireframing.', items: [
-    { name: 'Miro', tagline: 'Workshops & Journey Mapping', icon: 'columns', color: '#FFC800' },
-    { name: 'Figma', tagline: 'Wireframes & UX Review', icon: 'penTool', color: '#F24E1E' },
+    { name: 'Miro', tagline: 'Workshops & Journey Mapping', icon: 'columns', color: '#FFC800', brand: 'miro' },
+    { name: 'Figma', tagline: 'Wireframes & UX Review', icon: 'penTool', color: '#F24E1E', brand: 'figma' },
   ] },
 ];

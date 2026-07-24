@@ -9,13 +9,19 @@ export default function Hero({ theme }: { theme: Theme }) {
   useEffect(() => {
     const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) return;
+    const clamp = (v: number, min: number, max: number) => Math.min(max, Math.max(min, v));
     const onMouseMove = (e: MouseEvent) => {
       const hexFrame = hexFrameRef.current;
       const heroRight = heroRightRef.current;
       if (!hexFrame || !heroRight) return;
       const r = heroRight.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
+      // The listener is on window (so the tilt still eases as the cursor
+      // approaches), so once hero scrolls out of view a distant cursor
+      // combined with a far-off bounding rect can send px/py wildly outside
+      // [-0.5, 0.5] — clamp them so the hexagon can never rotate past a
+      // subtle tilt into a near-180deg (visually upside-down) flip.
+      const px = clamp((e.clientX - r.left) / r.width - 0.5, -0.5, 0.5);
+      const py = clamp((e.clientY - r.top) / r.height - 0.5, -0.5, 0.5);
       hexFrame.style.transform = `perspective(900px) rotateY(${(-3 - px * 6).toFixed(2)}deg) rotateX(${(2 + py * 6).toFixed(2)}deg)`;
     };
     window.addEventListener('mousemove', onMouseMove);
