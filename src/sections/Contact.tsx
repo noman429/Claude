@@ -5,7 +5,6 @@ import { ToolIcon, BrandLogo } from '../icons';
 const WHATSAPP_URL = 'https://wa.me/923104274388';
 const EMAIL_ADDRESS = 'numanriaz475@gmail.com';
 const MAILTO_URL = `mailto:${EMAIL_ADDRESS}`;
-const PHONE_DISPLAY = '+92 310 4274388';
 
 // Scroll-triggered reveal (distinct from the mount-time `.reveal` fadeUp used
 // elsewhere): this section sits far below the fold, so the animation should
@@ -55,7 +54,7 @@ export default function Contact({ theme }: { theme: Theme }) {
               className="card contact-option-card"
               style={{ background: theme.card, border: `1px solid ${theme.cardBorder}` }}
             >
-              <span className="contact-option-icon contact-float" style={{ background: 'rgba(37,211,102,0.14)' }}>
+              <span className="contact-option-icon" style={{ background: 'rgba(37,211,102,0.14)' }}>
                 <BrandLogo brand="whatsapp" />
               </span>
               <span className="contact-option-text">
@@ -70,7 +69,7 @@ export default function Contact({ theme }: { theme: Theme }) {
               className="card contact-option-card"
               style={{ background: theme.card, border: `1px solid ${theme.cardBorder}` }}
             >
-              <span className="contact-option-icon contact-float" style={{ background: 'rgba(91,124,250,0.14)', animationDelay: '-1.5s' }}>
+              <span className="contact-option-icon" style={{ background: 'rgba(91,124,250,0.14)' }}>
                 <ToolIcon icon="mail" color="#5b7cfa" />
               </span>
               <span className="contact-option-text">
@@ -78,78 +77,6 @@ export default function Contact({ theme }: { theme: Theme }) {
                 <span className="contact-option-sub" style={{ color: theme.muted }}>Perfect for job opportunities, collaborations, or detailed discussions.</span>
               </span>
             </a>
-          </div>
-        </div>
-
-        <div className={`reveal-inview${inView ? ' in-view' : ''}`} style={{ transitionDelay: inView ? '140ms' : '0ms' }}>
-          <div
-            className="card contact-hero-card"
-            style={{
-              background: 'linear-gradient(135deg,rgba(37,211,102,0.16),rgba(91,124,250,0.16))',
-              border: `1px solid ${theme.cardBorder}`,
-            }}
-          >
-            <div className="contact-glow contact-glow-a" />
-            <div className="contact-glow contact-glow-b" />
-
-            <div style={{ position: 'relative', zIndex: 1 }}>
-              <div className="contact-avatar-badge">
-                <span className="contact-float" style={{ fontSize: 26 }}>💬</span>
-              </div>
-              <h3 style={{ fontSize: 22, fontWeight: 800, margin: '18px 0 6px', color: theme.text }}>Ready when you are.</h3>
-              <p style={{ fontSize: 14.5, color: theme.muted, margin: '0 0 26px', maxWidth: 380 }}>
-                Pick whichever's easier — both go straight to me, no forms, no waiting.
-              </p>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                <a
-                  href={WHATSAPP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Message on WhatsApp — opens in a new tab"
-                  className="btn cta-btn cta-btn-primary"
-                >
-                  <span aria-hidden="true">💬</span> Message on WhatsApp
-                </a>
-                <a
-                  href={MAILTO_URL}
-                  aria-label="Email me"
-                  className="btn cta-btn cta-btn-secondary"
-                  style={{ border: `1px solid ${theme.cardBorder}`, color: theme.text, background: theme.dashBg }}
-                >
-                  <span aria-hidden="true">✉️</span> Email Me
-                </a>
-              </div>
-
-              <div className="contact-mini-grid">
-                <a
-                  href={WHATSAPP_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`WhatsApp: ${PHONE_DISPLAY} — opens in a new tab`}
-                  className="contact-mini-card"
-                  style={{ background: theme.dashBg, border: `1px solid ${theme.dashBorder}` }}
-                >
-                  <span aria-hidden="true">📱</span>
-                  <span className="contact-mini-text">
-                    <span className="contact-mini-label" style={{ color: theme.muted }}>WhatsApp</span>
-                    <span className="contact-mini-value" style={{ color: theme.text }}>{PHONE_DISPLAY}</span>
-                  </span>
-                </a>
-                <a
-                  href={MAILTO_URL}
-                  aria-label={`Email: ${EMAIL_ADDRESS}`}
-                  className="contact-mini-card"
-                  style={{ background: theme.dashBg, border: `1px solid ${theme.dashBorder}` }}
-                >
-                  <span aria-hidden="true">📧</span>
-                  <span className="contact-mini-text">
-                    <span className="contact-mini-label" style={{ color: theme.muted }}>Email</span>
-                    <span className="contact-mini-value" style={{ color: theme.text }}>{EMAIL_ADDRESS}</span>
-                  </span>
-                </a>
-              </div>
-            </div>
           </div>
         </div>
       </div>

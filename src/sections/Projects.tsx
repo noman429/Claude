@@ -220,7 +220,7 @@ export default function Projects({ theme }: { theme: Theme }) {
           })}
         </div>
 
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 7, marginTop: 20 }}>
+        <div className="carousel-dots" style={{ display: 'flex', justifyContent: 'center', gap: 7, marginTop: 20 }}>
           {Array.from({ length: dotCount }, (_, i) => (
             <span
               key={i}

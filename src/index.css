@@ -175,21 +175,25 @@ mark { background: rgba(255, 176, 32, 0.32); color: inherit; border-radius: 3px;
 .proj-track { display: flex; align-items: stretch; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 16px 0 4px; margin-top: -16px; }
 .proj-track::-webkit-scrollbar { display: none; }
 .proj-card { flex: 0 0 calc(85% - 10px); scroll-snap-align: start; }
-/* From 480px up there's room for two cards side by side (landscape phones
-   included), so switch to the same equal-width/equal-height pair layout
-   tablet and desktop use instead of the single-peek-card mobile layout. */
-@media (min-width: 480px) { .proj-card { flex: 0 0 calc(50% - 10px); } }
 @media (min-width: 1024px) { .proj-card { flex: 0 0 calc(50% - 10px); } }
 @media (min-width: 1440px) { .proj-card { flex: 0 0 calc(33.333% - 14px); } }
 .proj-summary { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 /* Below 480px only one card is visible at a time (peeking the next card's
    edge to hint it's swipeable), so there's no visual row to keep aligned —
    `stretch` was instead matching every card's height to the tallest one in
-   the whole 20-project list, producing a mostly-empty, oversized card. At
-   480px+ two cards sit side by side and should look like a matched pair,
-   same as the tablet/desktop rows, so `stretch` is back for those widths. */
+   the whole 20-project list, producing a mostly-empty, oversized card. */
 @media (max-width: 479px) {
   .proj-track { align-items: flex-start; }
+}
+/* 480–1023px: a plain vertical list (cards stacked full-width, normal
+   up/down page scroll) reads more naturally here than a horizontal
+   side-swipe carousel, so drop the carousel controls for this range. */
+@media (min-width: 480px) and (max-width: 1023px) {
+  .proj-track { flex-direction: column; overflow-x: visible; scroll-snap-type: none; align-items: stretch; }
+  .proj-card { flex: 0 0 auto; width: 100%; }
+  .carousel-arrow { display: none; }
+  .carousel-dots { display: none !important; }
+  #proj-carousel-wrap { padding-left: 0 !important; padding-right: 0 !important; }
 }
 
 .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 20px; line-height: 1; z-index: 5; opacity: 0; transition: opacity 0.25s ease, transform 0.2s ease; backdrop-filter: blur(8px); }
@@ -212,10 +216,8 @@ mark { background: rgba(255, 176, 32, 0.32); color: inherit; border-radius: 3px;
 .reveal-inview { opacity: 0; transform: translateY(28px); transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1); }
 .reveal-inview.in-view { opacity: 1; transform: translateY(0); }
 
-.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
-@media (max-width: 860px) {
-  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-}
+.contact-grid { display: flex; justify-content: center; }
+.contact-grid > div { width: 100%; max-width: 640px; }
 
 .contact-option-card {
   display: flex; align-items: flex-start; gap: 16px; padding: 20px 22px; border-radius: 18px;
@@ -226,61 +228,10 @@ mark { background: rgba(255, 176, 32, 0.32); color: inherit; border-radius: 3px;
   justify-content: center; overflow: hidden;
 }
 .contact-option-icon svg { width: 24px; height: 24px; }
-.contact-float { animation: floatBob1 3.2s ease-in-out infinite; display: inline-block; }
 .contact-option-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .contact-option-title { font-size: 15.5px; font-weight: 700; }
 .contact-option-sub { font-size: 13px; line-height: 1.5; }
 
-.contact-hero-card { position: relative; overflow: hidden; border-radius: 24px; padding: 40px; backdrop-filter: blur(16px); }
-@media (max-width: 480px) {
-  .contact-hero-card { padding: 28px 22px; }
-}
-.contact-glow { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(20px); z-index: 0; animation: floatPhone 8s ease-in-out infinite; }
-.contact-glow-a { width: 180px; height: 180px; top: -40px; right: -40px; background: radial-gradient(circle, rgba(37,211,102,0.3), transparent 70%); }
-.contact-glow-b { width: 200px; height: 200px; bottom: -60px; left: -50px; background: radial-gradient(circle, rgba(91,124,250,0.26), transparent 70%); animation-direction: reverse; animation-duration: 9s; }
-
-.contact-avatar-badge {
-  width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center;
-  background: linear-gradient(135deg, rgba(37,211,102,0.28), rgba(91,124,250,0.28));
-  box-shadow: 0 10px 26px -12px rgba(37,211,102,0.5);
-}
-
-.cta-btn {
-  display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 15.5px; font-weight: 700;
-  padding: 15px 26px; border-radius: 14px;
-  transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease, filter 0.2s ease;
-}
-.cta-btn-primary {
-  background: linear-gradient(90deg,#1fae55,#25D366,#1fae55); background-size: 200% 100%; animation: gradShift 5s ease infinite;
-  color: white; box-shadow: 0 16px 34px -12px rgba(37,211,102,0.55);
-}
-.cta-btn-primary:hover { box-shadow: 0 20px 40px -10px rgba(37,211,102,0.7); }
-.cta-btn:hover { transform: translateY(-3px) scale(1.015); }
-.cta-btn:active { transform: translateY(-1px) scale(0.97) !important; }
-@keyframes ctaRipple { from { opacity: 0.5; transform: translate(-50%,-50%) scale(0); } to { opacity: 0; transform: translate(-50%,-50%) scale(1); } }
-.cta-btn { position: relative; }
-.cta-btn::before {
-  content: ''; position: absolute; left: 50%; top: 50%; width: 220%; padding-top: 220%; border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,255,255,0.5), transparent 70%); transform: translate(-50%,-50%) scale(0);
-  opacity: 0; pointer-events: none;
-}
-.cta-btn:active::before { animation: ctaRipple 0.55s ease-out; }
-
-.contact-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 26px; }
-@media (max-width: 480px) {
-  .contact-mini-grid { grid-template-columns: 1fr; }
-}
-.contact-mini-card {
-  display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 14px; cursor: pointer;
-  text-decoration: none; min-width: 0; transition: transform 0.25s cubic-bezier(.34,1.56,.64,1), box-shadow 0.25s ease, border-color 0.25s ease;
-}
-.contact-mini-card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px -16px rgba(91,124,250,0.4); border-color: #5b7cfa66 !important; }
-.contact-mini-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.contact-mini-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; }
-.contact-mini-value { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-.contact-option-card:focus-visible,
-.contact-mini-card:focus-visible,
-.cta-btn:focus-visible {
+.contact-option-card:focus-visible {
   outline: 2px solid #5b7cfa; outline-offset: 3px;
 }
