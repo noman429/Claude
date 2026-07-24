@@ -34,9 +34,28 @@ input::placeholder { color: #8b8fa8; }
   #hero-left { flex-basis: auto; width: 100%; }
   #hero-right { flex-basis: auto; width: 100%; margin-top: 48px; }
 }
+/* Between the mobile stack breakpoint and desktop, the two-column hero row is
+   much shorter than a portrait tablet's 100vh viewport; centering it inside
+   that full height (fine on desktop, where the hexagon column is tall enough
+   to fill the space) leaves a huge empty gap above the content instead. Let
+   the section size to its content on these widths only. */
+@media (min-width: 768px) and (max-width: 1024px) {
+  #hero { min-height: auto !important; }
+}
+.hero-stats-grid { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 900px) {
+  .hero-stats-grid { grid-template-columns: repeat(2, 1fr); max-width: 320px; }
+}
 
 .hero-badge { transition: filter 0.3s ease; font-size: clamp(7px, 0.6vw, 12.5px); font-weight: 600; padding: clamp(3px, 0.4vw, 8px) clamp(6px, 0.7vw, 15px); border-radius: 999px; white-space: nowrap; }
 .hero-badge:hover { filter: brightness(1.15); }
+/* The longest badge labels ("Stakeholder Management") are wide enough that,
+   combined with the narrower hero-right column at tablet widths, they get
+   clipped past the viewport edge. Letting them wrap to two lines shrinks
+   their footprint instead of reaching further out. */
+@media (max-width: 900px) {
+  .hero-badge { white-space: normal; max-width: 88px; text-align: center; line-height: 1.25; }
+}
 
 .tool-card { transition: transform 0.2s ease; }
 .tool-card:hover { transform: translateX(3px); }
@@ -100,6 +119,21 @@ input::placeholder { color: #8b8fa8; }
 .modal-pop { animation: modalPop 0.25s cubic-bezier(.4, 0, .2, 1) both; }
 mark { background: rgba(255, 176, 32, 0.32); color: inherit; border-radius: 3px; padding: 0 2px; }
 
+/* The fixed 160px date column eats a third of a phone-width card, leaving
+   the bullet text to wrap into a narrow strip. Stack date above content
+   instead once the card no longer has room for a side-by-side layout. */
+@media (max-width: 640px) {
+  .exp-card { grid-template-columns: 1fr !important; gap: 8px !important; }
+  .method-detail-grid { grid-template-columns: 1fr !important; }
+  .pros-cons-grid { grid-template-columns: 1fr !important; }
+}
+/* The doc-count/chevron sharing a row with the title squeezes long category
+   names (e.g. "Planning & Strategy") into a narrow column on phones. Let
+   them wrap to their own line below instead. */
+@media (max-width: 480px) {
+  .acc-header { flex-wrap: wrap; }
+  .acc-title-wrap { flex: 1 1 100% !important; }
+}
 .comp-row { transition: background 0.2s ease; }
 .comp-row:hover { background: rgba(127, 127, 127, 0.08); }
 

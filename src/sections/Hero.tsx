@@ -66,7 +66,7 @@ export default function Hero({ theme }: { theme: Theme }) {
           <span className="chip" style={chipStyle(theme, theme.muted)}>📍 Lahore, Pakistan</span>
           <span className="chip" style={chipStyle(theme, theme.muted)}>🌍 Remote</span>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', alignItems: 'stretch', gap: 10, marginTop: 26, maxWidth: 560 }}>
+        <div className="hero-stats-grid" style={{ display: 'grid', alignItems: 'stretch', gap: 10, marginTop: 26, maxWidth: 560 }}>
           {HERO_STATS.map((hs) => (
             <div
               key={hs.label}

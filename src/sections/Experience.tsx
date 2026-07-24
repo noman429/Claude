@@ -11,7 +11,7 @@ export default function Experience({ theme }: { theme: Theme }) {
       <div className="sec-underline head-purple-pink" style={{ marginBottom: 36 }} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {ROLES.map((role) => (
-          <div key={role.title + role.dates} className="card" style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 16, padding: '24px 26px', display: 'grid', gridTemplateColumns: '160px 1fr', gap: 24 }}>
+          <div key={role.title + role.dates} className="card exp-card" style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 16, padding: '24px 26px', display: 'grid', gridTemplateColumns: '160px 1fr', gap: 24 }}>
             <div style={{ fontSize: 13, color: theme.muted, fontWeight: 600 }}>{role.dates}</div>
             <div>
               <h3 style={{ fontWeight: 700, fontSize: 18, margin: '0 0 4px' }}>{role.title}</h3>

@@ -106,7 +106,7 @@ export default function Docs({ theme }: { theme: Theme }) {
                   borderLeft: `3px solid ${cat.accent}`, display: 'flex', alignItems: 'center', gap: 18,
                 }}
               >
-                <div style={{ flex: 1, minWidth: 0 }}>
+                <div className="acc-title-wrap" style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontWeight: 800, fontSize: 19, letterSpacing: '-0.01em', color: theme.text }}>{cat.id}</div>
                   <div style={{ fontSize: 13.5, color: theme.muted, marginTop: 6, lineHeight: 1.55 }}>{cat.desc}</div>
                 </div>

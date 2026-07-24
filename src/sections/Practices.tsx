@@ -36,7 +36,7 @@ export default function Practices({ theme }: { theme: Theme }) {
                   <span style={{ fontSize: 18, color: '#5b7cfa' }}>{open ? '−' : '+'}</span>
                 </button>
                 {open && (
-                  <div style={{ padding: '0 22px 22px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+                  <div className="method-detail-grid" style={{ padding: '0 22px 22px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
                     <div>
                       <p style={{ fontSize: 13.5, lineHeight: 1.55, color: theme.muted, margin: '0 0 12px' }}>{m.intro}</p>
                       <div style={{ fontSize: 11.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9b6bfa', marginBottom: 6 }}>Roles</div>
@@ -47,7 +47,7 @@ export default function Practices({ theme }: { theme: Theme }) {
                     <div>
                       <div style={{ fontSize: 11.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: '#9b6bfa', marginBottom: 6 }}>Workflow</div>
                       <div style={{ fontSize: 13, color: theme.muted, marginBottom: 12 }}>{m.workflow}</div>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                      <div className="pros-cons-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                         <div>
                           <div style={{ fontSize: 11.5, fontWeight: 700, color: '#22c55e', marginBottom: 4 }}>Pros</div>
                           <div style={{ fontSize: 12.5, color: theme.muted }}>{m.pros.join(', ')}</div>
