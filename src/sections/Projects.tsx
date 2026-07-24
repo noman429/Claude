@@ -134,19 +134,32 @@ export default function Projects({ theme }: { theme: Theme }) {
           <option value="recent">Sort: Most recent</option>
           <option value="az">Sort: A–Z</option>
         </select>
-        {categories.map((c) => (
-          <button
-            key={c}
-            onClick={() => setCategory(c)}
-            style={{
-              padding: '10px 16px', borderRadius: 999, border: `1px solid ${theme.cardBorder}`,
-              background: category === c ? 'linear-gradient(90deg,#5b7cfa,#9b6bfa)' : theme.card,
-              color: theme.text, fontSize: 13, cursor: 'pointer',
-            }}
-          >
-            {c}
-          </button>
-        ))}
+        <div className="category-pills">
+          {categories.map((c) => (
+            <button
+              key={c}
+              onClick={() => setCategory(c)}
+              style={{
+                padding: '10px 16px', borderRadius: 999, border: `1px solid ${theme.cardBorder}`,
+                background: category === c ? 'linear-gradient(90deg,#5b7cfa,#9b6bfa)' : theme.card,
+                color: theme.text, fontSize: 13, cursor: 'pointer',
+              }}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
+        <select
+          className="category-select"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          aria-label="Filter projects by category"
+          style={{ padding: '11px 16px', borderRadius: 10, border: `1px solid ${theme.cardBorder}`, background: theme.card, color: theme.text, fontSize: 14 }}
+        >
+          {categories.map((c) => (
+            <option key={c} value={c}>{c === 'All' ? 'Category: All' : c}</option>
+          ))}
+        </select>
       </div>
 
       <div id="proj-carousel-wrap" ref={wrapRef} style={{ position: 'relative', marginTop: 28, padding: '6px 44px 0', overflow: 'visible' }}>

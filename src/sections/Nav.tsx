@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Theme } from '../data/theme';
 
 const NAV_SECTIONS = ['about', 'experience', 'projects', 'practices', 'docs', 'tools', 'contact'] as const;
@@ -17,32 +18,51 @@ export default function Nav({
   themeName: 'dark' | 'light';
   onToggleTheme: () => void;
 }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
-    <nav style={{
+    <nav className="site-nav" style={{
       position: 'fixed', top: navVisible ? '18px' : '-70px', left: '50%', transform: 'translateX(-50%)',
       zIndex: 50, display: 'flex', alignItems: 'center', gap: 6, padding: '8px 10px',
       background: theme.navBg, border: `1px solid ${theme.cardBorder}`, borderRadius: 999,
-      boxShadow: '0 12px 30px -10px rgba(0,0,0,0.35)', transition: 'top .35s ease', maxWidth: '94vw', overflowX: 'auto',
+      boxShadow: '0 12px 30px -10px rgba(0,0,0,0.35)', transition: 'top .35s ease', maxWidth: '94vw',
     }}>
-      {NAV_SECTIONS.map((id) => {
-        const active = activeSection === id;
-        return (
-          <a
-            key={id}
-            href={`#${id}`}
-            className={`nav-link${active ? ' active' : ''}`}
-            style={{
-              fontSize: 13, fontWeight: 700, padding: '8px 14px', borderRadius: 999, whiteSpace: 'nowrap',
-              color: active ? '#ffffff' : theme.muted,
-              background: active ? 'linear-gradient(90deg,#5b7cfa,#9b6bfa)' : 'transparent',
-            }}
-          >
-            {NAV_LABELS[id]}
-          </a>
-        );
-      })}
+      <div className="nav-links">
+        {NAV_SECTIONS.map((id) => {
+          const active = activeSection === id;
+          return (
+            <a
+              key={id}
+              href={`#${id}`}
+              className={`nav-link${active ? ' active' : ''}`}
+              style={{
+                fontSize: 13, fontWeight: 700, padding: '8px 14px', borderRadius: 999, whiteSpace: 'nowrap',
+                color: active ? '#ffffff' : theme.muted,
+                background: active ? 'linear-gradient(90deg,#5b7cfa,#9b6bfa)' : 'transparent',
+              }}
+            >
+              {NAV_LABELS[id]}
+            </a>
+          );
+        })}
+      </div>
+
+      <button
+        className="nav-burger"
+        onClick={() => setMenuOpen((v) => !v)}
+        aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        aria-expanded={menuOpen}
+        style={{
+          width: 34, height: 34, flexShrink: 0, borderRadius: '50%', border: `1px solid ${theme.cardBorder}`,
+          background: theme.card, color: theme.text, cursor: 'pointer', fontSize: 15,
+        }}
+      >
+        {menuOpen ? '✕' : '☰'}
+      </button>
+
       <button
         onClick={onToggleTheme}
+        aria-label={themeName === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
         style={{
           width: 30, height: 30, flexShrink: 0, borderRadius: '50%', border: `1px solid ${theme.cardBorder}`,
           background: theme.card, color: theme.text, cursor: 'pointer', fontSize: 13,
@@ -50,6 +70,28 @@ export default function Nav({
       >
         {themeName === 'dark' ? '☀' : '☽'}
       </button>
+
+      {menuOpen && (
+        <div className="nav-mobile-menu" style={{ background: theme.navBg, border: `1px solid ${theme.cardBorder}` }}>
+          {NAV_SECTIONS.map((id) => {
+            const active = activeSection === id;
+            return (
+              <a
+                key={id}
+                href={`#${id}`}
+                onClick={() => setMenuOpen(false)}
+                className={`nav-mobile-link${active ? ' active' : ''}`}
+                style={{
+                  color: active ? '#ffffff' : theme.text,
+                  background: active ? 'linear-gradient(90deg,#5b7cfa,#9b6bfa)' : 'transparent',
+                }}
+              >
+                {NAV_LABELS[id]}
+              </a>
+            );
+          })}
+        </div>
+      )}
     </nav>
   );
 }
