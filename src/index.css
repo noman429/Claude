@@ -175,15 +175,20 @@ mark { background: rgba(255, 176, 32, 0.32); color: inherit; border-radius: 3px;
 .proj-track { display: flex; align-items: stretch; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 16px 0 4px; margin-top: -16px; }
 .proj-track::-webkit-scrollbar { display: none; }
 .proj-card { flex: 0 0 calc(85% - 10px); scroll-snap-align: start; }
-@media (min-width: 640px) { .proj-card { flex: 0 0 calc(50% - 10px); } }
+/* From 480px up there's room for two cards side by side (landscape phones
+   included), so switch to the same equal-width/equal-height pair layout
+   tablet and desktop use instead of the single-peek-card mobile layout. */
+@media (min-width: 480px) { .proj-card { flex: 0 0 calc(50% - 10px); } }
 @media (min-width: 1024px) { .proj-card { flex: 0 0 calc(50% - 10px); } }
 @media (min-width: 1440px) { .proj-card { flex: 0 0 calc(33.333% - 14px); } }
 .proj-summary { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-/* On mobile only one card is visible at a time (peeking the next card's
+/* Below 480px only one card is visible at a time (peeking the next card's
    edge to hint it's swipeable), so there's no visual row to keep aligned —
    `stretch` was instead matching every card's height to the tallest one in
-   the whole 20-project list, producing a mostly-empty, oversized card. */
-@media (max-width: 639px) {
+   the whole 20-project list, producing a mostly-empty, oversized card. At
+   480px+ two cards sit side by side and should look like a matched pair,
+   same as the tablet/desktop rows, so `stretch` is back for those widths. */
+@media (max-width: 479px) {
   .proj-track { align-items: flex-start; }
 }
 
