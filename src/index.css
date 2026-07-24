@@ -178,22 +178,13 @@ mark { background: rgba(255, 176, 32, 0.32); color: inherit; border-radius: 3px;
 @media (min-width: 1024px) { .proj-card { flex: 0 0 calc(50% - 10px); } }
 @media (min-width: 1440px) { .proj-card { flex: 0 0 calc(33.333% - 14px); } }
 .proj-summary { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-/* Below 480px only one card is visible at a time (peeking the next card's
-   edge to hint it's swipeable), so there's no visual row to keep aligned —
-   `stretch` was instead matching every card's height to the tallest one in
-   the whole 20-project list, producing a mostly-empty, oversized card. */
-@media (max-width: 479px) {
+/* Below 1024px (phones and portrait tablets) only one card is visible at a
+   time (peeking the next card's edge to hint it's swipeable), so there's no
+   visual row to keep aligned — `stretch` was instead matching every card's
+   height to the tallest one in the whole 20-project list, producing a
+   mostly-empty, oversized card. */
+@media (max-width: 1023px) {
   .proj-track { align-items: flex-start; }
-}
-/* 480–1023px: a plain vertical list (cards stacked full-width, normal
-   up/down page scroll) reads more naturally here than a horizontal
-   side-swipe carousel, so drop the carousel controls for this range. */
-@media (min-width: 480px) and (max-width: 1023px) {
-  .proj-track { flex-direction: column; overflow-x: visible; scroll-snap-type: none; align-items: stretch; }
-  .proj-card { flex: 0 0 auto; width: 100%; }
-  .carousel-arrow { display: none; }
-  .carousel-dots { display: none !important; }
-  #proj-carousel-wrap { padding-left: 0 !important; padding-right: 0 !important; }
 }
 
 .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 20px; line-height: 1; z-index: 5; opacity: 0; transition: opacity 0.25s ease, transform 0.2s ease; backdrop-filter: blur(8px); }
