@@ -9,6 +9,7 @@ import Practices from './sections/Practices';
 import Docs from './sections/Docs';
 import Tools from './sections/Tools';
 import EducationContact from './sections/EducationContact';
+import Contact from './sections/Contact';
 
 const PARTICLES = [
   { size: 4, top: '12%', left: '8%', duration: '16s', delay: '0s' },
@@ -105,6 +106,7 @@ export default function App() {
         <Docs theme={theme} />
         <Tools theme={theme} />
         <EducationContact theme={theme} />
+        <Contact theme={theme} />
       </div>
     </>
   );
