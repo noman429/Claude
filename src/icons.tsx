@@ -12,7 +12,7 @@ export function ToolIcon({ icon, color }: { icon: keyof typeof ICON_PATHS; color
 export function BrandLogo({ brand }: { brand: keyof typeof BRAND_ICONS }) {
   const icon = BRAND_ICONS[brand];
   return (
-    <svg viewBox="0 0 24 24" width={40} height={40} fill={icon.hex} role="img" aria-label={icon.title}>
+    <svg viewBox={icon.viewBox || '0 0 24 24'} width={40} height={40} fill={icon.hex} role="img" aria-label={icon.title}>
       <path d={icon.path} />
     </svg>
   );

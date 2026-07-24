@@ -44,7 +44,7 @@ export const TOOL_GROUPS: ToolGroup[] = [
     { name: 'Google Workspace', tagline: 'Docs, Sheets & Slides', icon: 'grid', color: '#4285F4', brand: 'google' },
   ] },
   { category: 'Communication & Collaboration', desc: 'Communication platforms for stakeholder management and distributed teams.', items: [
-    { name: 'Slack', tagline: 'Team Messaging & Alignment', icon: 'message', color: '#4A154B' },
+    { name: 'Slack', tagline: 'Team Messaging & Alignment', icon: 'message', color: '#4A154B', brand: 'slack' },
     { name: 'Microsoft Teams', tagline: 'Meetings & Enterprise Chat', icon: 'users', color: '#6264A7' },
     { name: 'Zoom', tagline: 'Stakeholder Video Calls', icon: 'video', color: '#2D8CFF', brand: 'zoom' },
   ] },
