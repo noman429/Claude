@@ -103,7 +103,7 @@ mark { background: rgba(255, 176, 32, 0.32); color: inherit; border-radius: 3px;
 .comp-row { transition: background 0.2s ease; }
 .comp-row:hover { background: rgba(127, 127, 127, 0.08); }
 
-.proj-track { display: flex; align-items: stretch; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 4px; }
+.proj-track { display: flex; align-items: stretch; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 16px 0 4px; margin-top: -16px; }
 .proj-track::-webkit-scrollbar { display: none; }
 .proj-card { flex: 0 0 calc(100% - 0px); scroll-snap-align: start; }
 @media (min-width: 640px) { .proj-card { flex: 0 0 calc(50% - 10px); } }
