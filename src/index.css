@@ -107,8 +107,9 @@ mark { background: rgba(255, 176, 32, 0.32); color: inherit; border-radius: 3px;
 .proj-track::-webkit-scrollbar { display: none; }
 .proj-card { flex: 0 0 calc(100% - 0px); scroll-snap-align: start; }
 @media (min-width: 640px) { .proj-card { flex: 0 0 calc(50% - 10px); } }
-@media (min-width: 1024px) { .proj-card { flex: 0 0 calc(33.333% - 14px); } }
-@media (min-width: 1440px) { .proj-card { flex: 0 0 calc(25% - 15px); } }
+@media (min-width: 1024px) { .proj-card { flex: 0 0 calc(50% - 10px); } }
+@media (min-width: 1440px) { .proj-card { flex: 0 0 calc(33.333% - 14px); } }
+.proj-summary { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
 
 .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 20px; line-height: 1; z-index: 5; opacity: 0; transition: opacity 0.25s ease, transform 0.2s ease; backdrop-filter: blur(8px); }
 #proj-carousel-wrap:hover .carousel-arrow { opacity: 1; }

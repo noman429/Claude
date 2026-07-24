@@ -179,7 +179,7 @@ export default function Projects({ theme }: { theme: Theme }) {
                     ))}
                     <span className="chip" style={{ fontSize: 11.5, padding: '5px 12px', borderRadius: 999, background: theme.bg2, border: `1px solid ${theme.cardBorder}`, color: theme.muted }}>{p.methodology}</span>
                   </div>
-                  <p style={{ fontSize: 14, lineHeight: 1.55, color: theme.muted, margin: '0 0 16px' }}>{p.summary}</p>
+                  <p className="proj-summary" style={{ fontSize: 14, lineHeight: 1.55, color: theme.muted, margin: '0 0 16px' }}>{p.summary}</p>
                   <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center', marginTop: 'auto' }}>
                     <button
                       onClick={() => setExpandedProject(open ? null : p.name)}
