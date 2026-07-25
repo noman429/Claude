@@ -41,43 +41,43 @@ export default function Contact({ theme }: { theme: Theme }) {
             <span style={{ fontSize: 13, letterSpacing: '0.14em', textTransform: 'uppercase', fontWeight: 700 }}>Get In Touch</span>
           </div>
           <h2 className="sec-heading" style={{ color: theme.text }}>Let's Build Something Great Together</h2>
-          <p style={{ fontSize: 16, lineHeight: 1.7, color: theme.muted, maxWidth: 440, margin: '0 0 30px' }}>
+          <p style={{ fontSize: 16, lineHeight: 1.7, color: theme.muted, maxWidth: 440, margin: 0 }}>
             Whether you have a project idea, need an Agile Project Manager, Scrum Master, or simply want to connect, I'd love to hear from you.
           </p>
+        </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <a
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Chat on WhatsApp — opens in a new tab"
-              className="card contact-option-card"
-              style={{ background: theme.card, border: `1px solid ${theme.cardBorder}` }}
-            >
-              <span className="contact-option-icon" style={{ background: 'rgba(37,211,102,0.14)' }}>
-                <BrandLogo brand="whatsapp" />
-              </span>
-              <span className="contact-option-text">
-                <span className="contact-option-title" style={{ color: theme.text }}>Chat on WhatsApp</span>
-                <span className="contact-option-sub" style={{ color: theme.muted }}>Fastest way to reach me for opportunities or quick discussions.</span>
-              </span>
-            </a>
+        <div className={`reveal-inview${inView ? ' in-view' : ''}`} style={{ transitionDelay: inView ? '140ms' : '0ms', display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <a
+            href={WHATSAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Chat on WhatsApp — opens in a new tab"
+            className="card contact-option-card"
+            style={{ background: theme.card, border: `1px solid ${theme.cardBorder}` }}
+          >
+            <span className="contact-option-icon" style={{ background: 'rgba(37,211,102,0.14)' }}>
+              <BrandLogo brand="whatsapp" />
+            </span>
+            <span className="contact-option-text">
+              <span className="contact-option-title" style={{ color: theme.text }}>Chat on WhatsApp</span>
+              <span className="contact-option-sub" style={{ color: theme.muted }}>Fastest way to reach me for opportunities or quick discussions.</span>
+            </span>
+          </a>
 
-            <a
-              href={MAILTO_URL}
-              aria-label="Send an email"
-              className="card contact-option-card"
-              style={{ background: theme.card, border: `1px solid ${theme.cardBorder}` }}
-            >
-              <span className="contact-option-icon" style={{ background: 'rgba(91,124,250,0.14)' }}>
-                <ToolIcon icon="mail" color="#5b7cfa" />
-              </span>
-              <span className="contact-option-text">
-                <span className="contact-option-title" style={{ color: theme.text }}>Send an Email</span>
-                <span className="contact-option-sub" style={{ color: theme.muted }}>Perfect for job opportunities, collaborations, or detailed discussions.</span>
-              </span>
-            </a>
-          </div>
+          <a
+            href={MAILTO_URL}
+            aria-label="Send an email"
+            className="card contact-option-card"
+            style={{ background: theme.card, border: `1px solid ${theme.cardBorder}` }}
+          >
+            <span className="contact-option-icon" style={{ background: 'rgba(91,124,250,0.14)' }}>
+              <ToolIcon icon="mail" color="#5b7cfa" />
+            </span>
+            <span className="contact-option-text">
+              <span className="contact-option-title" style={{ color: theme.text }}>Send an Email</span>
+              <span className="contact-option-sub" style={{ color: theme.muted }}>Perfect for job opportunities, collaborations, or detailed discussions.</span>
+            </span>
+          </a>
         </div>
       </div>
 
