@@ -180,9 +180,14 @@ mark { background: rgba(255, 176, 32, 0.32); color: inherit; border-radius: 3px;
    line-clamped so natural content length can't blow past this floor. */
 .proj-track { display: flex; align-items: flex-start; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: 16px 0 4px; margin-top: -16px; }
 .proj-track::-webkit-scrollbar { display: none; }
-.proj-card { flex: 0 0 calc(85% - 10px); scroll-snap-align: start; height: 424px; }
+.proj-card { flex: 0 0 calc(85% - 10px); scroll-snap-align: start; }
 @media (min-width: 1024px) { .proj-card { flex: 0 0 calc(50% - 10px); } }
 @media (min-width: 1440px) { .proj-card { flex: 0 0 calc(33.333% - 14px); } }
+/* The fixed height lives on the collapsed-content wrapper only, not the
+   whole card — otherwise the "View Details" expand panel (module chips)
+   has no room to grow into and gets clipped by the card's own
+   `overflow: hidden`, which is exactly what happened here. */
+.proj-card-content { height: 424px; overflow: hidden; }
 .proj-title { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .proj-chips { max-height: 64px; }
 .proj-summary { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }

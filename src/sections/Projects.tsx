@@ -179,8 +179,8 @@ export default function Projects({ theme }: { theme: Theme }) {
           {filtered.map((p) => {
             const open = expandedProject === p.name;
             return (
-              <div key={p.name} className="card proj-card" data-project={p.name} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 18, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ padding: 26, display: 'flex', flexDirection: 'column', flex: 1 }}>
+              <div key={p.name} className="card proj-card" data-project={p.name} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 18, display: 'flex', flexDirection: 'column' }}>
+                <div className="proj-card-content" style={{ padding: 26, display: 'flex', flexDirection: 'column' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' }}>
                     <h3 className="proj-title" title={p.name} style={{ fontWeight: 700, fontSize: 21, margin: 0 }}>{p.name}</h3>
                     <span style={{ fontSize: 12, fontWeight: 600, padding: '5px 12px', borderRadius: 999, background: `${p.statusColor}22`, color: p.statusColor }}>{p.status}</span>
