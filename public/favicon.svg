@@ -1,0 +1,28 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <mask id="gearHole">
+      <rect x="0" y="0" width="100" height="100" fill="white"/>
+      <circle cx="50" cy="40" r="5" fill="black"/>
+    </mask>
+  </defs>
+
+  <path d="M 42.75 67.05 A 28 28 0 0 1 47.56 12.11" fill="none" stroke="#5b7cfa" stroke-width="9" stroke-linecap="round"/>
+  <path d="M 64 15.75 A 28 28 0 0 1 57.25 67.05" fill="none" stroke="#ffb020" stroke-width="9" stroke-linecap="round"/>
+  <path d="M 51.33 2.02 L 58.02 10.06 L 52.92 19.2 Z" fill="#ffb020"/>
+
+  <g mask="url(#gearHole)" fill="#9b99a6">
+    <circle cx="50" cy="40" r="11"/>
+    <rect x="46.5" y="16" width="7" height="11" rx="1.5" transform="rotate(0 50 40)"/>
+      <rect x="46.5" y="16" width="7" height="11" rx="1.5" transform="rotate(45 50 40)"/>
+      <rect x="46.5" y="16" width="7" height="11" rx="1.5" transform="rotate(90 50 40)"/>
+      <rect x="46.5" y="16" width="7" height="11" rx="1.5" transform="rotate(135 50 40)"/>
+      <rect x="46.5" y="16" width="7" height="11" rx="1.5" transform="rotate(180 50 40)"/>
+      <rect x="46.5" y="16" width="7" height="11" rx="1.5" transform="rotate(225 50 40)"/>
+      <rect x="46.5" y="16" width="7" height="11" rx="1.5" transform="rotate(270 50 40)"/>
+      <rect x="46.5" y="16" width="7" height="11" rx="1.5" transform="rotate(315 50 40)"/>
+      
+  </g>
+
+  <path d="M 6 80 L 62 80 L 62 70 L 84 84 L 62 98 L 62 88 L 6 88 Z" fill="#f45fb0"/>
+  <path d="M 34 84 L 78 84 L 78 74 L 96 88 L 78 102 L 78 92 L 34 92 Z" fill="#22d3ee"/>
+</svg>
