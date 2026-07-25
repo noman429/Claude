@@ -179,7 +179,7 @@ export default function Projects({ theme }: { theme: Theme }) {
           {filtered.map((p) => {
             const open = expandedProject === p.name;
             return (
-              <div key={p.name} className="card proj-card" data-project={p.name} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 18, display: 'flex', flexDirection: 'column' }}>
+              <div key={p.name} className="card proj-card" data-project={p.name} style={{ background: theme.card, border: `1px solid ${theme.cardBorder}`, borderRadius: 18, display: 'flex', flexDirection: 'column', position: 'relative' }}>
                 <div className="proj-card-content" style={{ padding: 26, display: 'flex', flexDirection: 'column' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, flexWrap: 'wrap' }}>
                     <h3 className="proj-title" title={p.name} style={{ fontWeight: 700, fontSize: 21, margin: 0 }}>{p.name}</h3>
@@ -198,26 +198,36 @@ export default function Projects({ theme }: { theme: Theme }) {
                   <p className="proj-summary" style={{ fontSize: 14, lineHeight: 1.55, color: theme.muted, margin: '0 0 16px' }}>{p.summary}</p>
                   <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center', marginTop: 'auto' }}>
                     <button
-                      onClick={() => setExpandedProject(open ? null : p.name)}
+                      onClick={() => setExpandedProject(p.name)}
                       className="btn"
                       style={{ fontSize: 14, fontWeight: 700, padding: '11px 22px', borderRadius: 9, border: 'none', cursor: 'pointer', background: 'linear-gradient(90deg,#5b7cfa,#9b6bfa)', color: 'white' }}
                     >
-                      {open ? 'Hide details' : 'View Details'}
+                      View Details
                     </button>
                   </div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateRows: open ? '1fr' : '0fr', transition: 'grid-template-rows .3s ease, opacity .3s ease', opacity: open ? 1 : 0 }}>
-                  <div style={{ overflow: 'hidden' }}>
-                    <div style={{ padding: '0 26px 30px', borderTop: `1px solid ${theme.cardBorder}`, marginTop: 6, paddingTop: 20 }}>
-                      <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: p.accent, marginBottom: 12 }}>Key Features &amp; Modules</div>
-                      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))', gap: 8 }}>
-                        {p.modules.map((mod) => (
-                          <div key={mod} style={{ fontSize: 13, color: theme.text, background: theme.bg2, borderRadius: 8, padding: '9px 12px' }}>{mod}</div>
-                        ))}
-                      </div>
+
+                {open && (
+                  <div className="proj-detail-overlay" style={{ background: theme.bg2 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+                      <h3 style={{ fontWeight: 700, fontSize: 17, margin: 0 }}>{p.name}</h3>
+                      <button
+                        onClick={() => setExpandedProject(null)}
+                        aria-label="Close details"
+                        className="proj-detail-close"
+                        style={{ border: `1px solid ${theme.cardBorder}`, background: theme.dashBg, color: theme.text }}
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: p.accent, margin: '16px 0 12px' }}>Key Features &amp; Modules</div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(140px,1fr))', gap: 8 }}>
+                      {p.modules.map((mod) => (
+                        <div key={mod} style={{ fontSize: 13, color: theme.text, background: theme.bg2, borderRadius: 8, padding: '9px 12px' }}>{mod}</div>
+                      ))}
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             );
           })}

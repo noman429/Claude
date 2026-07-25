@@ -188,6 +188,21 @@ mark { background: rgba(255, 176, 32, 0.32); color: inherit; border-radius: 3px;
    has no room to grow into and gets clipped by the card's own
    `overflow: hidden`, which is exactly what happened here. */
 .proj-card-content { height: 424px; overflow: hidden; }
+/* Details open as an overlay covering the same card footprint (with its
+   own scroll if the module list is long) instead of growing the card
+   taller — growing it left the neighboring cards in the row unchanged,
+   producing a big mismatched gap of empty space next to the expanded one. */
+.proj-detail-overlay {
+  position: absolute; inset: 0; border-radius: 18px; padding: 26px;
+  display: flex; flex-direction: column; overflow-y: auto; z-index: 2;
+  animation: fadeUp 0.25s ease both;
+}
+.proj-detail-close {
+  flex: 0 0 auto; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 13px;
+  display: flex; align-items: center; justify-content: center; transition: transform 0.2s ease;
+}
+.proj-detail-close:hover { transform: scale(1.08); }
+.proj-detail-close:focus-visible { outline: 2px solid #5b7cfa; outline-offset: 2px; }
 .proj-title { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .proj-chips { max-height: 64px; }
 .proj-summary { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
