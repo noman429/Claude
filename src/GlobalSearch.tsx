@@ -8,6 +8,7 @@ export default function GlobalSearch({ theme }: { theme: Theme }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
+  const [shortcutLabel, setShortcutLabel] = useState('Ctrl K');
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -21,6 +22,10 @@ export default function GlobalSearch({ theme }: { theme: Theme }) {
   };
 
   useEffect(() => setActive(0), [query]);
+
+  useEffect(() => {
+    if (/Mac|iPhone|iPad/.test(navigator.platform)) setShortcutLabel('⌘ K');
+  }, []);
 
   useEffect(() => {
     const onShortcut = (event: KeyboardEvent) => {
@@ -40,6 +45,14 @@ export default function GlobalSearch({ theme }: { theme: Theme }) {
     };
     const onEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') close();
+      if (event.key === 'Tab' && window.matchMedia('(max-width: 767px)').matches) {
+        const focusable = rootRef.current?.querySelectorAll<HTMLElement>('.global-search-input-wrap input, .global-search-close, .global-search-result');
+        if (!focusable?.length) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+        if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+      }
     };
     document.addEventListener('pointerdown', onPointerDown);
     document.addEventListener('keydown', onEscape);
@@ -69,12 +82,12 @@ export default function GlobalSearch({ theme }: { theme: Theme }) {
   };
 
   return (
-    <div ref={rootRef} className={`global-search${open ? ' is-open' : ''}`}>
+    <div ref={rootRef} className={`global-search search-slot${open ? ' is-open' : ''}`} data-open={open}>
       <button
         ref={triggerRef}
         className="global-search-trigger"
         onClick={() => setOpen(true)}
-        aria-label="Search portfolio"
+        aria-label="Open portfolio search"
         aria-expanded={open}
         aria-controls="global-search-panel"
         title="Search (Ctrl/⌘ K)"
@@ -87,14 +100,14 @@ export default function GlobalSearch({ theme }: { theme: Theme }) {
       {open && <button className="global-search-backdrop" onClick={() => close()} aria-label="Close search" />}
       <div
         id="global-search-panel"
-        className="global-search-panel"
+        className="global-search-panel search-shell"
         role="dialog"
         aria-modal={open ? 'true' : undefined}
         aria-label="Search portfolio"
         aria-hidden={!open}
         style={{ background: theme.navBg, borderColor: theme.cardBorder, color: theme.text }}
       >
-        <div className="global-search-input-wrap" style={{ borderColor: theme.cardBorder }}>
+        {open && <div className="global-search-input-wrap" style={{ borderColor: theme.cardBorder }}>
           <span className="global-search-icon" aria-hidden="true">⌕</span>
           <input
             ref={inputRef}
@@ -113,10 +126,11 @@ export default function GlobalSearch({ theme }: { theme: Theme }) {
             aria-controls="global-search-results"
             aria-activedescendant={results[active] ? `global-search-result-${results[active].id}` : undefined}
           />
-          <kbd aria-label="Keyboard shortcut Control or Command plus K">Ctrl/⌘ K</kbd>
+          <kbd aria-label="Keyboard shortcut Control or Command plus K">{shortcutLabel}</kbd>
           <button className="global-search-close" onClick={() => close()} aria-label="Close search">✕</button>
-        </div>
-        <div className="global-search-dropdown">
+        </div>}
+      </div>
+      {open && <div className="global-search-dropdown search-dropdown" style={{ background: theme.navBg, borderColor: theme.cardBorder, color: theme.text }}>
           <div className="global-search-meta" style={{ color: theme.muted }}>
             <span>{query ? `${allResults.length} result${allResults.length === 1 ? '' : 's'}` : 'Explore portfolio'}</span>
             <span className="global-search-hint">↑↓ navigate · ↵ open</span>
@@ -145,8 +159,7 @@ export default function GlobalSearch({ theme }: { theme: Theme }) {
             {!results.length && <div className="global-search-empty" role="status"><span aria-hidden="true">⌕</span><strong>No matches found</strong><small style={{ color: theme.muted }}>Try a project, methodology, document, or tool name.</small></div>}
             {allResults.length > RESULT_LIMIT && <div className="global-search-more" style={{ color: theme.muted }}>{allResults.length - RESULT_LIMIT} more matching resources</div>}
           </div>
-        </div>
-      </div>
+        </div>}
     </div>
   );
 }
