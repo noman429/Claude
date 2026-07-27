@@ -10,13 +10,14 @@ const NAV_LABELS: Record<string, string> = {
 export { NAV_SECTIONS };
 
 export default function Nav({
-  theme, navVisible, activeSection, themeName, onToggleTheme,
+  theme, navVisible, activeSection, themeName, onToggleTheme, onOpenSearch,
 }: {
   theme: Theme;
   navVisible: boolean;
   activeSection: string;
   themeName: 'dark' | 'light';
   onToggleTheme: () => void;
+  onOpenSearch: () => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -64,6 +65,10 @@ export default function Nav({
           })}
         </div>
 
+        <button className="nav-search-button" onClick={onOpenSearch} aria-label="Search portfolio" title="Search (Ctrl+K)" style={{ borderColor: theme.cardBorder, background: theme.card, color: theme.text }}>
+          <span aria-hidden="true">⌕</span><kbd>⌘K</kbd>
+        </button>
+
         <button
           className="nav-theme-desktop"
           onClick={onToggleTheme}
@@ -104,6 +109,7 @@ export default function Nav({
       >
         {themeName === 'dark' ? '☀' : '☽'}
       </button>
+      <button className="nav-search-corner" onClick={onOpenSearch} aria-label="Search portfolio" style={{ top: navVisible ? '18px' : '-70px', border: `1px solid ${theme.cardBorder}`, background: theme.card, color: theme.text }}>⌕</button>
 
       {menuOpen && (
         <div className="nav-mobile-menu" style={{ background: theme.navBg, border: `1px solid ${theme.cardBorder}` }}>
