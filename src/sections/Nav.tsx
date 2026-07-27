@@ -42,41 +42,41 @@ export default function Nav({
       <header className="site-header" style={{
         top: navVisible ? '24px' : '-90px',
       }}>
-        <button
-          className="nav-burger-corner"
-          onClick={() => setMenuOpen((v) => !v)}
-          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-          aria-expanded={menuOpen}
-          aria-controls="mobile-navigation"
-          style={{ border: `1px solid ${theme.cardBorder}`, background: theme.card, color: theme.text }}
-        >
-          {menuOpen ? '✕' : '☰'}
-        </button>
-        <nav className="site-nav" aria-label="Primary navigation" style={{
-          background: theme.navBg, border: `1px solid ${theme.cardBorder}`,
-          boxShadow: '0 18px 50px -28px rgba(0,0,0,0.75)',
-        }}>
-          <div className="nav-links">
-            {NAV_SECTIONS.map((id) => {
-              const active = activeSection === id;
-              return (
-                <a
-                  key={id}
-                  href={`#${id}`}
-                  aria-current={active ? 'page' : undefined}
-                  className={`nav-link${active ? ' active' : ''}`}
-                  style={{
-                    color: active ? '#ffffff' : theme.muted,
-                    background: active ? 'linear-gradient(90deg,#5b7cfa,#9b6bfa)' : 'transparent',
-                  }}
-                >
-                  {NAV_LABELS[id]}
-                </a>
-              );
-            })}
-          </div>
-        </nav>
-        <div className="nav-actions">
+        <div className="site-header__inner">
+          <button
+            className="nav-burger-corner"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            style={{ border: `1px solid ${theme.cardBorder}`, background: theme.card, color: theme.text }}
+          >
+            {menuOpen ? '✕' : '☰'}
+          </button>
+          <nav className="site-nav nav-pill" aria-label="Primary navigation" style={{
+            background: theme.navBg, border: `1px solid ${theme.cardBorder}`,
+            boxShadow: '0 18px 50px -28px rgba(0,0,0,0.75)',
+          }}>
+            <div className="nav-links">
+              {NAV_SECTIONS.map((id) => {
+                const active = activeSection === id;
+                return (
+                  <a
+                    key={id}
+                    href={`#${id}`}
+                    aria-current={active ? 'page' : undefined}
+                    className={`nav-link${active ? ' active' : ''}`}
+                    style={{
+                      color: active ? '#ffffff' : theme.muted,
+                      background: active ? 'linear-gradient(90deg,#5b7cfa,#9b6bfa)' : 'transparent',
+                    }}
+                  >
+                    {NAV_LABELS[id]}
+                  </a>
+                );
+              })}
+            </div>
+          </nav>
           <GlobalSearch theme={theme} />
           <button
             className="nav-theme-toggle"
@@ -100,6 +100,7 @@ export default function Nav({
               <a
                 key={id}
                 href={`#${id}`}
+                aria-current={active ? 'page' : undefined}
                 onClick={() => setMenuOpen(false)}
                 className={`nav-mobile-link${active ? ' active' : ''}`}
                 style={{
