@@ -41,8 +41,6 @@ export default function Nav({
     <>
       <header className="site-header" style={{
         top: navVisible ? '24px' : '-90px',
-        background: theme.navBg, border: `1px solid ${theme.cardBorder}`, borderRadius: 999,
-        boxShadow: '0 18px 50px -28px rgba(0,0,0,0.75)',
       }}>
         <button
           className="nav-burger-corner"
@@ -54,7 +52,10 @@ export default function Nav({
         >
           {menuOpen ? '✕' : '☰'}
         </button>
-        <nav className="site-nav" aria-label="Primary navigation">
+        <nav className="site-nav" aria-label="Primary navigation" style={{
+          background: theme.navBg, border: `1px solid ${theme.cardBorder}`,
+          boxShadow: '0 18px 50px -28px rgba(0,0,0,0.75)',
+        }}>
           <div className="nav-links">
             {NAV_SECTIONS.map((id) => {
               const active = activeSection === id;
