@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Theme } from '../data/theme';
+import GlobalSearch from '../GlobalSearch';
 
 const NAV_SECTIONS = ['about', 'experience', 'projects', 'practices', 'docs', 'tools', 'contact'] as const;
 const NAV_LABELS: Record<string, string> = {
@@ -38,13 +39,11 @@ export default function Nav({
 
   return (
     <>
-      <nav className="site-nav" style={{
-        position: 'fixed', top: navVisible ? '18px' : '-70px', left: '50%', transform: 'translateX(-50%)',
-        zIndex: 50, display: 'flex', alignItems: 'center', gap: 6, padding: '8px 10px',
-        background: theme.navBg, border: `1px solid ${theme.cardBorder}`, borderRadius: 999,
-        boxShadow: '0 12px 30px -10px rgba(0,0,0,0.35)', transition: 'top .35s ease', maxWidth: '94vw',
-      }}>
-        <div className="nav-links">
+      <header className="site-header" style={{ top: navVisible ? '18px' : '-80px' }}>
+        <nav className="site-nav" aria-label="Primary navigation" style={{
+          background: theme.navBg, border: `1px solid ${theme.cardBorder}`,
+        }}>
+          <div className="nav-links">
           {NAV_SECTIONS.map((id) => {
             const active = activeSection === id;
             return (
@@ -62,20 +61,22 @@ export default function Nav({
               </a>
             );
           })}
-        </div>
+          </div>
+        </nav>
 
+        <GlobalSearch theme={theme} />
         <button
           className="nav-theme-desktop"
           onClick={onToggleTheme}
           aria-label={themeName === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
           style={{
-            width: 30, height: 30, flexShrink: 0, borderRadius: '50%', border: `1px solid ${theme.cardBorder}`,
+            border: `1px solid ${theme.cardBorder}`,
             background: theme.card, color: theme.text, cursor: 'pointer', fontSize: 13,
           }}
         >
           {themeName === 'dark' ? '☀' : '☽'}
         </button>
-      </nav>
+      </header>
 
       {/* Below 640px the burger and theme toggle move to independent fixed
           corners instead of sharing the centered pill, which otherwise
@@ -93,18 +94,6 @@ export default function Nav({
       >
         {menuOpen ? '✕' : '☰'}
       </button>
-      <button
-        className="nav-theme-corner"
-        onClick={onToggleTheme}
-        aria-label={themeName === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-        style={{
-          top: navVisible ? '18px' : '-70px', border: `1px solid ${theme.cardBorder}`,
-          background: theme.card, color: theme.text,
-        }}
-      >
-        {themeName === 'dark' ? '☀' : '☽'}
-      </button>
-
       {menuOpen && (
         <div className="nav-mobile-menu" style={{ background: theme.navBg, border: `1px solid ${theme.cardBorder}` }}>
           {NAV_SECTIONS.map((id) => {
