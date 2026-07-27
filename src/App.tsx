@@ -10,7 +10,6 @@ import Docs from './sections/Docs';
 import Tools from './sections/Tools';
 import EducationContact from './sections/EducationContact';
 import Contact from './sections/Contact';
-import GlobalSearch from './GlobalSearch';
 
 const PARTICLES = [
   { size: 4, top: '12%', left: '8%', duration: '16s', delay: '0s' },
@@ -25,21 +24,9 @@ export default function App() {
   const [themeName, setThemeName] = useState<ThemeName>('dark');
   const [navVisible, setNavVisible] = useState(true);
   const [activeSection, setActiveSection] = useState('hero');
-  const [searchOpen, setSearchOpen] = useState(false);
   const theme = THEMES[themeName];
 
   const lastY = useRef(0);
-
-  useEffect(() => {
-    const openSearch = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
-        event.preventDefault();
-        setSearchOpen(true);
-      }
-    };
-    window.addEventListener('keydown', openSearch);
-    return () => window.removeEventListener('keydown', openSearch);
-  }, []);
 
   useEffect(() => {
     lastY.current = window.scrollY;
@@ -110,7 +97,7 @@ export default function App() {
       </div>
 
       <div style={{ fontFamily: "-apple-system,'Segoe UI',system-ui,sans-serif", background: theme.bg, color: theme.text, minHeight: '100vh', overflowX: 'hidden', position: 'relative', zIndex: 1, transition: 'background .4s ease, color .4s ease' }}>
-        <Nav theme={theme} navVisible={navVisible} activeSection={activeSection} themeName={themeName} onToggleTheme={toggleTheme} onOpenSearch={() => setSearchOpen(true)} />
+        <Nav theme={theme} navVisible={navVisible} activeSection={activeSection} themeName={themeName} onToggleTheme={toggleTheme} />
         <Hero theme={theme} />
         <About theme={theme} />
         <Experience theme={theme} />
@@ -120,7 +107,6 @@ export default function App() {
         <Tools theme={theme} />
         <EducationContact theme={theme} />
         <Contact theme={theme} />
-        <GlobalSearch open={searchOpen} onClose={() => setSearchOpen(false)} theme={theme} />
       </div>
     </>
   );
