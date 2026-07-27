@@ -39,65 +39,60 @@ export default function Nav({
 
   return (
     <>
-      <nav className="site-nav" aria-label="Primary navigation" style={{
-        position: 'fixed', top: navVisible ? '18px' : '-70px', left: '50%', transform: 'translateX(-50%)',
-        zIndex: 50, display: 'flex', alignItems: 'center', padding: '8px 10px',
+      <header className="site-header" style={{
+        top: navVisible ? '24px' : '-90px',
         background: theme.navBg, border: `1px solid ${theme.cardBorder}`, borderRadius: 999,
-        boxShadow: '0 12px 30px -10px rgba(0,0,0,0.35)', transition: 'top .35s ease', maxWidth: '94vw',
+        boxShadow: '0 18px 50px -28px rgba(0,0,0,0.75)',
       }}>
-        <div className="nav-links">
-          {NAV_SECTIONS.map((id) => {
-            const active = activeSection === id;
-            return (
-              <a
-                key={id}
-                href={`#${id}`}
-                className={`nav-link${active ? ' active' : ''}`}
-                style={{
-                  fontSize: 13, fontWeight: 700, padding: '8px 14px', borderRadius: 999, whiteSpace: 'nowrap',
-                  color: active ? '#ffffff' : theme.muted,
-                  background: active ? 'linear-gradient(90deg,#5b7cfa,#9b6bfa)' : 'transparent',
-                }}
-              >
-                {NAV_LABELS[id]}
-              </a>
-            );
-          })}
-        </div>
-
-      </nav>
-
-      <div className="nav-actions" style={{ top: navVisible ? '18px' : '-70px' }}>
-        <GlobalSearch theme={theme} navVisible={navVisible} />
         <button
-          className="nav-theme-toggle"
-          onClick={onToggleTheme}
-          aria-label={themeName === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-          style={{
-            border: `1px solid ${theme.cardBorder}`,
-            background: theme.card, color: theme.text, cursor: 'pointer', fontSize: 13,
-          }}
+          className="nav-burger-corner"
+          onClick={() => setMenuOpen((v) => !v)}
+          aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation"
+          style={{ border: `1px solid ${theme.cardBorder}`, background: theme.card, color: theme.text }}
         >
-          {themeName === 'dark' ? '☀' : '☽'}
+          {menuOpen ? '✕' : '☰'}
         </button>
-      </div>
+        <nav className="site-nav" aria-label="Primary navigation">
+          <div className="nav-links">
+            {NAV_SECTIONS.map((id) => {
+              const active = activeSection === id;
+              return (
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  aria-current={active ? 'page' : undefined}
+                  className={`nav-link${active ? ' active' : ''}`}
+                  style={{
+                    color: active ? '#ffffff' : theme.muted,
+                    background: active ? 'linear-gradient(90deg,#5b7cfa,#9b6bfa)' : 'transparent',
+                  }}
+                >
+                  {NAV_LABELS[id]}
+                </a>
+              );
+            })}
+          </div>
+        </nav>
+        <div className="nav-actions">
+          <GlobalSearch theme={theme} />
+          <button
+            className="nav-theme-toggle"
+            onClick={onToggleTheme}
+            aria-label={themeName === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            style={{
+              border: `1px solid ${theme.cardBorder}`,
+              background: theme.card, color: theme.text, cursor: 'pointer', fontSize: 13,
+            }}
+          >
+            {themeName === 'dark' ? '☀' : '☽'}
+          </button>
+        </div>
+      </header>
 
-      {/* On mobile the navigation links move into the existing menu while
-          search and theme remain independent header controls. */}
-      <button
-        className="nav-burger-corner"
-        onClick={() => setMenuOpen((v) => !v)}
-        aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-        aria-expanded={menuOpen}
-        style={{
-          top: navVisible ? '18px' : '-70px', border: `1px solid ${theme.cardBorder}`,
-          background: theme.card, color: theme.text,
-        }}
-      >
-        {menuOpen ? '✕' : '☰'}
-      </button>
       {menuOpen && (
-        <div className="nav-mobile-menu" style={{ background: theme.navBg, border: `1px solid ${theme.cardBorder}` }}>
+        <nav id="mobile-navigation" className="nav-mobile-menu" aria-label="Mobile navigation" style={{ background: theme.navBg, border: `1px solid ${theme.cardBorder}` }}>
           {NAV_SECTIONS.map((id) => {
             const active = activeSection === id;
             return (
@@ -115,7 +110,7 @@ export default function Nav({
               </a>
             );
           })}
-        </div>
+        </nav>
       )}
     </>
   );

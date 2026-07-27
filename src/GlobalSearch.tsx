@@ -4,7 +4,7 @@ import { SEARCH_ITEMS } from './data/search';
 
 const normalize = (value: string) => value.toLocaleLowerCase().trim();
 
-export default function GlobalSearch({ theme, navVisible }: { theme: Theme; navVisible: boolean }) {
+export default function GlobalSearch({ theme }: { theme: Theme }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState('');
   const [active, setActive] = useState(0);
@@ -81,7 +81,7 @@ export default function GlobalSearch({ theme, navVisible }: { theme: Theme; navV
   };
 
   return (
-    <div ref={rootRef} className={`global-search${open ? ' is-open' : ''}`} style={{ top: navVisible ? '18px' : '-70px' }}>
+    <div ref={rootRef} className={`global-search${open ? ' is-open' : ''}`}>
       <button
         className="global-search-trigger"
         onClick={() => setOpen(true)}
@@ -91,7 +91,8 @@ export default function GlobalSearch({ theme, navVisible }: { theme: Theme; navV
         title="Search (Ctrl/⌘ K)"
         style={{ background: theme.card, borderColor: theme.cardBorder, color: theme.text }}
       >
-        <span aria-hidden="true">⌕</span>
+        <span className="global-search-trigger-icon" aria-hidden="true">⌕</span>
+        <span className="global-search-trigger-label">Search anything...</span>
       </button>
 
       {open && <button className="global-search-backdrop" onClick={close} aria-label="Close search" />}
