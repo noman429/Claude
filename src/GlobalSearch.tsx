@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import type { Theme } from './data/theme';
-import { SEARCH_ITEMS } from './data/search';
+import { getSearchResults, SEARCH_CATEGORIES } from './data/search';
 
-const normalize = (value: string) => value.toLocaleLowerCase().trim();
+const RESULT_LIMIT = 12;
 
 export default function GlobalSearch({ theme }: { theme: Theme }) {
   const [open, setOpen] = useState(false);
@@ -10,27 +10,14 @@ export default function GlobalSearch({ theme }: { theme: Theme }) {
   const [active, setActive] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const allResults = useMemo(() => getSearchResults(query), [query]);
+  const results = allResults.slice(0, RESULT_LIMIT);
 
-  const results = useMemo(() => {
-    const terms = normalize(query).split(/\s+/).filter(Boolean);
-    if (!terms.length) return SEARCH_ITEMS.slice(0, 8);
-    return SEARCH_ITEMS
-      .map((entry) => {
-        const title = normalize(entry.title);
-        const haystack = normalize(`${entry.title} ${entry.description} ${entry.category} ${entry.keywords}`);
-        if (!terms.every((term) => haystack.includes(term))) return null;
-        const score = terms.reduce((total, term) => total + (title.startsWith(term) ? 4 : title.includes(term) ? 2 : 1), 0);
-        return { entry, score };
-      })
-      .filter((match): match is { entry: (typeof SEARCH_ITEMS)[number]; score: number } => Boolean(match))
-      .sort((a, b) => b.score - a.score || a.entry.title.localeCompare(b.entry.title))
-      .slice(0, 12)
-      .map((match) => match.entry);
-  }, [query]);
-
-  const close = () => {
+  const close = (returnFocus = true) => {
     setOpen(false);
     setQuery('');
+    if (returnFocus) window.setTimeout(() => triggerRef.current?.focus(), 0);
   };
 
   useEffect(() => setActive(0), [query]);
@@ -73,16 +60,18 @@ export default function GlobalSearch({ theme }: { theme: Theme }) {
   const select = (index: number) => {
     const result = results[index];
     if (!result) return;
-    close();
+    close(false);
+    const section = result.route.slice(1);
     window.setTimeout(() => {
-      document.getElementById(result.section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      window.history.replaceState(null, '', `#${result.section}`);
+      document.getElementById(section)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      window.history.replaceState(null, '', result.route);
     }, 0);
   };
 
   return (
     <div ref={rootRef} className={`global-search${open ? ' is-open' : ''}`}>
       <button
+        ref={triggerRef}
         className="global-search-trigger"
         onClick={() => setOpen(true)}
         aria-label="Search portfolio"
@@ -92,22 +81,26 @@ export default function GlobalSearch({ theme }: { theme: Theme }) {
         style={{ background: theme.card, borderColor: theme.cardBorder, color: theme.text }}
       >
         <span className="global-search-trigger-icon" aria-hidden="true">⌕</span>
-        <span className="global-search-trigger-label">Search anything...</span>
+        <span className="global-search-trigger-label">Search</span>
       </button>
 
-      {open && <button className="global-search-backdrop" onClick={close} aria-label="Close search" />}
+      {open && <button className="global-search-backdrop" onClick={() => close()} aria-label="Close search" />}
       <div
         id="global-search-panel"
         className="global-search-panel"
         role="dialog"
         aria-modal={open ? 'true' : undefined}
         aria-label="Search portfolio"
+        aria-hidden={!open}
         style={{ background: theme.navBg, borderColor: theme.cardBorder, color: theme.text }}
       >
         <div className="global-search-input-wrap" style={{ borderColor: theme.cardBorder }}>
           <span className="global-search-icon" aria-hidden="true">⌕</span>
           <input
             ref={inputRef}
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded={open}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={(event) => {
@@ -118,33 +111,39 @@ export default function GlobalSearch({ theme }: { theme: Theme }) {
             placeholder="Search portfolio…"
             aria-label="Search all portfolio content"
             aria-controls="global-search-results"
-            aria-activedescendant={results[active] ? `global-search-result-${active}` : undefined}
+            aria-activedescendant={results[active] ? `global-search-result-${results[active].id}` : undefined}
           />
-          <kbd>Ctrl/⌘ K</kbd>
-          <button className="global-search-close" onClick={close} aria-label="Close search">✕</button>
+          <kbd aria-label="Keyboard shortcut Control or Command plus K">Ctrl/⌘ K</kbd>
+          <button className="global-search-close" onClick={() => close()} aria-label="Close search">✕</button>
         </div>
         <div className="global-search-dropdown">
           <div className="global-search-meta" style={{ color: theme.muted }}>
-            <span>{query ? `${results.length} result${results.length === 1 ? '' : 's'}` : 'Quick links'}</span>
+            <span>{query ? `${allResults.length} result${allResults.length === 1 ? '' : 's'}` : 'Explore portfolio'}</span>
             <span className="global-search-hint">↑↓ navigate · ↵ open</span>
           </div>
-          <div id="global-search-results" className="global-search-results" role="listbox">
-            {results.map((result, index) => (
-              <button
-                id={`global-search-result-${index}`}
-                key={`${result.category}-${result.title}`}
-                role="option"
-                aria-selected={index === active}
-                className={`global-search-result${index === active ? ' active' : ''}`}
-                onMouseEnter={() => setActive(index)}
-                onClick={() => select(index)}
-                style={{ color: theme.text, borderColor: index === active ? '#5b7cfa' : 'transparent' }}
-              >
-                <span className="global-search-result-copy"><strong>{result.title}</strong><small style={{ color: theme.muted }}>{result.description}</small></span>
-                <span className="global-search-category">{result.category}</span>
-              </button>
-            ))}
-            {!results.length && <div className="global-search-empty"><span aria-hidden="true">⌕</span><strong>No matches found</strong><small style={{ color: theme.muted }}>Try a project, methodology, document, or tool name.</small></div>}
+          <div id="global-search-results" className="global-search-results" role="listbox" aria-label="Portfolio search results">
+            {results.map((result, index) => {
+              const category = SEARCH_CATEGORIES[result.category];
+              return (
+                <button
+                  id={`global-search-result-${result.id}`}
+                  key={result.id}
+                  role="option"
+                  aria-selected={index === active}
+                  aria-label={`${result.title}. ${category.label}. ${result.description}`}
+                  className={`global-search-result${index === active ? ' active' : ''}`}
+                  onMouseEnter={() => setActive(index)}
+                  onClick={() => select(index)}
+                  style={{ color: theme.text, borderColor: index === active ? '#5b7cfa' : 'transparent' }}
+                >
+                  <span className="global-search-result-icon" aria-hidden="true">{category.icon}</span>
+                  <span className="global-search-result-copy"><strong>{result.title}</strong><small style={{ color: theme.muted }}>{result.description}</small></span>
+                  <span className={`global-search-category ${category.badgeClass}`} aria-label={category.accessibleLabel}>{category.label}</span>
+                </button>
+              );
+            })}
+            {!results.length && <div className="global-search-empty" role="status"><span aria-hidden="true">⌕</span><strong>No matches found</strong><small style={{ color: theme.muted }}>Try a project, methodology, document, or tool name.</small></div>}
+            {allResults.length > RESULT_LIMIT && <div className="global-search-more" style={{ color: theme.muted }}>{allResults.length - RESULT_LIMIT} more matching resources</div>}
           </div>
         </div>
       </div>
