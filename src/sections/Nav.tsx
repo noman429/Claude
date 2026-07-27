@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { Theme } from '../data/theme';
+import GlobalSearch from '../GlobalSearch';
 
 const NAV_SECTIONS = ['about', 'experience', 'projects', 'practices', 'docs', 'tools', 'contact'] as const;
 const NAV_LABELS: Record<string, string> = {
@@ -10,14 +11,13 @@ const NAV_LABELS: Record<string, string> = {
 export { NAV_SECTIONS };
 
 export default function Nav({
-  theme, navVisible, activeSection, themeName, onToggleTheme, onOpenSearch,
+  theme, navVisible, activeSection, themeName, onToggleTheme,
 }: {
   theme: Theme;
   navVisible: boolean;
   activeSection: string;
   themeName: 'dark' | 'light';
   onToggleTheme: () => void;
-  onOpenSearch: () => void;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -39,9 +39,9 @@ export default function Nav({
 
   return (
     <>
-      <nav className="site-nav" style={{
+      <nav className="site-nav" aria-label="Primary navigation" style={{
         position: 'fixed', top: navVisible ? '18px' : '-70px', left: '50%', transform: 'translateX(-50%)',
-        zIndex: 50, display: 'flex', alignItems: 'center', gap: 6, padding: '8px 10px',
+        zIndex: 50, display: 'flex', alignItems: 'center', padding: '8px 10px',
         background: theme.navBg, border: `1px solid ${theme.cardBorder}`, borderRadius: 999,
         boxShadow: '0 12px 30px -10px rgba(0,0,0,0.35)', transition: 'top .35s ease', maxWidth: '94vw',
       }}>
@@ -65,27 +65,25 @@ export default function Nav({
           })}
         </div>
 
-        <button className="nav-search-button" onClick={onOpenSearch} aria-label="Search portfolio" title="Search (Ctrl+K)" style={{ borderColor: theme.cardBorder, background: theme.card, color: theme.text }}>
-          <span aria-hidden="true">⌕</span><kbd>⌘K</kbd>
-        </button>
+      </nav>
 
+      <div className="nav-actions" style={{ top: navVisible ? '18px' : '-70px' }}>
+        <GlobalSearch theme={theme} navVisible={navVisible} />
         <button
-          className="nav-theme-desktop"
+          className="nav-theme-toggle"
           onClick={onToggleTheme}
           aria-label={themeName === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
           style={{
-            width: 30, height: 30, flexShrink: 0, borderRadius: '50%', border: `1px solid ${theme.cardBorder}`,
+            border: `1px solid ${theme.cardBorder}`,
             background: theme.card, color: theme.text, cursor: 'pointer', fontSize: 13,
           }}
         >
           {themeName === 'dark' ? '☀' : '☽'}
         </button>
-      </nav>
+      </div>
 
-      {/* Below 640px the burger and theme toggle move to independent fixed
-          corners instead of sharing the centered pill, which otherwise
-          bunches two unrelated controls together in the middle of a
-          narrow screen. */}
+      {/* On mobile the navigation links move into the existing menu while
+          search and theme remain independent header controls. */}
       <button
         className="nav-burger-corner"
         onClick={() => setMenuOpen((v) => !v)}
@@ -98,19 +96,6 @@ export default function Nav({
       >
         {menuOpen ? '✕' : '☰'}
       </button>
-      <button
-        className="nav-theme-corner"
-        onClick={onToggleTheme}
-        aria-label={themeName === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-        style={{
-          top: navVisible ? '18px' : '-70px', border: `1px solid ${theme.cardBorder}`,
-          background: theme.card, color: theme.text,
-        }}
-      >
-        {themeName === 'dark' ? '☀' : '☽'}
-      </button>
-      <button className="nav-search-corner" onClick={onOpenSearch} aria-label="Search portfolio" style={{ top: navVisible ? '18px' : '-70px', border: `1px solid ${theme.cardBorder}`, background: theme.card, color: theme.text }}>⌕</button>
-
       {menuOpen && (
         <div className="nav-mobile-menu" style={{ background: theme.navBg, border: `1px solid ${theme.cardBorder}` }}>
           {NAV_SECTIONS.map((id) => {
